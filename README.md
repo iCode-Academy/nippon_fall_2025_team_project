@@ -4,7 +4,9 @@ Database загвар (Entities)
 
 ХүснэгтТалбарууд
 users : id, name, email, password, role
-menu_items : id, name, price, category, image, description
+foods : id, name, price, image, description, category_id(foreign key connect), address_id(to foreign key address)
+address: id, name. district
+category : id, category_name, category_icon, category_description
 orders : id, userId, items, total, status, createdAt
 order_items : id, orderId, menuItemId, quantity, price
 reservations : id, userId, date, time, guests, status
