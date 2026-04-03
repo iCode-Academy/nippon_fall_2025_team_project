@@ -14,6 +14,16 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+    
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody User user) {
+    	User newUser = authService.register(user);
+    	if(newUser != null) {
+    		return ResponseEntity.ok("Хэрэглэгч амжилттай бүртгэгдлээ");
+    	} else {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Энэ и-мэйл хаяг аль хэдийн бүртгэгдсэн байна.");
+    	}
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
