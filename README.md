@@ -61,6 +61,40 @@ GET    /api/users               ← Бүх хэрэглэгч (admin)
 
 ![alt text](image.png)
 
-
+src/main/java/com/foodiego/
+├── entity/
+│   ├── User.java
+│   ├── Foods.java
+│   ├── Category.java
+│   ├── Address.java
+│   ├── Order.java
+│   ├── OrderItem.java
+│   ├── Reservation.java
+│   ├── Review.java
+│   └── Role.java, OrderStatus.java, ReservationStatus.java
+├── repository/
+│   ├── UserRepository.java
+│   ├── FoodRepository.java
+│   ├── OrderRepository.java
+│   ├── ReservationRepository.java
+│   └── ReviewRepository.java
+├── dto/
+│   ├── UserDTO.java
+│   ├── FoodDTO.java
+│   ├── OrderDTO.java
+│   ├── ReservationDTO.java
+│   └── ReviewDTO.java
+├── service/
+│   ├── UserService.java
+│   ├── FoodService.java
+│   ├── OrderService.java
+│   ├── ReservationService.java
+│   └── ReviewService.java
+└── controller/
+    ├── UserController.java
+    ├── FoodController.java
+    ├── OrderController.java
+    ├── ReservationController.java
+    └── ReviewController.java
 
 
