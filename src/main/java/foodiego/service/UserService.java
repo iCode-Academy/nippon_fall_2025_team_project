@@ -1,5 +1,6 @@
 package foodiego.service;
 
+import foodiego.model.Role;
 import foodiego.model.User;
 import foodiego.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,18 +8,18 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AuthService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    
- // Шинэ хэрэглэгч бүртгэх
+
     public User register(User user) {
-        // И-мэйл өмнө нь бүртгэгдсэн эсэхийг шалгах
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            return null; // Эсвэл тусгай алдаа (Exception) шидэж болно
+            return null; 
         }
-        // Одоогоор нууц үгийг шууд хадгалж байна (Дараа нь BCrypt нэмнэ)
+        if (user.getRole() == null) {
+            user.setRole(Role.CUSTOMER);
+        }
         return userRepository.save(user);
     }
 
@@ -27,11 +28,21 @@ public class AuthService {
         
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            // Одоогоор шууд текстээр шалгаж байна. Дараа нь BCrypt нэмнэ.
             if (user.getPassword().equals(password)) {
                 return user;
             }
         }
-        return null; // Хэрэв олдохгүй эсвэл нууц үг буруу бол
+        return null;
+    }
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+    
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
