@@ -6,26 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/user/reservation")
+@RequestMapping("/api/reservation") 
+@CrossOrigin(origins = "*")
 public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+
+   
     @PostMapping("/create")
-    public ResponseEntity<Reservation> create(@RequestBody Reservation reservation) {
-        Reservation created = reservationService.createReservation(reservation);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
+        return ResponseEntity.ok(reservationService.createReservation(reservation));
     }
 
+  
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Reservation>> getByUserId(@PathVariable Long userId) {
-        List<Reservation> list = reservationService.getUserReservations(userId);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<?> getByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(reservationService.getUserReservations(userId));
     }
-    
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {

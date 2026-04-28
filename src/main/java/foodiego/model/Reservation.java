@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
 
 @Entity
 @Table(name = "reservations")
@@ -28,7 +29,8 @@ public class Reservation {
   @JoinColumn(name = "userId")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   private User user;
-
+  
+  @Future(message = "Захиалгын огноо заавал ирээдүйн цаг хугацаа байх ёстой")
   private LocalDate date;
   private LocalTime time;
   private Integer guests;

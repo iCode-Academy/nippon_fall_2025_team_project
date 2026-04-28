@@ -40,4 +40,11 @@ public class ReservationService {
         }
         return false; 
     }
+    
+    public Reservation updateStatus(Long id, ReservationStatus status) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Захиалга олдсонгүй!"));
+        reservation.setStatus(status);
+        return reservationRepository.save(reservation);
+    }
 }
