@@ -1,26 +1,109 @@
-/* assets/styles.css */
+/* FoodieGo Brand Colors & Global Styles */
 :root {
-    --primary: #00b894;
-    --text-main: #1a1a1a;
-    --bg-gray: #f8f9fa;
+    --primary-green: #05a357; /* Таны зураг дээрх ногоон */
+    --bg-light: #f7f7f7;
+    --text-dark: #1d1d1f;
+    --text-gray: #6b6b6b;
+    --white: #ffffff;
+    --border-color: #e2e2e2;
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg-gray); }
-.container { width: 1440px; margin: 0 auto; padding: 20px; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-.main-header { background: white; padding: 15px 0; border-bottom: 1px solid #eee; }
-.header-container { width: 1440px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
 
-.content-section { display: flex; gap: 30px; margin-top: 30px; }
-.filters { width: 200px; }
-.listings { flex: 1; }
-
-.restaurant-card {
-    background: white;
-    border-radius: 15px;
+/* Container for Login/Register */
+.auth-wrapper {
     display: flex;
-    margin-bottom: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-.res-img { width: 150px; height: 100px; border-radius: 10px; object-fit: cover; }
+
+.auth-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Input Styles */
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background-color: #fcfcfc;
+    font-size: 15px;
+    transition: 0.3s;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--primary-green);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(5, 163, 87, 0.1);
+}
+
+/* Button Styles */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #048a4a;
+    transform: translateY(-1px);
+}
+
+/* Category Icons (Зураг дээрх шиг дугуй дүрсүүд) */
+.category-item {
+    display: inline-block;
+    text-align: center;
+    margin: 10px;
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    background: #eeeeee;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
