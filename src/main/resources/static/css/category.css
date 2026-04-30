@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: whitesmoke;
+}
+
+.page-wrapper {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Категорийн үндсэн хэсэг - Хүрээгүй */
+.category-section {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+.slider-outer-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Контейнер - overflow болон өндөрт анхаарах */
+.category-container {
+    width: 100%;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    padding: 10px 0; /* Доод талын текст тасрахаас сэргийлнэ */
+}
+
+.category-list {
+    display: flex;
+    gap: 40px; /* Категори хоорондын зай */
+    padding: 0 10px;
+    align-items: flex-end; /* Зургуудыг нэг шугамд тэгшилнэ */
+    width: max-content;
+}
+
+/* Категорийн айтем */
+.cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    min-width: 75px;
+    transition: transform 0.2s ease;
+}
+
+.cat-item:hover {
+    transform: translateY(-3px);
+}
+
+.cat-item img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.cat-item span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    white-space: nowrap;
+}
+
+/* Нэмэх товч (Жагсаалтын төгсгөлд) */
+.admin-add-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-icon-circle {
+    width: 45px;
+    height: 45px;
+    background-color: #f8f9fa;
+    border: 2px dashed #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: #10b981;
+}
+
+/* Слайдерын сумнууд - 2-р зураг шиг жижигхэн */
+.nav-btn {
+    position: absolute;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    display: none; /* JS-ээр харагдана */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-btn.prev { left: -15px; }
+.nav-btn.next { right: -15px; }
+
+/* --- МОДАЛ (Өмнөх загвараар) --- */
+/* --- МОДАЛ ҮНДСЭН СТАЙЛ --- */
+.modal {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0, 0, 0, 0.6); /* Ар талыг илүү тод бүдгэрүүлнэ */
+    z-index: 2000; /* Хамгийн дээр харагдах */
+    backdrop-filter: blur(4px); /* Ар талыг манантуулах */
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 400px;
+    margin: 10vh auto; /* Дэлгэцийн дээрээс 10% зай авна */
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Элементүүдийг босоо өрнө */
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+    font-size: 26px;
+    color: #999;
+}
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Формын хэсэг */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: #f9f9f9;
+}
+
+.form-group input:focus {
+    border-color: #10b981;
+    background: #fff;
+}
+
+.btn-add {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #059669;
+}
+
+/* Устгах жагсаалт - Өмнөх дизайн */
+.manage-list {
+    margin-top: 25px;
+    max-height: 250px; /* Өндөрт хязгаар тавьж өгнө */
+    overflow-y: auto; /* Олон айтем байвал гүйнэ */
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.manage-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.manage-item:last-child {
+    border-bottom: none;
+}
+
+.manage-item div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.manage-item img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.manage-item span {
+    font-size: 14px;
+    color: #444;
+}
+
+.del-icon {
+    color: #ff7675;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+.del-icon:hover {
+    color: #d63031;
+    transform: scale(1.1);
+}
+
+/* Scrollbar-ыг цэвэрхэн болгох */
+.manage-list::-webkit-scrollbar { width: 4px; }
+.manage-list::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
