@@ -7,6 +7,60 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Go - Main View</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">Foodie Go</div>
+            <div class="delivery-toggle">
+                <button class="active"><i class="fas fa-motorcycle"></i> Delivery</button>
+                <button><i class="fas fa-shopping-bag"></i> Pickup</button>
+            </div>
+            <div class="address"><i class="fas fa-map-marker-alt"></i> 136 Greenpoint Ave</div>
+            <div class="user-actions">
+                <div class="cart"><i class="fas fa-shopping-cart"></i><span>0</span></div>
+                <button class="btn-signin">Sign in</button>
+                <button class="btn-create">Create account</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="category-module-placeholder"></div>
+
+        <section class="content-section">
+            <aside class="filters">
+                <div class="filter-item"><span>Open now</span><input type="checkbox"></div>
+                <div class="filter-item"><span>Free delivery</span><input type="checkbox"></div>
+                <div class="rating-filter">
+                    <h4>Rating</h4>
+                    <div class="stars">☆☆☆☆☆</div>
+                </div>
+            </aside>
+
+            <section class="listings">
+                <div class="search-bar-container">
+                    <input type="text" placeholder="What you want to eat today?">
+                    <select><option>Recommended</option></select>
+                </div>
+                <h2>Order from 45 places</h2>
+                <div id="restaurant-list" class="restaurant-grid">
+                    </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
     <script src="./js/foodiego.js"></script>
 </body>
 </html>
