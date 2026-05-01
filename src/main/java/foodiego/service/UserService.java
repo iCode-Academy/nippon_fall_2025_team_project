@@ -5,6 +5,9 @@ import foodiego.model.User;
 import foodiego.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 import java.util.Optional;
 
 @Service
@@ -17,6 +20,10 @@ public class UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return null; 
         }
+        
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
+        user.setPassword(bcryptHashString);
+        
         if (user.getRole() == null) {
             user.setRole(Role.CUSTOMER);
         }
@@ -28,7 +35,9 @@ public class UserService {
         
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (user.getPassword().equals(password)) {
+            
+            BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+            if (result.verified) {
                 return user;
             }
         }
