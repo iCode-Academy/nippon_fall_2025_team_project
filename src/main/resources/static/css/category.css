@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: whitesmoke;
-}
-
 .page-wrapper {
-    width: 100%;
-    max-width: 1440px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 82px;
+    border: 2px solid;
     margin: 0 auto;
     padding: 20px;
+    
+    
 }
 
-/* Категорийн үндсэн хэсэг - Хүрээгүй */
 .category-section {
     position: relative;
-    width: 100%;
-    max-width: 1100px;
+    width: 75.55vw;
+    max-width: 1088px;
     margin: 20px auto;
+    background-color: #E3E8EB;
 }
 
 .slider-outer-wrapper {
@@ -28,30 +28,26 @@ body {
     align-items: center;
 }
 
-/* Контейнер - overflow болон өндөрт анхаарах */
 .category-container {
     width: 100%;
+    flex-grow: 1;
     overflow: hidden;
     scroll-behavior: smooth;
-    padding: 10px 0; /* Доод талын текст тасрахаас сэргийлнэ */
+    padding: 10px 0;
 }
 
 .category-list {
     display: flex;
-    gap: 40px; /* Категори хоорондын зай */
-    padding: 0 10px;
-    align-items: flex-end; /* Зургуудыг нэг шугамд тэгшилнэ */
-    width: max-content;
+    width: 100%;             
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 0;
 }
 
-/* Категорийн айтем */
+
 .cat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    min-width: 75px;
-    transition: transform 0.2s ease;
+    flex: 0 0 auto; 
+    text-align: center
 }
 
 .cat-item:hover {
@@ -66,13 +62,16 @@ body {
 }
 
 .cat-item span {
-    font-size: 13px;
-    font-weight: 500;
-    color: #1a1a1a;
-    white-space: nowrap;
+    Display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    justify-content: center;
+    flex: 0 0 auto; 
+    text-align: center; 
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-/* Нэмэх товч (Жагсаалтын төгсгөлд) */
 .admin-add-item {
     display: flex;
     flex-direction: column;
@@ -93,7 +92,6 @@ body {
     color: #10b981;
 }
 
-/* Слайдерын сумнууд - 2-р зураг шиг жижигхэн */
 .nav-btn {
     position: absolute;
     z-index: 10;
@@ -102,7 +100,7 @@ body {
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 50%;
-    display: none; /* JS-ээр харагдана */
+    display: none; 
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -112,28 +110,25 @@ body {
 .nav-btn.prev { left: -15px; }
 .nav-btn.next { right: -15px; }
 
-/* --- МОДАЛ (Өмнөх загвараар) --- */
-/* --- МОДАЛ ҮНДСЭН СТАЙЛ --- */
 .modal {
     display: none; 
     position: fixed; 
     top: 0; left: 0; 
     width: 100%; height: 100%; 
-    background: rgba(0, 0, 0, 0.6); /* Ар талыг илүү тод бүдгэрүүлнэ */
-    z-index: 2000; /* Хамгийн дээр харагдах */
-    backdrop-filter: blur(4px); /* Ар талыг манантуулах */
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 2000;
+    backdrop-filter: blur(4px); 
 }
 
 .modal-content {
     background: #ffffff;
     width: 400px;
-    margin: 10vh auto; /* Дэлгэцийн дээрээс 10% зай авна */
-    padding: 30px;
+    margin: 10vh auto; 
     border-radius: 20px;
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: column; /* Элементүүдийг босоо өрнө */
+    flex-direction: column;
 }
 
 .close {
@@ -152,7 +147,6 @@ body {
     text-align: center;
 }
 
-/* Формын хэсэг */
 .form-group {
     margin-bottom: 15px;
     display: flex;
@@ -197,11 +191,10 @@ body {
     background: #059669;
 }
 
-/* Устгах жагсаалт - Өмнөх дизайн */
 .manage-list {
     margin-top: 25px;
-    max-height: 250px; /* Өндөрт хязгаар тавьж өгнө */
-    overflow-y: auto; /* Олон айтем байвал гүйнэ */
+    max-height: 250px; 
+    overflow-y: auto; 
     border-top: 1px solid #eee;
     padding-top: 10px;
 }
@@ -249,6 +242,5 @@ body {
     transform: scale(1.1);
 }
 
-/* Scrollbar-ыг цэвэрхэн болгох */
 .manage-list::-webkit-scrollbar { width: 4px; }
 .manage-list::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
