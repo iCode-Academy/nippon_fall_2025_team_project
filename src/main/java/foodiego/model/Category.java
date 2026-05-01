@@ -19,7 +19,7 @@ public class Category {
     private String categoryName;
 
     @Lob // Энийг нэмэх
-    @Column(columnDefinition = "LONGTEXT") // Мөн энийг нэмэх
+    @Column(columnDefinition = "LONGTEXT") 
     private String categoryIcon;
 
     private String categoryDescription;
