@@ -11,37 +11,37 @@
 </head>
 
 <body>
-<div class="header">
-    <div class="logo">
-        <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go">
+    <div class="header">
+        <div class="logo">
+            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go">
+        </div>
+        <div class="header-center">
+            <div class="deliveryBtn">
+                <button id="delivery" class="active">
+                    <img src="./picture/Layout/Delivery.png" alt=""> Delivery
+                </button>
+                <button id="pickup">
+                    <img src="./picture/Layout/pickup-icon.png" alt=""> Pickup
+                </button>
+            </div>
+            <div class="greenPoint">
+                <img src="./picture/Layout/location.png" alt="">
+                <span id="addressNumber">136</span> Greenpoint Ave
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="basket-icon-wrapper">
+                <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
+                <div id="basketCounter">0</div>
+            </div>
+            <div class="login">
+                <button id="signIn">Sign in</button>
+                <button id="createacc">Create account</button>
+            </div>
+        </div>
     </div>
-    <div class="header-center">
-        <div class="deliveryBtn">
-            <button id="delivery" class="active">
-                <img src="./picture/Layout/Delivery.png" alt=""> Delivery
-            </button>
-            <button id="pickup">
-                <img src="./picture/Layout/pickup-icon.png" alt=""> Pickup
-            </button>
-        </div>
-        <div class="greenPoint">
-            <img src="./picture/Layout/location.png" alt=""> 
-            <span id="addressNumber">136</span> Greenpoint Ave
-        </div>
-    </div>
-    <div class="header-right">
-        <div class="basket-icon-wrapper">
-            <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
-            <div id="basketCounter">0</div>
-        </div>
-        <div class="login">
-            <button id="signIn">Sign in</button>
-            <button id="createAcc">Create account</button>
-        </div>
-    </div>
-</div>
 
-<div class="category-section">
+    <div class="category-section">
         <div class="slider-outer-wrapper">
             <button id="prevBtn" class="nav-btn prev" onclick="scrollCats(-1)">
                 <i class="fas fa-chevron-left"></i>
@@ -55,24 +55,38 @@
             </button>
         </div>
     </div>
-<div id="catModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Manage Categories</h3>
-        <div class="form-group">
-            <label>Category Name</label>
-            <input type="text" id="nameInput" placeholder="Жишээ нь: Burgers">
+
+    <div id="catModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Manage Categories</h3>
+            <div class="form-group">
+                <label>Category Name</label>
+                <input type="text" id="nameInput" placeholder="Жишээ нь: Burgers">
+            </div>
+            <div class="form-group">
+                <label>Select Icon</label>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <button class="btn-add" onclick="saveCategory()">Add Category</button>
+            <div class="manage-list" id="manageList"></div>
         </div>
-        <div class="form-group">
-            <label>Select Icon</label>
-            <input type="file" id="fileInput" accept="image/*">
+    </div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
         </div>
-        <button class="btn-add" onclick="saveCategory()">Add Category</button>
-        <div class="manage-list" id="manageList"></div>
     </div>
-<script src="./js/category.js"></script>
+    <div id="registerModal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close" onclick="closeRegisterModal()">&times;</span>
+            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
+        </div>
     </div>
+
     <div class="layout"></div>
+    <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
 </body>
 
