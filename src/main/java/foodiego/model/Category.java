@@ -18,8 +18,8 @@ public class Category {
 
     private String categoryName;
 
-    @Lob // Энийг нэмэх
-    @Column(columnDefinition = "TEXT") 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String categoryIcon;
 
     private String categoryDescription;
