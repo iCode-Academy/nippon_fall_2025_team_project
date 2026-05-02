@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/api/categories";
 let categories = [];
-const userRole = 'admin'; // 'admin' эсвэл 'user'
+const userRole = 'admin'; // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
 
 async function fetchCategories() {
     try {
@@ -16,7 +16,7 @@ function render() {
     const display = document.getElementById('catDisplay');
     const manage = document.getElementById('manageList');
 
-    // 1. Слайдер дээрх категориудыг зурах
+    // Category-г зурах
     let html = categories.map(cat => `
         <div class="cat-item">
             <img src="${cat.categoryIcon}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/706/706164.png'">
@@ -24,7 +24,7 @@ function render() {
         </div>
     `).join('');
 
-    // Админ бол "Add" товчийг нэмнэ
+    // Энэ хэсгийг ойлгоогүй AIдсан
     if (userRole === 'admin') {
         html += `
             <div class="admin-add-item" onclick="openModal()">
@@ -35,7 +35,7 @@ function render() {
     }
     display.innerHTML = html;
 
-    // 2. МОДАЛ ДОТОРХ ЖАГСААЛТ (Өмнөх дизайн)
+    // 2. МОДол доторх дизайн
     manage.innerHTML = categories.map(cat => `
         <div class="manage-item">
             <img src="${cat.categoryIcon}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/706/706164.png'">
