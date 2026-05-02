@@ -1,0 +1,230 @@
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../font/Poppins-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #E3E8EB;
+    margin: 0 auto;
+    padding-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    max-width: 1440px;
+}
+
+.header {
+    width: 100%;
+    max-width: 1440px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    overflow: hidden;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.deliveryBtn {
+    display: flex;
+    background-color: #E3E8EB;
+    padding: 4px;
+    border-radius: 50px;
+}
+
+.deliveryBtn button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 50px;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.deliveryBtn button.active {
+    background-color: #ffffff;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+.greenPoint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #000000;
+}
+
+.greenPoint img {
+    width: 18px;
+}
+
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.basket-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.basket-img {
+    width: 24px;
+    height: auto;
+}
+
+#basketCounter {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background-color: #0FA958;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#signIn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+#createacc {
+    background-color: #0FA958;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#createacc:hover {
+    background-color: #0d8a48;
+}
+
+
+.layout {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+    width: 75.55vw;
+    max-width: 1168px;
+    height: 1000px;
+    border-radius: 16px;
+    background-color: white;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 5vh auto;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    z-index: 100;
+    transition: color 0.2s;
+}
+
+.close:hover {
+    color: #000;
+}
+
+
+.login-modal-content {
+    width: 500px;
+    height: 600px;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+
+#registerModal .login-modal-content {
+    height: 85vh;
+    max-height: 800px;
+    width: 550px;
+}
+
+.login-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    overflow-y: auto;
+}
+
+.login-iframe::-webkit-scrollbar {
+    width: 6px;
+}
+
+.login-iframe::-webkit-scrollbar-thumb {
+    background: #0FA958;
+    border-radius: 10px;
+}

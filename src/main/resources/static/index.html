@@ -1,66 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <title>Base Layout</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/category.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foodie Go - Main View</title>
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <header class="main-header">
-        <div class="header-container">
-            <div class="logo">Foodie Go</div>
-            <div class="delivery-toggle">
-                <button class="active"><i class="fas fa-motorcycle"></i> Delivery</button>
-                <button><i class="fas fa-shopping-bag"></i> Pickup</button>
+    <div class="header">
+        <div class="logo">
+            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go">
+        </div>
+        <div class="header-center">
+            <div class="deliveryBtn">
+                <button id="delivery" class="active">
+                    <img src="./picture/Layout/Delivery.png" alt=""> Delivery
+                </button>
+                <button id="pickup">
+                    <img src="./picture/Layout/pickup-icon.png" alt=""> Pickup
+                </button>
             </div>
-            <div class="address"><i class="fas fa-map-marker-alt"></i> 136 Greenpoint Ave</div>
-            <div class="user-actions">
-                <div class="cart"><i class="fas fa-shopping-cart"></i><span>0</span></div>
-                <button class="btn-signin">Sign in</button>
-                <button class="btn-create">Create account</button>
+            <div class="greenPoint">
+                <img src="./picture/Layout/location.png" alt="">
+                <span id="addressNumber">136</span> Greenpoint Ave
             </div>
         </div>
-    </header>
+        <div class="header-right">
+            <div class="basket-icon-wrapper">
+                <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
+                <div id="basketCounter">0</div>
+            </div>
+            <div class="login">
+                <button id="signIn">Sign in</button>
+                <button id="createacc">Create account</button>
+            </div>
+        </div>
+    </div>
 
-    <main class="container">
-        <div id="category-module-placeholder"></div>
-
-        <section class="content-section">
-            <aside class="filters">
-                <div class="filter-item"><span>Open now</span><input type="checkbox"></div>
-                <div class="filter-item"><span>Free delivery</span><input type="checkbox"></div>
-                <div class="rating-filter">
-                    <h4>Rating</h4>
-                    <div class="stars">☆☆☆☆☆</div>
+    <div class="category-section">
+        <div class="slider-outer-wrapper">
+            <button id="prevBtn" class="nav-btn prev" onclick="scrollCats(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="category-container" id="catSlider">
+                <div class="category-list" id="catDisplay">
                 </div>
-            </aside>
+            </div>
+            <button id="nextBtn" class="nav-btn next" onclick="scrollCats(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
 
-            <section class="listings">
-                <div class="search-bar-container">
-                    <input type="text" placeholder="What you want to eat today?">
-                    <select><option>Recommended</option></select>
-                </div>
-                <h2>Order from 45 places</h2>
-                <div id="restaurant-list" class="restaurant-grid">
-                    </div>
-            </section>
-        </section>
-    </main>
+    <div id="catModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Manage Categories</h3>
+            <div class="form-group">
+                <label>Category Name</label>
+                <input type="text" id="nameInput" placeholder="Жишээ нь: Burgers">
+            </div>
+            <div class="form-group">
+                <label>Select Icon</label>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <button class="btn-add" onclick="saveCategory()">Add Category</button>
+            <div class="manage-list" id="manageList"></div>
+        </div>
+    </div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
+        </div>
+    </div>
+    <div id="registerModal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close" onclick="closeRegisterModal()">&times;</span>
+            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
+        </div>
+    </div>
 
-    <script src="assets/js/main.js"></script>
+    <div class="layout"></div>
+    <script src="./js/category.js"></script>
+    <script src="./js/main.js"></script>
 </body>
-</html>
-    <script src="./js/foodiego.js"></script>
-</body>
+
 </html>
