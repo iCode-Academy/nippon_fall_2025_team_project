@@ -23,3 +23,15 @@
 hs_err_pid*
 replay_pid*
 /target/
+
+# Mac
+.DS_Store
+
+# Eclipse
+.metadata/
+.settings/
+.classpath
+.project
+
+# VS Code
+.vscode/
