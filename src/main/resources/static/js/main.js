@@ -34,3 +34,57 @@
                 catModal.style.display = "none";
             }
         }
+
+
+//Recommend hesgiin js 
+function toggleSortDropdown(event) {
+    event.stopPropagation();
+    document.getElementById('sortPopup').classList.toggle('open');
+}
+
+function cancelSort() {
+    document.getElementById('sortPopup').classList.remove('open');
+}
+
+function applySort(event) {
+       
+    const selected = document.querySelector('input[name="sort"]:checked');
+    const labels = {
+        recommended: 'Recommended',
+        az: 'Alphabetical (A–Z)',
+        za: 'Alphabetical (Z–A)',
+        distance: 'Distance'
+    };
+    document.getElementById('sortLabel').textContent = labels[selected.value];
+    
+     document.getElementById('sortPopup').classList.remove('open');
+};
+
+function cancelSort(event) {
+    event.stopPropagation();
+    document.getElementById('sortPopup').classList.remove('open');
+}
+document.querySelectorAll('.stars i').forEach((star, index, stars) => {
+    // Hover hiinguut odnuud fill hiigdene
+    star.addEventListener('mouseover', () => {
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+        });
+    });
+
+    // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
+    star.addEventListener('mouseout', () => {
+        const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+        stars.forEach((s, i) => {
+            s.className = i < saved ? 'fas fa-star' : 'far fa-star';
+        });
+    });
+
+    // CLick hiinguut hadgalna
+    star.addEventListener('click', () => {
+        document.querySelector('.stars').dataset.rating = index + 1;
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+        });
+    });
+});
