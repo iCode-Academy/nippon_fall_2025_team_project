@@ -10,28 +10,24 @@ import foodiego.repository.RestaurantRepository;
 
 @Service
 public class RestaurantService {
-
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantRepository restaurantRepository;
 
     public Restaurant addRestaurant(Restaurant restaurant) {
-        // 1. Одоо байгаа бүх ID-г жагсаалтаар авна (Жишээ нь: [1, 2, 4, 5])
-        List<Long> ids = repository.findAllIdsSorted();
-        
-        // 2. Хамгийн бага сул байгаа ID-г хайх
-        Long availableId = 1L; // 1-ээс эхэлж шалгана
-        for (Long currentId : ids) {
-            if (!currentId.equals(availableId)) {
-                // Хэрэв дараалсан тоо биш байвал дунд нь зай гарсан гэсэн үг
-                break; 
+        List<Long> ids = restaurantRepository.findAllIdsSorted();
+        long nextId = 1;
+
+        if (ids != null && !ids.isEmpty()) {
+            for (Long id : ids) {
+                if (id == nextId) {
+                    nextId++;
+                } else if (id > nextId) {
+                    break;
+                }
             }
-            availableId++; // Дараагийн тоо руу шилжинэ
         }
-
-        // 3. Систем АВТОМАТААР олсон ID-г онооно
-        restaurant.setId(availableId); 
-
-        // 4. Хадгалах
-        return repository.save(restaurant);
+        
+        restaurant.setId(nextId);
+        return restaurantRepository.save(restaurant);
     }
 }

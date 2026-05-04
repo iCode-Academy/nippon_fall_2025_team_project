@@ -1,0 +1,166 @@
+.layout { 
+    display: flex; 
+    flex-direction: 
+    column; height: 100vh; 
+    font-family: sans-serif; 
+}
+.layout-header { 
+    padding: 20px; 
+    border-bottom: 1px solid #eee; 
+}
+
+.layout-body { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 20px; 
+    background: #f8f9fa; 
+}
+.layout-footer { 
+    padding: 
+    15px; 
+    border-top: 
+    1px solid #eee; }
+
+.btn-add-main { 
+    width: 848px; 
+    background: #00b050; 
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    border-radius: 10px; 
+    font-weight: bold; 
+    cursor: pointer; }
+
+.res-card {
+    display: flex;
+    align-items: center;
+    width: 848px;        /* Таны өгсөн өргөн */
+    height: 120px;       /* Таны өгсөн өндөр */
+    background-color: #ffffff;
+    border-radius: 20px; /* Илүү бөөрөнхий булан */
+    padding: 10px 15px;
+    margin-bottom: 16px;
+    box-sizing: border-box; /* Padding-ийг хэмжээн дотор тооцно */
+    
+    /* Зөөлөн сүүдэр */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); 
+    border: 1px solid #f2f2f2;
+    
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.res-card:hover {
+    transform: translateX(5px); /* Хулгана очиход бага зэрэг хажуу тийш хөдөлнө */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Зургийн хэсэг */
+.res-img {
+    width: 140px;        /* Зургийн өргөн */
+    height: 100px;       /* Зургийн өндөр */
+    object-fit: cover;
+    border-radius: 15px; /* Зургийн булан */
+    margin-right: 20px;
+}
+
+/* Мэдээллийн хэсэг */
+.res-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.res-info h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.res-info .category {
+    margin: 4px 0 8px 0;
+    font-size: 0.95rem;
+    color: #888;
+}
+
+/* Од, Хугацаа, Хүргэлт - Нэг шугаманд */
+.res-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.res-details span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Icon-уудын өнгө */
+.star-icon { color: #00b22d; } /* Зураг дээрх шиг ногоон од */
+.time-icon { color: #00b22d; }
+.delivery-icon { color: #00b22d; }
+
+.dot {
+    font-size: 10px;
+    color: #ccc;
+}
+
+/* Устгах товч */
+.btn-delete {
+    background: #fff5f5;
+    border: none;
+    color: #ff4d4f;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background: #ff4d4f;
+    color: white;
+}
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+/* Модалын үндсэн контент */
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 500px;
+    position: relative; /* Үүнийг заавал нэмнэ: close товч үүн дээр тулгуурлана */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Хаах товчлуур (x) */
+.close {
+    position: absolute;   /* Байрлалыг чөлөөтэй болгоно */
+    top: 15px;            /* Дээд талаас 15px зай */
+    right: 20px;          /* БАРУУН талаас 20px зай */
+    color: #888;
+    font-size: 28px;      /* Хэмжээг нь тохируулах */
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;       /* Үсгийг голлуулах */
+    transition: color 0.2s;
+}
+
+/* Хулгана очиход өнгө нь солигдоно */
+.close:hover {
+    color: #ff4d4f; /* Улаан өнгөтэй болно */
+}
+.modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+.full-width { grid-column: span 2; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: #555; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+
+.modal-footer-btns { display: flex; gap: 10px; margin-top: 25px; }
+.btn-save { flex: 1; background: #00b050; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; }
+.btn-cancel { flex: 1; background: #eee; border: none; padding: 12px; border-radius: 8px; cursor: pointer; }
