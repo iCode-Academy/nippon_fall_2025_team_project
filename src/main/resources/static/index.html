@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/category.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./css/restaurantlist.css">
 </head>
 
 <body>
@@ -72,22 +75,29 @@
             <div class="manage-list" id="manageList"></div>
         </div>
     </div>
+
+    <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content login-modal-content">
             <span class="close" onclick="closeLoginModal()">&times;</span>
             <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
         </div>
     </div>
-    <div id="registerModal" class="modal">
-        <div class="modal-content login-modal-content">
+    <div id="registerModal" class="rmodal">
+        <div class="rmodal-content register">
             <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
+            <iframe src="register.html" frameborder="0" class="register-iframe"></iframe>
         </div>
     </div>
 
-    <div class="layout"></div>
+    <div class="layout">
+
+    </div>
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/register.js"></script>
+    <script src="./js/restaurantlist.js"></script>
 </body>
 
 </html>
