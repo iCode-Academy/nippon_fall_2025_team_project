@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/category.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./css/login.css">
-    <link rel="stylesheet" href="./css/register.css">
-    <link rel="stylesheet" href="./css/restaurantlist.css">
 </head>
 
 <body>
@@ -75,29 +72,82 @@
             <div class="manage-list" id="manageList"></div>
         </div>
     </div>
-
-    <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content login-modal-content">
             <span class="close" onclick="closeLoginModal()">&times;</span>
             <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
         </div>
     </div>
-    <div id="registerModal" class="rmodal">
-        <div class="rmodal-content register">
+    <div id="registerModal" class="modal">
+        <div class="modal-content login-modal-content">
             <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="register-iframe"></iframe>
+            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
         </div>
     </div>
 
     <div class="layout">
+    <div class="switch-body"> 
+        <div class="filter-container">
+  <div class="filter-row">
+    <span class="filter-label">Open now</span>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Free delivery</span>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="filter-row rating-section">
+    <span class="filter-label">Rating</span>
+    <div class="stars">
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+      <i class="far fa-star"></i>
+    </div>
+
+  </div>
+</div>
+
+    </div>
+    <div class="custom-search-wrapper">
+    <div class="custom-search-container">
+        <div class="custom-search-box">
+            <i class="fas fa-search custom-search-icon"></i>
+            <input type="text" placeholder="What you want to eat today?" class="custom-search-input">
+        </div>
+
+       <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
+    <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
+    <i class="fas fa-chevron-down custom-dropdown-icon"></i>
+</div>
+
+<div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
+    <p class="sort-title">Sort by</p>
+    <label class="sort-option"><input type="radio" name="sort" value="recommended" checked> Recommended</label>
+    <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order (A–Z)</label>
+    <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order (Z–A)</label>
+    <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
+    <div class="sort-actions">
+        <button onclick="cancelSort(event)">Cancel</button>
+        <button class="apply-btn" onclick="applySort(event)">Apply</button>
+    </div>
+</div>
+
+
+    </div>
+</div>
 
     </div>
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
-    <script src="./js/login.js"></script>
-    <script src="./js/register.js"></script>
-    <script src="./js/restaurantlist.js"></script>
 </body>
 
 </html>

@@ -1,78 +1,90 @@
-// main.js - Үндсэн логик болон өгөгдөл ачаалах хэсэг
+  // Элемент барьж авах
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const signInBtn = document.getElementById('signIn');
+        const createAccBtn = document.getElementById('createacc');
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("FoodieGo үндсэн JS ачаалагдлаа.");
+        // Модол нээх
+        signInBtn.onclick = function() {
+            loginModal.style.display = "block";
+        }
+
+        createAccBtn.onclick = function() {
+            registerModal.style.display = "block";
+        }
+
+        // Модол хаах 
+        function closeLoginModal() {
+            loginModal.style.display = "none";
+        }
+
+        function closeRegisterModal() {
+            registerModal.style.display = "none";
+        }
+
+        // Гадна талас хаах. Энэ хэсгийг AIдсан хаха
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+            if (event.target == registerModal) {
+                registerModal.style.display = "none";
+            }
+            if (typeof catModal !== 'undefined' && event.target == catModal) {
+                catModal.style.display = "none";
+            }
+        }
+
+
+//Recommend hesgiin js 
+function toggleSortDropdown(event) {
+    event.stopPropagation();
+    document.getElementById('sortPopup').classList.toggle('open');
+}
+
+function cancelSort() {
+    document.getElementById('sortPopup').classList.remove('open');
+}
+
+function applySort(event) {
+       
+    const selected = document.querySelector('input[name="sort"]:checked');
+    const labels = {
+        recommended: 'Recommended',
+        az: 'Alphabetical (A–Z)',
+        za: 'Alphabetical (Z–A)',
+        distance: 'Distance'
+    };
+    document.getElementById('sortLabel').textContent = labels[selected.value];
     
-    // 1. Рестораны жагсаалтыг ачаалах
-    loadRestaurants();
+     document.getElementById('sortPopup').classList.remove('open');
+};
 
-    // 2. Бусад ерөнхий үйлдэл (Жишээ нь: Хайлт)
-    setupSearch();
-});
-
-// Ресторан ачаалах функц
-async function loadRestaurants() {
-    const restaurantList = document.getElementById('restaurantList');
-    if (!restaurantList) return;
-
-    try {
-        const response = await fetch('http://localhost:8080/api/restaurants');
-        const data = await response.json();
-        
-        restaurantList.innerHTML = ''; // Уншиж байна гэсэн бичгийг арилгах
-
-        data.forEach(res => {
-            const card = `
-                <div class="col-md-4 mb-4">
-                    <div class="card restaurant-card" onclick="location.href='restaurant-detail.html?id=${res.id}'">
-                        <img src="${res.imageUrl || 'img/default-res.jpg'}" class="card-img-top restaurant-img" alt="${res.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${res.name}</h5>
-                            <p class="card-text text-muted">${res.description || 'Амттай хоол, тухтай орчин'}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="rating-badge">★ ${res.rating || '5.0'}</span>
-                                <small class="text-muted">${res.address}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            restaurantList.innerHTML += card;
+function cancelSort(event) {
+    event.stopPropagation();
+    document.getElementById('sortPopup').classList.remove('open');
+}
+document.querySelectorAll('.stars i').forEach((star, index, stars) => {
+    // Hover hiinguut odnuud fill hiigdene
+    star.addEventListener('mouseover', () => {
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
         });
-    } catch (error) {
-        console.error("Ресторан ачаалахад алдаа гарлаа:", error);
-        restaurantList.innerHTML = '<p class="text-danger text-center">Өгөгдөл ачаалахад алдаа гарлаа.</p>';
-    }
-}
-
-// Хайлтын функц (Жишээ)
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.onkeyup = function() {
-            console.log("Хайж байна: " + this.value);
-            // Хайлтын логик энд орно
-        };
-    }
-}
-
-// Create account товчлуур
-document.getElementById('createacc').addEventListener('click', function() {
-    openRegisterModal();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("FoodieGo үндсэн JS ачаалагдлаа.");
-    loadRestaurants();
-    setupSearch();
-
-    // Sign in товч → loginModal
-    document.getElementById('signIn').addEventListener('click', function() {
-        openLoginModal();
     });
 
-    // Create account товч → registerModal
-    document.getElementById('createacc').addEventListener('click', function() {
-        openRegisterModal();
+    // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
+    star.addEventListener('mouseout', () => {
+        const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+        stars.forEach((s, i) => {
+            s.className = i < saved ? 'fas fa-star' : 'far fa-star';
+        });
+    });
+
+    // CLick hiinguut hadgalna
+    star.addEventListener('click', () => {
+        document.querySelector('.stars').dataset.rating = index + 1;
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+        });
     });
 });
