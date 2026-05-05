@@ -3,6 +3,9 @@ package foodiego.controller;
 import foodiego.dto.LoginRequest;
 import foodiego.model.User;
 import foodiego.service.UserService;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +34,7 @@ public class UserController {
         User user = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         
         if (user != null) {
-            return ResponseEntity.ok("Амжилттай нэвтэрлээ. Тавтай морил, " + user.getName());
+            return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("И-мэйл эсвэл нууц үг буруу байна.");
         }
@@ -46,5 +49,16 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Устгах боломжгүй. Хэрэглэгч олдсонгүй.");
         }
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    	Optional<User> user = authService.findById(id);
+    	
+    	if (user.isPresent()) {
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+		}
     }
 }

@@ -259,6 +259,7 @@
  
 <script>
 async function handleLogin() {
+
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const btn = document.getElementById('loginBtn');
@@ -277,25 +278,40 @@ async function handleLogin() {
   btn.classList.add('loading');
  
   try {
-    const res = await fetch('/api/user/login', {
+    const res = await fetch("http://localhost:8080/api/user/login", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
- 
-    const text = await res.text();
- 
-    if (res.ok) {
-      msg.className = 'msg success';
-      msg.textContent = text;
-      setTimeout(() => { window.location.href = '/index.html'; }, 1200);
-    } else {
-      msg.className = 'msg error';
-      msg.textContent = text;
+
+    if (!res.ok) {
+      throw new Error("Login failed");
     }
+ 
+    const user = await res.json();
+
+    // hadgalna
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userId", user.id);
+    localStorage.setItem("userName", user.name);
+
+    msg.className = 'msg success';
+    msg.textContent = "Амжилттай нэвтэрлээ";
+ 
+    setTimeout(() => {
+      const redirect = localStorage.getItem("redirectAfterLogin");
+
+      if (redirect) {
+        localStorage.removeItem("redirectAfterLogin");
+        window.location.href = redirect;
+      } else {
+        window.location.href = '/index.html';
+      }
+    }, 1000);
+
   } catch (e) {
     msg.className = 'msg error';
-    msg.textContent = 'Сервертэй холбогдоход алдаа гарлаа.';
+    msg.textContent = "Email эсвэл password буруу байна!";
   }
  
   btn.textContent = 'Нэвтрэх';

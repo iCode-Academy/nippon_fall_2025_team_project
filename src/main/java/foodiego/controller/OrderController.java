@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import foodiego.model.Order;
+import foodiego.model.User;
 import foodiego.service.OrderService;
 import foodiego.repository.OrderRepository;
+import foodiego.repository.UserRepository;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
 
 	@Autowired
@@ -18,10 +21,18 @@ public class OrderController {
 
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	// 1. create order
 	@PostMapping
 	public Order createOrder(@RequestBody Order order) {
+		User user = userRepository.findById(order.getUserId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
+		
+		order.setUser(user); // end holbono
+		
 		return orderService.createOrder(order);
 	}
 

@@ -37,6 +37,7 @@ public class User {
     
     @NotBlank(message = "Нууц үг заавал байх ёстой")
     @Column(nullable = false)
+    @JsonIgnore // password frontend ruu garahgui
     private String password;
     
     @NotBlank(message = "Нэр заавал байх ёстой")
