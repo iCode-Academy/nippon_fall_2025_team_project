@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/restaurants";
+const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
 
 function toggleModal(show) {
     const modal = document.getElementById('modalOverlay');
@@ -77,7 +77,7 @@ async function saveRestaurant() {
     };
 
     try {
-        const response = await fetch(`${API_URL}/add`, {
+        const response = await fetch(`${RESTAURANT_API_URL}/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(restaurantData)
@@ -96,7 +96,7 @@ async function saveRestaurant() {
 
 async function loadRestaurants() {
     try {
-        const res = await fetch(API_URL);
+        const res = await fetch(RESTAURANT_API_URL);
         const data = await res.json();
         
         document.getElementById('resCount').innerText = data.length;
@@ -159,7 +159,7 @@ return `
 async function deleteRestaurant(id) {
     if (!confirm("Устгахдаа итгэлтэй байна уу?")) return;
     try {
-        const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        const res = await fetch(`${RESTAURANT_API_URL}/${id}`, { method: 'DELETE' });
         if (res.ok) loadRestaurants();
     } catch (err) {
         alert("Устгахад алдаа гарлаа.");

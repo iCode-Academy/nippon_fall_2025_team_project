@@ -35,3 +35,12 @@ replay_pid*
 
 # VS Code
 .vscode/
+
+# Node
+node_modules/
+
+# IntelliJ
+.idea/
+
+# OS
+Thumbs.db
