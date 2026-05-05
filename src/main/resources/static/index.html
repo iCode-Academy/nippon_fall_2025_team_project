@@ -35,8 +35,9 @@
                 <div id="basketCounter">0</div>
             </div>
             <div class="login">
-                <button id="signIn">Sign in</button>
-                <button id="createacc">Create account</button>
+                <!-- Товчлуурууд дээр onclick нэмсэн -->
+                <button id="signIn" onclick="openLoginModal()">Sign in</button>
+                <button id="createacc" onclick="openRegisterModal()">Create account</button>
             </div>
         </div>
     </div>
@@ -86,64 +87,71 @@
     </div>
 
     <div class="layout">
-    <div class="switch-body"> 
-        <div class="filter-container">
-  <div class="filter-row">
-    <span class="filter-label">Open now</span>
-    <label class="switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-  </div>
+        <div class="switch-body">
+            <div class="filter-container">
+                <div class="filter-row">
+                    <span class="filter-label">Open now</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
 
-  <div class="filter-row">
-    <span class="filter-label">Free delivery</span>
-    <label class="switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-  </div>
-  <div class="filter-row rating-section">
-    <span class="filter-label">Rating</span>
-    <div class="stars">
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-    </div>
+                <div class="filter-row">
+                    <span class="filter-label">Free delivery</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="filter-row rating-section">
+                    <span class="filter-label">Rating</span>
+                    <div class="stars">
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
 
-  </div>
-</div>
+                </div>
+            </div>
 
-    </div>
-    <div class="custom-search-wrapper">
-    <div class="custom-search-container">
-        <div class="custom-search-box">
-            <i class="fas fa-search custom-search-icon"></i>
-            <input type="text" placeholder="What you want to eat today?" class="custom-search-input">
         </div>
+        <div class="custom-search-wrapper">
+            <div class="custom-search-container">
+                <div class="custom-search-box">
+                    <i class="fas fa-search custom-search-icon"></i>
+                    <input type="text" placeholder="What you want to eat today?" class="custom-search-input">
+                </div>
 
-       <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
-    <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
-    <i class="fas fa-chevron-down custom-dropdown-icon"></i>
-</div>
+                <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
+                    <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
+                    <i class="fas fa-chevron-down custom-dropdown-icon"></i>
+                </div>
 
-<div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
-    <p class="sort-title">Sort by</p>
-    <label class="sort-option"><input type="radio" name="sort" value="recommended" checked> Recommended</label>
-    <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order (A–Z)</label>
-    <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order (Z–A)</label>
-    <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
-    <div class="sort-actions">
-        <button onclick="cancelSort(event)">Cancel</button>
-        <button class="apply-btn" onclick="applySort(event)">Apply</button>
-    </div>
-</div>
-
-
-    </div>
-</div>
+                <div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
+                    <p class="sort-title">Sort by</p>
+                    <label class="sort-option"><input type="radio" name="sort" value="recommended" checked>
+                        Recommended</label>
+                    <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order
+                        (A–Z)</label>
+                    <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order
+                        (Z–A)</label>
+                    <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
+                    <div class="sort-actions">
+                        <button onclick="cancelSort(event)">Cancel</button>
+                        <button class="apply-btn" onclick="applySort(event)">Apply</button>
+                    </div>
+                </div>
+            </div>
+            <div class="restaurant-list-wrapper">
+                <iframe src="restaurantlist.html" id="restaurantIframe" class="restaurant-list-iframe" frameborder="0"
+                    scrolling="no">
+                </iframe>
+                
+            </div>
+        </div>
 
     </div>
     <script src="./js/category.js"></script>
