@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoodieGo — Бүртгүүлэх</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  :root {
+    --brand: #00B050;
+    --dark: #EFFFF4;
+    --card-bg: #ffffff;
+    --text: #1a1714;
+    --muted: #7a7068;
+    --border: #e8e2db;
+    --input-bg: #faf8f5;
+    --error: #d93025;
+  }
+ 
+  body {
+    min-height: 100vh;
+    background: #faf7f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    overflow: hidden;
+    padding: 24px 0;
+    margin: 0 !important;
+    padding: 0 !important;
+
+  }
+ 
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0, 176, 80, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+ 
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0, 200, 100, 0.06 ) 0%, transparent 70%);
+    pointer-events: none;
+  }
+ 
+  .card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+  }
+ 
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+ 
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: var(--brand);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+ 
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+ 
+  .logo-text span { color: var(--brand); }
+ 
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+ 
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+ 
+  .field {
+    margin-bottom: 16px;
+  }
+ 
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 7px;
+  }
+ 
+  input {
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+ 
+  input:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(255,77,0,0.1);
+    background: #fff;
+  }
+ 
+  input::placeholder { color: #bbb5ac; }
+ 
+  input.invalid {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(217,48,37,0.08);
+  }
+ 
+  .field-hint {
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 5px;
+    display: none;
+  }
+ 
+  .field-hint.show { display: block; }
+ 
+  .strength-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+ 
+  .strength-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s, background 0.3s;
+    width: 0%;
+  }
+ 
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(0, 176, 80, 0.2);
+    margin-top: 8px;
+  }
+ 
+  .btn:hover { background: #e04400; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,77,0,0.35); }
+  .btn:active { transform: translateY(0); }
+  .btn.loading { pointer-events: none; opacity: 0.8; }
+ 
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+ 
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+ 
+  .login-link {
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+  }
+ 
+  .login-link a {
+    color: var(--brand);
+    font-weight: 500;
+    text-decoration: none;
+  }
+ 
+  .login-link a:hover { text-decoration: underline; }
+ 
+  .msg {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+  }
+ 
+  .msg.error { background: #fff0ef; color: var(--error); border: 1px solid #ffd5d3; display: block; }
+  .msg.success { background: #f0fff4; color: #1a7a3c; border: 1px solid #c3e8d0; display: block; }
+ 
+  .terms {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+ 
+  .terms a { color: var(--brand); text-decoration: none; }
+</style>
+</head>
+<body>
+ 
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">🍔</div>
+    <div class="logo-text">Foodie<span>Go</span></div>
+  </div>
+ 
+  <h1>Бүртгүүлэх</h1>
+  <p class="subtitle">Шинэ данс үүсгэж захиалга өгч эхлээрэй</p>
+ 
+  <div id="msg" class="msg"></div>
+ 
+  <div class="field">
+    <label for="name">Нэр</label>
+    <input type="text" id="name" placeholder="Таны нэр" autocomplete="name" />
+    <div class="field-hint" id="name-hint">Нэрээ оруулна уу</div>
+  </div>
+ 
+  <div class="field">
+    <label for="email">И-мэйл хаяг</label>
+    <input type="email" id="email" placeholder="example@email.com" autocomplete="email" />
+    <div class="field-hint" id="email-hint">Зөв и-мэйл хаяг оруулна уу</div>
+  </div>
+ 
+  <div class="field">
+    <label for="password">Нууц үг</label>
+    <input type="password" id="password" placeholder="Хамгийн багадаа 6 тэмдэгт" autocomplete="new-password" oninput="checkStrength(this.value)" />
+    <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+    <div class="field-hint" id="pass-hint">Нууц үг хамгийн багадаа 6 тэмдэгт байна</div>
+  </div>
+ 
+  <div class="field">
+    <label for="confirm">Нууц үг давтах</label>
+    <input type="password" id="confirm" placeholder="Нууц үгийг дахин оруулна уу" autocomplete="new-password" />
+    <div class="field-hint" id="confirm-hint">Нууц үг таарахгүй байна</div>
+  </div>
+ 
+  <button class="btn" id="registerBtn" onclick="handleRegister()">Бүртгүүлэх</button>
+ 
+  <p class="terms">
+    Бүртгүүлснээр та манай <a href="#">Үйлчилгээний нөхцөл</a> болон
+    <a href="#">Нууцлалын бодлого</a>-г зөвшөөрч байна.
+  </p>
+ 
+  <div class="divider">эсвэл</div>
+ 
+  <div class="login-link">
+    Данс байна уу? <a href="login.html">Нэвтрэх</a>
+  </div>
+</div>
+ 
+<script>
+function checkStrength(val) {
+  const fill = document.getElementById('strength-fill');
+  let score = 0;
+  if (val.length >= 6) score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+ 
+  const pct = (score / 5) * 100;
+  fill.style.width = pct + '%';
+  fill.style.background = score <= 1 ? '#e24b4a' : score <= 3 ? '#ef9f27' : '#1d9e75';
+}
+ 
+async function handleRegister() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm').value;
+  const btn = document.getElementById('registerBtn');
+  const msg = document.getElementById('msg');
+ 
+  msg.className = 'msg';
+  msg.textContent = '';
+ 
+  ['name','email','password','confirm'].forEach(id => {
+    document.getElementById(id).classList.remove('invalid');
+    const hint = document.getElementById(id === 'password' ? 'pass-hint' : id === 'confirm' ? 'confirm-hint' : id + '-hint');
+    if (hint) hint.classList.remove('show');
+  });
+ 
+  let valid = true;
+ 
+  if (!name) {
+    document.getElementById('name').classList.add('invalid');
+    document.getElementById('name-hint').classList.add('show');
+    valid = false;
+  }
+ 
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('email').classList.add('invalid');
+    document.getElementById('email-hint').classList.add('show');
+    valid = false;
+  }
+ 
+  if (!password || password.length < 6) {
+    document.getElementById('password').classList.add('invalid');
+    document.getElementById('pass-hint').classList.add('show');
+    valid = false;
+  }
+ 
+  if (password !== confirm) {
+    document.getElementById('confirm').classList.add('invalid');
+    document.getElementById('confirm-hint').classList.add('show');
+    valid = false;
+  }
+ 
+  if (!valid) return;
+ 
+  btn.textContent = 'Бүртгэж байна...';
+  btn.classList.add('loading');
+ 
+  try {
+    const res = await fetch('/api/user/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+ 
+    const text = await res.text();
+ 
+    if (res.ok) {
+      msg.className = 'msg success';
+      msg.textContent = text;
+      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+    } else {
+      msg.className = 'msg error';
+      msg.textContent = text;
+    }
+  } catch (e) {
+    msg.className = 'msg error';
+    msg.textContent = 'Сервертэй холбогдоход алдаа гарлаа.';
+  }
+ 
+  btn.textContent = 'Бүртгүүлэх';
+  btn.classList.remove('loading');
+}
+ 
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleRegister();
+});
+</script>
+</body>
+</html>

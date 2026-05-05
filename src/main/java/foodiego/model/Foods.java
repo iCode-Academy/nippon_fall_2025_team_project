@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -17,8 +18,11 @@ public class Foods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
+    
+ // Foods.java дотор нэмэх хэсэг:
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @Column(nullable = false)
     private String name;
@@ -28,6 +32,7 @@ public class Foods {
 
     private String image;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     // Category холболт — ManyToOne учир нь олон хоол нэг ангилалд байна

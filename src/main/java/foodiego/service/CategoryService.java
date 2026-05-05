@@ -1,17 +1,11 @@
 package foodiego.service;
 
-
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import foodiego.model.Category;
 import foodiego.repository.CategoryRepository;
 
-
 @Service
-
 public class CategoryService {
 
 	 private final CategoryRepository categoryRepository;
