@@ -70,6 +70,7 @@ async function loadRestaurants() {
     } catch (error) {
         console.error("Ресторан ачаалахад алдаа гарлаа:", error);
         restaurantList.innerHTML = '<p class="text-danger text-center">Өгөгдөл ачаалахад алдаа гарлаа.</p>';
+    }
 }
 // --- Хайлтын функц ---
 function setupSearch() {
@@ -82,8 +83,8 @@ function setupSearch() {
 }
 
 // --- Модал удирдах функцууд ---
-const loginModal = document.getElementById('loginModal');
-const registerModal = document.getElementById('registerModal');
+// const loginModal = document.getElementById('loginModal');
+// const registerModal = document.getElementById('registerModal');
 function openLoginModal() { if (loginModal) loginModal.style.display = 'flex'; }
 function closeLoginModal() { if (loginModal) loginModal.style.display = 'none'; }
 function openRegisterModal() { if (registerModal) registerModal.style.display = 'flex'; }
@@ -164,17 +165,6 @@ window.addEventListener('message', function(e) {
 function toggleSortDropdown(event) {
     event.stopPropagation();
     document.getElementById('sortPopup').classList.toggle('open');
-}
-
-// Хайлтын функц (Жишээ)
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.onkeyup = function () {
-            console.log("Хайж байна: " + this.value);
-            // Хайлтын логик энд орно
-        };
-    }
 }
 
 // Create account товчлуур
@@ -379,29 +369,29 @@ function goToCheckout() {
     }
 }
 
-// // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
-// star.addEventListener('mouseout', () => {
-//     const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
-//     stars.forEach((s, i) => {
-//         s.className = i < saved ? 'fas fa-star' : 'far fa-star';
-//     });
-// });
+// // // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
+// // star.addEventListener('mouseout', () => {
+// //     const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+// //     stars.forEach((s, i) => {
+// //         s.className = i < saved ? 'fas fa-star' : 'far fa-star';
+// //     });
+// // });
 
-// // CLick hiinguut hadgalna
-// star.addEventListener('click', () => {
-//     document.querySelector('.stars').dataset.rating = index + 1;
-//     stars.forEach((s, i) => {
-//         s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+// // // CLick hiinguut hadgalna
+// // star.addEventListener('click', () => {
+// //     document.querySelector('.stars').dataset.rating = index + 1;
+// //     stars.forEach((s, i) => {
+// //         s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+// //     });
+// // });
+//     // CLick hiinguut hadgalna
+//     star.addEventListener('click', () => {
+//         document.querySelector('.stars').dataset.rating = index + 1;
+//         stars.forEach((s, i) => {
+//             s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+//         });
 //     });
 // });
-    // CLick hiinguut hadgalna
-    star.addEventListener('click', () => {
-        document.querySelector('.stars').dataset.rating = index + 1;
-        stars.forEach((s, i) => {
-            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
-        });
-    });
-});
 
 window.addEventListener('load', function() {
     const iframe = document.getElementById('restaurantIframe');
@@ -419,9 +409,7 @@ function resizeIframe() {
         const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         iframe.style.height = innerDoc.body.scrollHeight + 'px';
     }
-}
+};
 
 // 2 секунд тутамд өндрийг шалгаж байх (Хэрэв дотор нь динамик өөрчлөлт ордог бол)
-setInterval(resizeIframe, 2000);
-
-
+// setInterval(resizeIframe, 2000);
