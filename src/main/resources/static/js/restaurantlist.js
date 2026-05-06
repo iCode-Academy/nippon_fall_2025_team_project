@@ -2,9 +2,15 @@ const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
 
 function toggleModal(show) {
     const modal = document.getElementById('modalOverlay');
-    if (modal) {
-        modal.style.display = show ? 'flex' : 'none';
-        if (!show) resetForm();
+    modal.style.display = show ? 'flex' : 'none';
+    // Үндсэн хуудасны iframe-ийн z-index-ийг өөрчлөх
+    if (window.parent) {
+        const iframe = window.parent.document.getElementById('restaurantIframe');
+        if (iframe) {
+            // Модал нээлттэй үед 1001 (шүүлтүүрээс дээгүүр), хаалттай үед 1 болгоно
+            iframe.style.zIndex = show ? "1001" : "1";
+            iframe.style.position = "relative";
+        }
     }
 }
 
@@ -15,6 +21,8 @@ function resetForm() {
         if (el) el.value = '';
     });
 }
+
+
 
 // Зургийг жижигсгэж шахах функц
 async function compressImage(file, maxWidth, maxHeight) {
@@ -28,7 +36,6 @@ async function compressImage(file, maxWidth, maxHeight) {
                 const canvas = document.createElement('canvas');
                 let width = img.width;
                 let height = img.height;
-
                 if (width > height) {
                     if (width > maxWidth) {
                         height *= maxWidth / width;
@@ -44,17 +51,18 @@ async function compressImage(file, maxWidth, maxHeight) {
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                resolve(canvas.toDataURL('image/jpeg', 0.7)); 
+                resolve(canvas.toDataURL('image/jpeg', 0.7));
             };
         };
     });
 }
 
+
+
 async function saveRestaurant() {
     const imageInput = document.getElementById('resImage');
     const imageFile = imageInput ? imageInput.files[0] : null;
     let base64Image = "";
-
     // Зургийг шахаж авах хэсэг функц ДОТОР байх ёстой
     if (imageFile) {
         try {
@@ -63,6 +71,8 @@ async function saveRestaurant() {
             console.error("Зураг боловсруулахад алдаа:", e);
         }
     }
+
+
 
     const restaurantData = {
         name: document.getElementById('resName').value,
@@ -75,14 +85,12 @@ async function saveRestaurant() {
         description: document.getElementById('resDesc').value,
         logoUrl: base64Image
     };
-
     try {
         const response = await fetch(`${RESTAURANT_API_URL}/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(restaurantData)
         });
-
         if (response.ok) {
             toggleModal(false);
             loadRestaurants();
@@ -94,20 +102,18 @@ async function saveRestaurant() {
     }
 }
 
+
 async function loadRestaurants() {
     try {
         const res = await fetch(RESTAURANT_API_URL);
         const data = await res.json();
-        
         document.getElementById('resCount').innerText = data.length;
         const list = document.getElementById('restaurantList');
-        
         // loadRestaurants функц доторх map хэсэг
 list.innerHTML = data.map(item => {
     let imgSource = "";
     // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
-    const rawUrl = item.logoUrl || item.logo_url; 
-
+    const rawUrl = item.logoUrl || item.logo_url;
     if (rawUrl) {
         if (rawUrl.startsWith('http')) {
             // 1. Интернэт линк байвал (https://...)
@@ -118,7 +124,7 @@ list.innerHTML = data.map(item => {
         } else {
             // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
             // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
-            imgSource = `./picture/${rawUrl}`; 
+            imgSource = `./picture/${rawUrl}`;
         }
     } else {
         // 4. Зураг огт байхгүй бол default зураг
@@ -128,28 +134,26 @@ list.innerHTML = data.map(item => {
 return `
     <div class="res-card">
         <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
-        
         <div class="res-info">
             <h3>${item.name}</h3>
             <p class="category">${item.description || 'Sushi, Asian'}</p>
-            
             <div class="res-details">
                 <span><i class="fas fa-star star-icon"></i> <b>${item.rating || 0} (120+)</b></span>
                 <span class="dot">●</span>
                 <span><i class="fas fa-clock time-icon"></i> ${item.deliveryTime || 0} мин</span>
                 <span class="dot">●</span>
                 <span style="color: #00b22d; font-weight: 600;">
-                    <i class="fas fa-motorcycle delivery-icon"></i> 
+                    <i class="fas fa-motorcycle delivery-icon"></i>
                     ${item.deliveryFee == 0 ? 'Free' : '₮' + item.deliveryFee}
                 </span>
             </div>
         </div>
-
         <button class="btn-delete" onclick="deleteRestaurant(${item.id})">
             <i class="fas fa-trash"></i>
         </button>
     </div>
 `;
+
 }).join('');
     } catch (err) {
         console.error("Мэдээлэл ачаалахад алдаа:", err);
@@ -166,8 +170,9 @@ async function deleteRestaurant(id) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadRestaurants);
 
+
+document.addEventListener("DOMContentLoaded", loadRestaurants);
 // Модалын гадна (overlay) дарахад хаах логик
 window.onclick = function(event) {
     const modal = document.getElementById('modalOverlay');
@@ -176,3 +181,6 @@ window.onclick = function(event) {
         toggleModal(false);
     }
 }
+
+
+
