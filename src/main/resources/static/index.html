@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base Layout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/category.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,10 +33,19 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="basket-icon-wrapper">
+
+            <!-- 🛒 CART ICON -->
+            <!-- When user clicks this, cart popup will open -->
+            <div class="basket-icon-wrapper" onclick="toggleCart()">
                 <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
+
+                <!-- Displays total number of items in cart -->
                 <div id="basketCounter">0</div>
+
+                <!-- 🧾 CART POPUP -->
+                <div id="cartPopup" class="cart-popup"></div>
             </div>
+
             <div class="login">
                 <!-- Товчлуурууд дээр onclick нэмсэн -->
                 <button id="signIn" onclick="openLoginModal()">Sign in</button>
@@ -156,6 +168,8 @@
     </div>
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/register.js"></script>
 </body>
 
 </html>

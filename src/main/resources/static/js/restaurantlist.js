@@ -1,5 +1,5 @@
 const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
-// restaurantlist.js
+
 function toggleModal(show) {
     const modal = document.getElementById('modalOverlay');
     modal.style.display = show ? 'flex' : 'none';
