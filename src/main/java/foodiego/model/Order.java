@@ -20,6 +20,9 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@Transient
+	private Long userId;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
@@ -63,5 +66,13 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+	
+	public Long getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }
