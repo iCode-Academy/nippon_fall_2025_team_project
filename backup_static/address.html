@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FoodieGo - Хаяг бүртгэл</title>
+    <link rel="stylesheet" href="./css/address.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Хаяг бүртгэх</h2>
+        <form id="addressForm">
+            <input type="text" id="userName" placeholder="Хэрэглэгчийн нэр" required>
+
+            <select id="city" required>
+                <option value="" disabled selected>Хот сонгох...</option>
+                <option value="Улаанбаатар">Улаанбаатар</option>
+                <option value="Дархан">Дархан</option>
+                <option value="Эрдэнэт">Эрдэнэт</option>
+            </select>
+
+            <input type="text" id="district" placeholder="Дүүрэг" required>
+            <input type="text" id="apartment" placeholder="Байр / Хороолол" required>
+            <input type="text" id="roomNumber" placeholder="Хаалганы дугаар" required>
+
+            <button type="submit">Хадгалах</button>
+        </form>
+
+        <hr>
+
+        <h2>Бүртгэгдсэн хаягууд</h2>
+        <table id="addressTable">
+            <thead>
+                <tr>
+                    <th>Хэрэглэгч</th>
+                    <th>Хот</th>
+                    <th>Дүүрэг</th>
+                    <th>Байр</th>
+                    <th>Хаалганы дугаар</th>
+                </tr>
+            </thead>
+            <tbody id="addressBody"> <!-- Энэ ID маш чухал! -->
+            </tbody>
+        </table>
+    </div>
+    <script src="./js/address.js"></script>
+</body>
+
+</html>
