@@ -73,15 +73,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Устгах боломжгүй. Хэрэглэгч олдсонгүй.");
         }
     }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-    	Optional<User> user = authService.findById(id);
-    	
-    	if (user.isPresent()) {
-			return ResponseEntity.ok(user.get());
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-		}
-    }
 }

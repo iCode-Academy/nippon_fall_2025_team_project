@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="./css/category.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
 <body>
     <div class="header">
         <div class="logo">
@@ -56,8 +55,8 @@
 
             <div class="login">
                 <!-- Товчлуурууд дээр onclick нэмсэн -->
-                <button id="signIn" onclick="openLoginModal()">Sign in</button>
-                <button id="createacc" onclick="openRegisterModal()">Create account</button>
+                <button id="signIn">Sign in</button>
+                <button id="createacc">Create account</button>
             </div>
         </div>
     </div>
@@ -100,9 +99,9 @@
         </div>
     </div>
     <div id="registerModal" class="modal">
-        <div class="modal-content login-modal-content">
+        <div class="modal-content register-modal-content">
             <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
+            <iframe src="register.html" frameborder="0" class="register-iframe"></iframe>
         </div>
     </div>
 
@@ -176,8 +175,6 @@
     </div>
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
-    <script src="./js/login.js"></script>
-    <script src="./js/register.js"></script>
 </body>
 
 </html>
