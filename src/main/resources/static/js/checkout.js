@@ -2,6 +2,7 @@
 const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
 if (!isLoggedIn) {
+    localStorage.setItem("redirectAfterLogin", "checkout.html");
     window.location.href = "login.html";
 }
 

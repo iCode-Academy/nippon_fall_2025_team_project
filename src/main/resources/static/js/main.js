@@ -290,7 +290,7 @@ function goToCheckout() {
 
     if (!isLoggedIn) {
         // login hiisnii daraa checkout ruu butsna
-        localStorage.setItem("redirectAfterLogin", "/checkout.html");
+        localStorage.setItem("redirectAfterLogin", "checkout.html");
         window.location.href = "login.html";
     } else {
         // shuud checkout
