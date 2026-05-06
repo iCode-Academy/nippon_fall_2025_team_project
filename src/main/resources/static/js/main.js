@@ -354,24 +354,31 @@ async function loadRestaurants() {
         // cart data hadgalna
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        if (!isLoggedIn) {
-            // login hiisnii daraa checkout ruu butsna
-            localStorage.setItem("redirectAfterLogin", "/checkout.html");
-            window.location.href = "login.html";
-        } else {
-            // shuud checkout
-            window.location.href = "checkout.html";
-        }
+    if (!isLoggedIn) {
+        // login hiisnii daraa checkout ruu butsna
+        localStorage.setItem("redirectAfterLogin", "checkout.html");
+        window.location.href = "login.html";
+    } else {
+        // shuud checkout
+        window.location.href = "checkout.html";
     }
+}
 
-    // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
-    star.addEventListener('mouseout', () => {
-        const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
-        stars.forEach((s, i) => {
-            s.className = i < saved ? 'fas fa-star' : 'far fa-star';
-        });
-    });
+// // Mouse-aa holduulahaar umnuh saved baisan helberluugee butsna
+// star.addEventListener('mouseout', () => {
+//     const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+//     stars.forEach((s, i) => {
+//         s.className = i < saved ? 'fas fa-star' : 'far fa-star';
+//     });
+// });
 
+// // CLick hiinguut hadgalna
+// star.addEventListener('click', () => {
+//     document.querySelector('.stars').dataset.rating = index + 1;
+//     stars.forEach((s, i) => {
+//         s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+//     });
+// });
     // CLick hiinguut hadgalna
     star.addEventListener('click', () => {
         document.querySelector('.stars').dataset.rating = index + 1;
