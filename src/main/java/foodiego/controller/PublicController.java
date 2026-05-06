@@ -4,7 +4,6 @@ import foodiego.dto.LoginRequest;
 import foodiego.model.Role;
 import foodiego.model.User;
 import foodiego.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,39 +16,89 @@ public class PublicController {
 
     @Autowired
     private UserService userService;
-
-    // Register
+    // =========================
+    // REGISTER
+    // =========================
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-
+    public ResponseEntity<?> register(
+            @RequestBody User user
+    ) {
+        // Default role
         if (user.getRole() == null) {
             user.setRole(Role.CUSTOMER);
         }
-
-        User newUser = userService.register(user);
-
-        if (newUser != null) {
-            return ResponseEntity.ok(newUser);
+        // Password validation
+        if (
+                user.getPassword() == null ||
+                user.getPassword().isBlank()
+        ) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Password is required");
         }
-
+        // Email validation
+        if (
+                user.getEmail() == null ||
+                user.getEmail().isBlank()
+        ) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Email is required");
+        }
+        // Name validation
+        if (
+                user.getName() == null ||
+                user.getName().isBlank()
+        ) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Name is required");
+        }
+        User newUser =
+                userService.register(user);
+        if (newUser != null) {
+            return ResponseEntity.ok(
+                    newUser
+            );
+        }
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("Email already exists");
     }
-
-    // Login
+    // =========================
+    // LOGIN
+    // =========================
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(
+            @RequestBody LoginRequest loginRequest
+    ) {
+        // Email validation
+        if (
+                loginRequest.getEmail() == null ||
+                loginRequest.getEmail().isBlank()
+        ) {
 
-        User user = userService.authenticate(
-                loginRequest.getEmail(),
-                loginRequest.getPassword()
-        );
-
+            return ResponseEntity
+                    .badRequest()
+                    .body("Email is required");
+        }
+        // Password validation
+        if (
+                loginRequest.getPassword() == null ||
+                loginRequest.getPassword().isBlank()
+        ) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Password is required");
+        }
+        User user =
+                userService.authenticate(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                );
         if (user != null) {
             return ResponseEntity.ok(user);
         }
-
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid email or password");

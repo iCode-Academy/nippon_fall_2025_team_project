@@ -53,11 +53,15 @@
             <button onclick="addToCart({id:2, name:'Sushi', price:15})">
                 Add Sushi (TEST)
             </button>
-
             <div class="login">
-                <!-- Товчлуурууд дээр onclick нэмсэн -->
-                <button id="signIn" onclick="openLoginModal()">Sign in</button>
-                <button id="createacc" onclick="openRegisterModal()">Create account</button>
+                <button id="signIn" onclick="goToLogin()">
+                    Sign in
+                </button>
+
+                <button id="createacc" onclick="goToRegister()">
+                    Create account
+                </button>
+
             </div>
         </div>
     </div>
@@ -93,19 +97,6 @@
             <div class="manage-list" id="manageList"></div>
         </div>
     </div>
-    <div id="loginModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-    <div id="registerModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-
     <div class="layout">
         <div class="switch-body">
             <div class="filter-container">
@@ -169,7 +160,7 @@
                 <iframe src="restaurantlist.html" id="restaurantIframe" class="restaurant-list-iframe" frameborder="0"
                     scrolling="no">
                 </iframe>
-                
+
             </div>
         </div>
 
