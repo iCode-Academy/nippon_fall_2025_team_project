@@ -1,310 +1,376 @@
-
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FoodieGo — Нэвтрэх</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-  :root {
-    --brand: #00B050;
-    --brand-soft: #EFFFF4;
-    --dark: #0f0d0b;
-    --card-bg: #ffffff;
-    --text: #1a1714;
-    --muted: #7a7068;
-    --border: #e8e2db;
-    --input-bg: #faf8f5;
-    --error: #d93025;
-  }
- 
-  body {
-    min-height: 100vh;
-    background: #faf7f3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Sans', sans-serif;
-    position: relative;
-    overflow: hidden;
-  }
- 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(0, 176, 80, 0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
- 
-  body::after {
-    content: '';
-    position: fixed;
-    bottom: -150px; left: -150px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(0, 200, 100, 0.06 ) 0%, transparent 70%);
-    pointer-events: none;
-  }
- 
-  .card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 48px 44px;
-    width: 100%;
-    max-width: 440px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.08);
-    position: relative;
-    z-index: 1;
-    animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
-  }
- 
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
- 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 36px;
-  }
- 
-  .logo-icon {
-    width: 40px; height: 40px;
-    background: var(--brand);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
- 
-  .logo-text {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
- 
-  .logo-text span { color: var(--brand); }
- 
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
- 
-  .subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
- 
-  .field {
-    margin-bottom: 18px;
-  }
- 
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 7px;
-    letter-spacing: 0.1px;
-  }
- 
-  input {
-    width: 100%;
-    padding: 13px 16px;
-    background: var(--input-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
- 
-  input:focus {
-    border-color: var(--brand);
-    box-shadow: 0 0 0 3px rgba(255,77,0,0.1);
-    background: #fff;
-  }
- 
-  input::placeholder { color: #bbb5ac; }
- 
-  .forgot {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -10px;
-    margin-bottom: 24px;
-  }
- 
-  .forgot a {
-    font-size: 13px;
-    color: var(--brand);
-    text-decoration: none;
-    font-weight: 500;
-  }
- 
-  .forgot a:hover { text-decoration: underline; }
- 
-  .btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.2px;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(0, 176, 80, 0.2);
-  }
- 
-  .btn:hover { background: #009645; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 176, 80, 0.3); }
-  .btn:active { transform: translateY(0); }
- 
-  .btn.loading {
-    pointer-events: none;
-    opacity: 0.8;
-  }
- 
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 24px 0;
-    color: var(--muted);
-    font-size: 13px;
-  }
- 
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
- 
-  .register-link {
-    text-align: center;
-    font-size: 14px;
-    color: var(--muted);
-  }
- 
-  .register-link a {
-    color: var(--brand);
-    font-weight: 500;
-    text-decoration: none;
-  }
- 
-  .register-link a:hover { text-decoration: underline; }
- 
-  .msg {
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-bottom: 16px;
-    display: none;
-  }
- 
-  .msg.error { background: #fff0ef; color: var(--error); border: 1px solid #ffd5d3; display: block; }
-  .msg.success { background: #f0fff4; color: #1a7a3c; border: 1px solid #c3e8d0; display: block; }
-</style>
-</head>
-<body>
- 
-<div class="card">
-  <div class="logo">
-    <div class="logo-icon">🍣</div>
-    <div class="logo-text">Foodie<span>Go</span></div>
-  </div>
- 
-  <h1>Тавтай морил</h1>
-  <p class="subtitle">Дансандаа нэвтэрч захиалгаа өгөөрэй</p>
- 
-  <div id="msg" class="msg"></div>
- 
-  <div class="field">
-    <label for="email">И-мэйл хаяг</label>
-    <input type="email" id="email" placeholder="example@email.com" autocomplete="email" />
-  </div>
- 
-  <div class="field">
-    <label for="password">Нууц үг</label>
-    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
-  </div>
- 
-  <div class="forgot"><a href="#">Нууц үгээ мартсан уу?</a></div>
- 
-  <button class="btn" id="loginBtn" onclick="handleLogin()">Нэвтрэх</button>
- 
-  <div class="divider">эсвэл</div>
- 
-  <div class="register-link">
-    Бүртгэл байхгүй юу? <a href="register.html">Бүртгүүлэх</a>
-  </div>
-</div>
- 
-<script>
-async function handleLogin() {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-  const btn = document.getElementById('loginBtn');
-  const msg = document.getElementById('msg');
- 
-  msg.className = 'msg';
-  msg.textContent = '';
- 
-  if (!email || !password) {
-    msg.className = 'msg error';
-    msg.textContent = 'И-мэйл болон нууц үгээ оруулна уу.';
-    return;
-  }
- 
-  btn.textContent = 'Нэвтэрч байна...';
-  btn.classList.add('loading');
- 
-  try {
-    const res = await fetch('/api/user/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
- 
-    const text = await res.text();
- 
-    if (res.ok) {
-      msg.className = 'msg success';
-      msg.textContent = text;
-      setTimeout(() => { window.location.href = '/index.html'; }, 1200);
-    } else {
-      msg.className = 'msg error';
-      msg.textContent = text;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodieGo — Sign In</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  } catch (e) {
-    msg.className = 'msg error';
-    msg.textContent = 'Сервертэй холбогдоход алдаа гарлаа.';
-  }
- 
-  btn.textContent = 'Нэвтрэх';
-  btn.classList.remove('loading');
-}
- 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleLogin();
-});
-</script>
+
+    :root {
+      --brand: #00B050;
+      --brand-soft: #EFFFF4;
+      --dark: #0f0d0b;
+      --card-bg: #ffffff;
+      --text: #1a1714;
+      --muted: #7a7068;
+      --border: #e8e2db;
+      --input-bg: #faf8f5;
+      --error: #d93025;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: #faf7f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 176, 80, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 200, 100, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 20px 60px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--brand);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text span {
+      color: var(--brand);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 7px;
+      letter-spacing: 0.1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0, 176, 80, 0.1);
+      background: #fff;
+    }
+
+    input::placeholder {
+      color: #bbb5ac;
+    }
+
+    .forgot {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -10px;
+      margin-bottom: 24px;
+    }
+
+    .forgot a {
+      font-size: 13px;
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0, 176, 80, 0.2);
+    }
+
+    .btn:hover {
+      background: #009645;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 176, 80, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .register-link a {
+      color: var(--brand);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    .msg {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .msg.error {
+      background: #fff0ef;
+      color: var(--error);
+      border: 1px solid #ffd5d3;
+      display: block;
+    }
+
+    .msg.success {
+      background: #f0fff4;
+      color: #1a7a3c;
+      border: 1px solid #c3e8d0;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="logo">
+      <div class="logo-icon">🍣</div>
+      <div class="logo-text">Foodie<span>Go</span></div>
+    </div>
+
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Please sign in to your account</p>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="field">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="example@email.com" autocomplete="email" />
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <div class="forgot"><a href="#">Forgot password?</a></div>
+
+    <button class="btn" id="loginBtn" onclick="handleLogin()">Sign In</button>
+
+    <div class="divider">or</div>
+
+    <div class="register-link">
+      Don't have an account? <a href="register.html">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    async function handleLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('loginBtn');
+      const msg = document.getElementById('msg');
+
+      msg.className = 'msg';
+      msg.textContent = '';
+
+      if (!email || !password) {
+        msg.className = 'msg error';
+        msg.textContent = 'Please enter your email and password.';
+        return;
+      }
+
+      btn.textContent = 'Signing in...';
+      btn.classList.add('loading');
+
+      try {
+        // URL нь таны Backend-ийн порттой (8080) яг таарах ёстой
+        const res = await fetch('http://localhost:8080/api/user/login', {
+          method: 'POST', // Энэ метод нь Backend-ийн @PostMapping-той таарах ёстой
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (res.ok) {
+          const user = await res.json(); // Backend must return user object with 'role'
+
+          msg.className = 'msg success';
+          msg.textContent = 'Login successful! Redirecting...';
+
+          // Redirect based on ROLE
+          setTimeout(() => {
+            if (user.role === 'ADMIN') {
+              window.location.href = '/admin-dashboard.html';
+            } else if (user.role === 'RESTAURANT') {
+              window.location.href = '/restaurant-dashboard.html';
+            } else {
+              window.location.href = '/index.html'; // Default for CUSTOMER
+            }
+          }, 1000);
+
+        } else {
+          const text = await res.text();
+          msg.className = 'msg error';
+          msg.textContent = text || 'Invalid email or password.';
+        }
+      } catch (e) {
+        msg.className = 'msg error';
+        msg.textContent = 'Failed to connect to the server.';
+      } finally {
+        btn.textContent = 'Sign In';
+        btn.classList.remove('loading');
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleLogin();
+    });
+  </script>
 </body>
+
 </html>
