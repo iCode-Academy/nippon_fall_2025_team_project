@@ -2,18 +2,18 @@ const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
 
 // restaurantlist.js
 function toggleModal(show) {
-    const modal = window.parent.document.getElementById('resModalOverlay');
+    const modal = document.getElementById('resModalOverlay');
     if (modal) {
         modal.style.display = show ? 'flex' : 'none';
-        window.parent.document.body.style.overflow = show ? 'hidden' : 'auto';
+        document.body.style.overflow = show ? 'hidden' : 'auto';
     }
 }
 
 function resetForm() {
-    const doc = window.parent.document;  
+    const doc = document;
     const ids = ['resName', 'resPhone', 'resAddress', 'resHours', 'resTime', 'resFee', 'resRating', 'resDesc', 'resImage'];
     ids.forEach(id => {
-        const el = doc.getElementById(id);  
+        const el = doc.getElementById(id);
         if (el) el.value = '';
     });
 }
@@ -53,7 +53,7 @@ async function compressImage(file, maxWidth, maxHeight) {
 
 // login uyd
 async function saveRestaurant() {
-       const doc = window.parent.document; 
+    const doc = document;
 
     const name = doc.getElementById('resName').value.trim();
     const address = doc.getElementById('resAddress').value.trim();
@@ -118,28 +118,28 @@ async function loadRestaurants() {
         document.getElementById('resCount').innerText = data.length;
         const list = document.getElementById('restaurantList');
         // loadRestaurants функц доторх map хэсэг
-list.innerHTML = data.map(item => {
-    let imgSource = "";
-    // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
-    const rawUrl = item.logoUrl || item.logo_url;
-    if (rawUrl) {
-        if (rawUrl.startsWith('http')) {
-            // 1. Интернэт линк байвал (https://...)
-            imgSource = rawUrl;
-        } else if (rawUrl.startsWith('data:image')) {
-            // 2. Base64 текст байвал
-            imgSource = rawUrl;
-        } else {
-            // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
-            // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
-            imgSource = `./picture/${rawUrl}`;
-        }
-    } else {
-        // 4. Зураг огт байхгүй бол default зураг
-        imgSource = './picture/Layout/no image.jpg';
-    }
+        list.innerHTML = data.map(item => {
+            let imgSource = "";
+            // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
+            const rawUrl = item.logoUrl || item.logo_url;
+            if (rawUrl) {
+                if (rawUrl.startsWith('http')) {
+                    // 1. Интернэт линк байвал (https://...)
+                    imgSource = rawUrl;
+                } else if (rawUrl.startsWith('data:image')) {
+                    // 2. Base64 текст байвал
+                    imgSource = rawUrl;
+                } else {
+                    // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
+                    // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
+                    imgSource = `./picture/${rawUrl}`;
+                }
+            } else {
+                // 4. Зураг огт байхгүй бол default зураг
+                imgSource = './picture/Layout/no image.jpg';
+            }
 
-return `
+            return `
     <div class="res-card">
         <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
         <div class="res-info">
@@ -162,7 +162,10 @@ return `
     </div>
 `;
 
-}).join('');
+        }).join('');
+        if (window.parent.resizeIframe) {
+            window.parent.resizeIframe();
+        }
     } catch (err) {
         console.error("Мэдээлэл ачаалахад алдаа:", err);
     }
@@ -178,20 +181,17 @@ async function deleteRestaurant(id) {
     }
 }
 
-
-
 document.addEventListener("DOMContentLoaded", loadRestaurants);
 // Модалын гадна (overlay) дарахад хаах логик
-window.onclick = function(event) {
-    const modal = document.getElementById('modalOverlay');
-    // Хэрэв дарагдсан элемент нь модал өөрөө (overlay) мөн бол хаана
-    if (event.target == modal) {
+window.onclick=function(event){
+    const modal=document.getElementById('resModalOverlay');
+    if(event.target==modal){
         toggleModal(false);
     }
 }
 
 function showValidationPopup(msg, isSuccess = false) {
-    const doc = window.parent.document;
+    const doc = document;
     const popup = doc.getElementById('validationPopup');
     const msgEl = doc.getElementById('validationMsg');
     msgEl.innerText = msg;

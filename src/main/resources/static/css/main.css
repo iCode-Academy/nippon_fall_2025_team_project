@@ -145,17 +145,21 @@ body {
 }
 
 
-.layout {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 30px;
-    border-radius: 16px;
+.layout{
     background-color: white;
-    min-height: 1500px; /* height биш min-height болгох нь дээр */
+    display:flex;
+    align-items:flex-start;
+    gap:30px;
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:30px;
+    height:auto;
+}
+
+.layout-body {
+    height:auto;
+    min-height:100%;
 }
 /* =============================== */
 /* 🧾 CART POPUP (dropdown style) */
@@ -591,25 +595,30 @@ input:checked+.slider:before {
 }
 
 /* Iframe-ийг агуулах контейнер */
-.restaurant-list-wrapper {
-    width: 100%;
-    margin-top: 20px;
-     flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    
+.restaurant-list-wrapper{
+    width:100%;
+    margin-top:20px;
+    flex:1;
+    min-width:0;
+    position:relative;
 }
 
 /* Iframe өөрөө */
-#restaurantIframe {
-    width: 100% !important;
-    min-height: 500px;
-    height: auto;
-    border: none;
-    display: block;
-    transition: height 0.2s ease;
+#restaurantIframe{
+    width:100%;
+    height:800px;
+    border:none;
+    display:block;
+    overflow:hidden;
 }
+
+.restaurant-list-iframe{
+    width:100%;
+    border:none;
+    display:block;
+    overflow:visible;
+}
+
 /* Модалын арын бүдгэрүүлсэн хэсэг */
 .modal-overlay {
     position: fixed; /* Дэлгэц гүйлгэсэн ч байрандаа байна */
