@@ -282,8 +282,11 @@ function resizeIframe(){
 
     iframe.style.height='0px';
 
-    iframe.style.height=
-        innerDoc.body.scrollHeight+'px';
+    const contentHeight=innerDoc.body.scrollHeight;
+
+    const finalHeight=Math.max(contentHeight,800);
+
+    iframe.style.height=finalHeight+'px';
 }
 
 // =========================
