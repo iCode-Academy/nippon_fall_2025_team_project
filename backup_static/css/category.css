@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+.page-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 82px;
+    border: 2px solid;
+    margin: 0 auto;
+    padding: 20px;
+    
+    
+}
+
+.category-section {
+    position: relative;
+    width: 75.55vw;
+    max-width: 1088px;
+    margin: 20px auto;
+    background-color: #E3E8EB;
+}
+
+.slider-outer-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.category-container {
+    width: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+}
+
+.category-list {
+    display: flex;
+    width: 100%;             
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 0;
+}
+
+
+.cat-item {
+    flex: 0 0 auto; 
+    text-align: center
+}
+
+.cat-item:hover {
+    transform: translateY(-3px);
+}
+
+.cat-item img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.cat-item span {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    justify-content: center;
+    flex: 0 0 auto; 
+    text-align: center; 
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.admin-add-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-icon-circle {
+    width: 45px;
+    height: 45px;
+    background-color: #f8f9fa;
+    border: 2px dashed #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: #10b981;
+}
+
+.nav-btn {
+    position: absolute;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-btn.prev { left: -15px; }
+.nav-btn.next { right: -15px; }
+
+.modal {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 2000;
+    backdrop-filter: blur(4px); 
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 400px;
+    margin: 10vh auto; 
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+    font-size: 26px;
+    color: #999;
+}
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: #f9f9f9;
+}
+
+.form-group input:focus {
+    border-color: #10b981;
+    background: #fff;
+}
+
+.btn-add {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #059669;
+}
+
+.manage-list {
+    margin-top: 25px;
+    max-height: 250px; 
+    overflow-y: auto; 
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.manage-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.manage-item:last-child {
+    border-bottom: none;
+}
+
+.manage-item div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.manage-item img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.manage-item span {
+    font-size: 14px;
+    color: #444;
+}
+
+.del-icon {
+    color: #ff7675;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+.del-icon:hover {
+    color: #d63031;
+    transform: scale(1.1);
+}
+
+.manage-list::-webkit-scrollbar { width: 4px; }
+.manage-list::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
