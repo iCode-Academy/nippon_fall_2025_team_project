@@ -1,4 +1,5 @@
 const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
+const CATEGORY_API_URL = "http://localhost:8080/api/categories";
 
 // restaurantlist.js
 function toggleModal(show) {
@@ -54,9 +55,9 @@ async function compressImage(file, maxWidth, maxHeight) {
 // login uyd
 async function saveRestaurant() {
     const doc = document;
-
     const name = doc.getElementById('resName').value.trim();
     const address = doc.getElementById('resAddress').value.trim();
+    const categoryId = doc.getElementById('resCategory').value;
 
     if (!name) {
         showValidationPopup("Рестораны нэр оруулна уу!");
@@ -64,6 +65,10 @@ async function saveRestaurant() {
     }
     if (!address) {
         showValidationPopup("Хаяг оруулна уу!");
+        return;
+    }
+    if (!categoryId) {
+        showValidationPopup("Category сонгоно уу!");
         return;
     }
 
@@ -87,7 +92,8 @@ async function saveRestaurant() {
         deliveryFee: parseFloat(doc.getElementById('resFee').value) || 0,
         rating: parseFloat(doc.getElementById('resRating').value) || 0,
         description: doc.getElementById('resDesc').value,
-        logoUrl: base64Image
+        logoUrl: base64Image,
+        category: { id: parseInt(categoryId) }
     };
 
     try {
@@ -97,9 +103,12 @@ async function saveRestaurant() {
             body: JSON.stringify(restaurantData)
         });
         if (response.ok) {
+            await loadRestaurants();
             toggleModal(false);
             resetForm();
-            loadRestaurants();
+            if (window.parent.resizeIframe) {
+                window.parent.resizeIframe();
+            }
             showValidationPopup("Амжилттай хадгаллаа!", true);  // ← isSuccess: true
         } else {
             showValidationPopup("Хадгалахад алдаа гарлаа!");
@@ -144,7 +153,7 @@ async function loadRestaurants() {
         <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
         <div class="res-info">
             <h3>${item.name}</h3>
-            <p class="category">${item.description || 'Sushi, Asian'}</p>
+            <p class="category">${item.category?.categoryName || 'No category'}</p>
             <div class="res-details">
                 <span><i class="fas fa-star star-icon"></i> <b>${item.rating || 0} (120+)</b></span>
                 <span class="dot">●</span>
@@ -161,7 +170,6 @@ async function loadRestaurants() {
         </button>
     </div>
 `;
-
         }).join('');
         if (window.parent.resizeIframe) {
             window.parent.resizeIframe();
@@ -183,9 +191,9 @@ async function deleteRestaurant(id) {
 
 document.addEventListener("DOMContentLoaded", loadRestaurants);
 // Модалын гадна (overlay) дарахад хаах логик
-window.onclick=function(event){
-    const modal=document.getElementById('resModalOverlay');
-    if(event.target==modal){
+window.onclick = function (event) {
+    const modal = document.getElementById('resModalOverlay');
+    if (event.target == modal) {
         toggleModal(false);
     }
 }
@@ -201,3 +209,23 @@ function showValidationPopup(msg, isSuccess = false) {
     setTimeout(() => popup.classList.remove('show', 'success'), 3000);
 }
 
+async function loadCategories() {
+    try {
+        const res = await fetch(CATEGORY_API_URL);
+        const categories = await res.json();
+        const select = document.getElementById('resCategory');
+        select.innerHTML = '<option value="">Category сонгоно уу</option>';
+        categories.forEach(cat => {
+            select.innerHTML += `<option value="${cat.id}">${cat.categoryName}</option>`;
+        });
+    } catch (err) {
+        console.error("Category load error:", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadRestaurants();
+    loadCategories();
+});
+
+window.loadCategories = loadCategories;
