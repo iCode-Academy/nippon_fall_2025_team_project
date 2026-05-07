@@ -31,13 +31,13 @@ public class RestaurantController {
         return ResponseEntity.ok(savedRestaurant);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRestaurant(@PathVariable Long id) {
-        return restaurantRepository.findById(id)
-                .map(restaurant -> {
-                    restaurantRepository.delete(restaurant);
-                    return ResponseEntity.ok("Амжилттай устлаа");
-                })
-                .orElse(ResponseEntity.status(404).body("Олдсонгүй"));
-    }
+  @DeleteMapping("/{id}")
+public ResponseEntity<String> deleteRestaurant(@PathVariable("id") Long id) {
+    return restaurantRepository.findById(id)
+            .map(restaurant -> {
+                restaurantRepository.delete(restaurant);
+                return ResponseEntity.ok("Амжилттай устлаа");
+            })
+            .orElse(ResponseEntity.status(404).body("Олдсонгүй"));
+}
 }

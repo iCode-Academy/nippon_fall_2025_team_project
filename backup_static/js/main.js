@@ -17,7 +17,7 @@ function updateCartCount() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log("FoodieGo үндсэн JS ачаалагдлаа.");
 
     loadRestaurants();
@@ -227,15 +227,7 @@ function decreaseQty(id) {
 function goToCheckout() {
     if (cart.length === 0) return;
     localStorage.setItem("cart", JSON.stringify(cart));
-
-    if (!isLoggedIn) {
-        // login hiisnii daraa checkout ruu butsna
-        localStorage.setItem("redirectAfterLogin", "checkout.html");
-        window.location.href = "login.html";
-    } else {
-        // shuud checkout
-        window.location.href = "checkout.html";
-    }
+    window.location.href = "checkout.html";
 }
 
 

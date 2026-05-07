@@ -336,31 +336,28 @@
           body: JSON.stringify({ email, password })
         });
 
-        if (!res.ok) {
-      throw new Error("Login failed");
-    }
- 
-    const user = await res.json();
+        if (res.ok) {
+          const user = await res.json(); // Backend must return user object with 'role'
 
-    // hadgalna
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userId", user.id);
-    localStorage.setItem("userName", user.name);
+          msg.className = 'msg success';
+          msg.textContent = 'Login successful! Redirecting...';
 
-    msg.className = 'msg success';
-    msg.textContent = "Login successful! Redirecting...";
- 
-    setTimeout(() => {
-      const redirect = localStorage.getItem("redirectAfterLogin");
+          // Redirect based on ROLE
+          setTimeout(() => {
+            if (user.role === 'ADMIN') {
+              window.location.href = '/admin-dashboard.html';
+            } else if (user.role === 'RESTAURANT') {
+              window.location.href = '/restaurant-dashboard.html';
+            } else {
+              window.location.href = '/index.html'; // Default for CUSTOMER
+            }
+          }, 1000);
 
-      if (redirect) {
-        localStorage.removeItem("redirectAfterLogin");
-        window.location.href = redirect;
-      } else {
-        window.location.href = 'index.html';
-      }
-    }, 1000);
-
+        } else {
+          const text = await res.text();
+          msg.className = 'msg error';
+          msg.textContent = text || 'Invalid email or password.';
+        }
       } catch (e) {
         msg.className = 'msg error';
         msg.textContent = 'Failed to connect to the server.';
