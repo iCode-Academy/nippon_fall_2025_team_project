@@ -53,11 +53,15 @@
             <button onclick="addToCart({id:2, name:'Sushi', price:15})">
                 Add Sushi (TEST)
             </button>
-
             <div class="login">
-                <!-- Товчлуурууд дээр onclick нэмсэн -->
-                <button id="signIn" onclick="openLoginModal()">Sign in</button>
-                <button id="createacc" onclick="openRegisterModal()">Create account</button>
+                <button id="signIn" onclick="goToLogin()">
+                    Sign in
+                </button>
+
+                <button id="createacc" onclick="goToRegister()">
+                    Create account
+                </button>
+
             </div>
         </div>
     </div>
@@ -93,42 +97,6 @@
             <div class="manage-list" id="manageList"></div>
         </div>
     </div>
-    <div id="loginModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-    <div id="registerModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-    <div id="resModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
-    <div class="modal-content" style="background:#fff; padding:30px; border-radius:15px; width:500px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.2); max-height:90vh; overflow-y:auto;">
-        <span class="close" onclick="closeResModal()" style="position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer; color:#888;">
-            <i class="fas fa-times"></i>
-        </span>
-        <h3>Шинэ ресторан нэмэх</h3>
-        <div class="modal-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:15px;">
-            <div class="form-group"><label>Нэр *</label><input type="text" id="resName" placeholder="Рестораны нэр"></div>
-            <div class="form-group"><label>Утас</label><input type="text" id="resPhone" placeholder="Утасны дугаар"></div>
-            <div class="form-group full-width" style="grid-column:span 2"><label>Хаяг *</label><input type="text" id="resAddress" placeholder="Дүүрэг, хороо, гудамж..."></div>
-            <div class="form-group"><label>Ажиллах цаг</label><input type="text" id="resHours" placeholder="09:00 - 22:00"></div>
-            <div class="form-group"><label>Хүргэлтийн хугацаа (мин)</label><input type="number" id="resTime" placeholder="30"></div>
-            <div class="form-group"><label>Хүргэлтийн төлбөр (₮)</label><input type="text" id="resFee" placeholder="5000" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
-            <div class="form-group"><label>Үнэлгээ (Rating)</label><input type="number" id="resRating" step="0.1" min="0" max="5" placeholder="4.5"></div>
-            <div class="form-group full-width" style="grid-column:span 2"><label>Тайлбар</label><textarea id="resDesc" rows="2" placeholder="Рестораны тухай товч..."></textarea></div>
-            <div class="form-group full-width" style="grid-column:span 2"><label>Лого зураг сонгох</label><input type="file" id="resImage" accept="image/*"></div>
-        </div>
-        <div style="display:flex; gap:10px; margin-top:25px;">
-            <button onclick="closeResModal()" style="flex:1; background:#eee; border:none; padding:12px; border-radius:8px; cursor:pointer;">Болих</button>
-            <button onclick="saveRestaurantFromParent()" style="flex:1; background:#00b050; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer;">Хадгалах</button>
-        </div>
-    </div>
-</div>
-
     <div class="layout">
         <div class="switch-body">
             <div class="filter-container">
@@ -193,7 +161,7 @@
                 <iframe src="restaurantlist.html" id="restaurantIframe" class="restaurant-list-iframe" frameborder="0"
                     scrolling="no">
                 </iframe>
-                
+
             </div>
         </div>
 
