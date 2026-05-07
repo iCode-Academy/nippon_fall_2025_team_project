@@ -57,13 +57,12 @@
                 <button id="signIn" onclick="goToLogin()">
                     Sign in
                 </button>
-
                 <button id="createacc" onclick="goToRegister()">
                     Create account
                 </button>
-
             </div>
         </div>
+    </div>
     </div>
 
     <div class="category-section">
@@ -139,22 +138,22 @@
                 <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
                     <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
                     <i class="fas fa-chevron-down custom-dropdown-icon"></i>
-                
 
-                <div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
-                    <p class="sort-title">Sort by</p>
-                    <label class="sort-option"><input type="radio" name="sort" value="recommended" checked>
-                        Recommended</label>
-                    <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order
-                        (A–Z)</label>
-                    <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order
-                        (Z–A)</label>
-                    <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
-                    <div class="sort-actions">
-                        <button onclick="cancelSort(event)">Cancel</button>
-                        <button class="apply-btn" onclick="applySort(event)">Apply</button>
+
+                    <div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
+                        <p class="sort-title">Sort by</p>
+                        <label class="sort-option"><input type="radio" name="sort" value="recommended" checked>
+                            Recommended</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order
+                            (A–Z)</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order
+                            (Z–A)</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
+                        <div class="sort-actions">
+                            <button onclick="cancelSort(event)">Cancel</button>
+                            <button class="apply-btn" onclick="applySort(event)">Apply</button>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
             <div class="restaurant-list-wrapper">
@@ -167,13 +166,13 @@
 
     </div>
     <div id="validationPopup">
-    <span id="validationMsg"></span>
-</div>
-    
+        <span id="validationMsg"></span>
+    </div>
+
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/login.js"></script>
-    <script src="./js/register.js"></script>
+    <script src="./js/auth-ui.js"></script>
 </body>
 
 </html>
