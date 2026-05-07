@@ -2,7 +2,6 @@ package foodiego.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import foodiego.model.Restaurant;
 import foodiego.repository.RestaurantRepository;
 

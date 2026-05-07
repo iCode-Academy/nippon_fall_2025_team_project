@@ -1,25 +1,4 @@
-// Элемент барьж авах
-// const loginModal = document.getElementById('loginModal');
-// const registerModal = document.getElementById('registerModal');
-// const signInBtn = document.getElementById('signIn');
-// const createAccBtn = document.getElementById('createacc');
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("FoodieGo үндсэн JS ачаалагдлаа.");
-    // 1. Өгөгдөл ачаалах
-    loadRestaurants();
-    setupSearch();
-    // 2. Эрх шалгаж UI-г шинэчлэх (ADMIN, RESTAURANT эсвэл CUSTOMER)
-    updateUIBasedOnRole();
-    // 3. Эвент сонсогчид (Давхардлыг арилгав)
-    // const signInBtn = document.getElementById('signIn');
-    // const createAccBtn = document.getElementById('createacc');
-    // if (signInBtn) {
-    //     signInBtn.addEventListener('click', openLoginModal);
-    // }
-    // if (createAccBtn) {
-    //     createAccBtn.addEventListener('click', openRegisterModal);
-    // }
-});
+
 
 // --- UI-г эрхээр удирдах функц ---
 function updateUIBasedOnRole() {
@@ -38,40 +17,7 @@ function updateUIBasedOnRole() {
         restaurantElements.forEach(el => el.style.display = 'block');
     }
 }
-// --- Ресторан ачаалах функц ---
-async function loadRestaurants() {
-    const restaurantList = document.getElementById('restaurantList');
-    if (!restaurantList) return;
-    try {
-        const response = await fetch('http://localhost:8080/api/restaurants');
-        const data = await response.json();
-        restaurantList.innerHTML = '';
-        data.forEach(res => {
-            // Энд жишээ нь "Устгах" товч зөвхөн ADMIN-д харагдахаар класс нэмж болно
-            const card = `
-                <div class="col-md-4 mb-4">
-                    <div class="card restaurant-card">
-                        <div onclick="location.href='restaurant-detail.html?id=${res.id}'" style="cursor:pointer;">
-                            <img src="${res.imageUrl || 'img/default-res.jpg'}" class="card-img-top restaurant-img" alt="${res.name}">
-                            <div class="card-body">
-                                <h5 class="card-title">${res.name}</h5>
-                                <p class="card-text text-muted">${res.description || 'Амттай хоол, тухтай орчин'}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="rating-badge">★ ${res.rating || '5.0'}</span>
-                                    <small class="text-muted">${res.address}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            restaurantList.innerHTML += card;
-        });
-    } catch (error) {
-        console.error("Ресторан ачаалахад алдаа гарлаа:", error);
-        restaurantList.innerHTML = '<p class="text-danger text-center">Өгөгдөл ачаалахад алдаа гарлаа.</p>';
-    }
-}
+
 // --- Хайлтын функц ---
 function setupSearch() {
     const searchInput = document.getElementById('searchInput');
@@ -82,13 +28,6 @@ function setupSearch() {
     }
 }
 
-// --- Модал удирдах функцууд ---
-// const loginModal = document.getElementById('loginModal');
-// const registerModal = document.getElementById('registerModal');
-// function openLoginModal() { if (loginModal) loginModal.style.display = 'flex'; }
-// function closeLoginModal() { if (loginModal) loginModal.style.display = 'none'; }
-// function openRegisterModal() { if (registerModal) registerModal.style.display = 'flex'; }
-// function closeRegisterModal() { if (registerModal) registerModal.style.display = 'none'; }
 // // ===============================
 // 🛒 CART LOGIC (САГСНЫ ҮНДСЭН ЛОГИК)
 // ==================================
@@ -105,32 +44,53 @@ function updateCartCount() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded',()=>{
+
     console.log("FoodieGo үндсэн JS ачаалагдлаа.");
 
-    // 1. Рестораны жагсаалтыг ачаалах
-    // loadRestaurants();
-    // Модол нээх
-    // signInBtn.onclick = function () {
-    //     loginModal.style.display = "block";
-    // }
+    setupSearch();
+    updateUIBasedOnRole();
 
-    // createAccBtn.onclick = function () {
-    //     registerModal.style.display = "block";
-    // }
+    const iframe=document.getElementById('restaurantIframe');
 
-    window.onclick = function(event) {
-        if (event.target == loginModal) {
-            loginModal.style.display = "none";
-        }
-        if (event.target == registerModal) {
-            registerModal.style.display = "none";
-        }
-        if (typeof catModal !== 'undefined' && event.target == catModal) {
-            catModal.style.display = "none";
-        }
+    if(iframe){
+        iframe.onload=resizeIframe;
     }
 
+    window.onclick=function(event){
+        if(typeof catModal!=='undefined'&&event.target==catModal){
+            catModal.style.display='none';
+        }
+    };
+
+    // Stars rating
+    document.querySelectorAll('.stars i').forEach((star,index,stars)=>{
+
+        star.addEventListener('mouseover',()=>{
+            stars.forEach((s,i)=>{
+                s.className=i<=index?'fas fa-star':'far fa-star';
+            });
+        });
+
+        star.addEventListener('mouseout',()=>{
+            const saved=parseInt(document.querySelector('.stars').dataset.rating||0);
+
+            stars.forEach((s,i)=>{
+                s.className=i<saved?'fas fa-star':'far fa-star';
+            });
+        });
+
+        star.addEventListener('click',()=>{
+            document.querySelector('.stars').dataset.rating=index+1;
+
+            stars.forEach((s,i)=>{
+                s.className=i<=index?'fas fa-star':'far fa-star';
+            });
+        });
+
+    });
+
+});
     // Stars rating
     document.querySelectorAll('.stars i').forEach((star, index, stars) => {
         star.addEventListener('mouseover', () => {
@@ -153,24 +113,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     });
-});
-
-// Гадна талд дарахад хаах
-// window.onclick = function(event) {
-//     if (event.target === loginModal) closeLoginModal();
-//     if (event.target === registerModal) closeRegisterModal();
-// };
-
-// Iframe эсвэл бусад хуудаснаас ирэх мессеж сонсох
-// window.addEventListener('message', function(e) {
-//     if (e.data === 'openLogin') {
-//         closeRegisterModal();
-//         openLoginModal();
-//     } else if (e.data === 'openRegister') {
-//         closeLoginModal();
-//         openRegisterModal();
-//     }
-// });
 
 // ===============================
 // 🔍 SORT DROPDOWN
@@ -180,10 +122,6 @@ function toggleSortDropdown(event) {
     document.getElementById('sortPopup').classList.toggle('open');
 }
 
-// Create account товчлуур
-// document.getElementById('createacc').addEventListener('click', function () {
-//     openRegisterModal();
-// });
 function cancelSort() {
     document.getElementById('sortPopup').classList.remove('open');
 }
@@ -200,17 +138,6 @@ function applySort(event) {
     document.getElementById('sortLabel').textContent = labels[selected.value];
     document.getElementById('sortPopup').classList.remove('open');
 }
-
-    // Sign in товч → loginModal
-    // document.getElementById('signIn').addEventListener('click', function () {
-    //     openLoginModal();
-    // });
-
-    // Create account товч → registerModal
-//     document.getElementById('createacc').addEventListener('click', function () {
-//         openRegisterModal();
-//     });
-// });
 
 // ===============================
 // 🛒 TOGGLE CART POPUP
@@ -337,26 +264,27 @@ function closeResModal() {
     document.body.style.overflow = 'auto';
 }
 
-function saveRestaurantFromParent() {
-    const iframe = document.getElementById('restaurantIframe');
-    // Iframe ачаалагдаж дуусахад өндрийг нь тохируулах
-    iframe.onload = function() {
-        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-        iframe.style.height = innerDoc.body.scrollHeight + 'px';
-    };
-};
+function saveRestaurantFromParent(){
+    const iframe=document.getElementById('restaurantIframe');
+    if(iframe&&iframe.contentWindow.saveRestaurant){
+        iframe.contentWindow.saveRestaurant();
+    }
+}
 
 // Хэрэв ресторан нэмэгдэж өндөр нь өөрчлөгдвөл дахин тохируулах функц
-function resizeIframe() {
-    const iframe = document.getElementById('restaurantIframe');
-    if (iframe) {
-        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-        iframe.style.height = innerDoc.body.scrollHeight + 'px';
-    }
-};
+function resizeIframe(){
 
-// 2 секунд тутамд өндрийг шалгаж байх (Хэрэв дотор нь динамик өөрчлөлт ордог бол)
-// setInterval(resizeIframe, 2000);
+    const iframe=document.getElementById('restaurantIframe');
+
+    if(!iframe)return;
+
+    const innerDoc=iframe.contentDocument||iframe.contentWindow.document;
+
+    iframe.style.height='0px';
+
+    iframe.style.height=
+        innerDoc.body.scrollHeight+'px';
+}
 
 // =========================
 // LOGIN PAGE NAVIGATION
@@ -372,4 +300,10 @@ function goToRegister() {
 
     window.location.href =
         "login.html#register";
+}
+
+function toggleModal(show){
+    const modal=document.getElementById('resModalOverlay');
+    modal.style.display=show?'flex':'none';
+    document.body.style.overflow=show?'hidden':'auto';
 }
