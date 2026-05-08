@@ -273,19 +273,14 @@ function saveRestaurantFromParent(){
 
 // Хэрэв ресторан нэмэгдэж өндөр нь өөрчлөгдвөл дахин тохируулах функц
 function resizeIframe(){
-
     const iframe=document.getElementById('restaurantIframe');
-
     if(!iframe)return;
 
     const innerDoc=iframe.contentDocument||iframe.contentWindow.document;
-
     iframe.style.height='0px';
 
     const contentHeight=innerDoc.body.scrollHeight;
-
     const finalHeight=Math.max(contentHeight,800);
-
     iframe.style.height=finalHeight+'px';
 }
 
@@ -309,4 +304,11 @@ function toggleModal(show){
     const modal=document.getElementById('resModalOverlay');
     modal.style.display=show?'flex':'none';
     document.body.style.overflow=show?'hidden':'auto';
+}
+
+function goHome(){
+
+window.location.href=
+"index.html";
+
 }
