@@ -35,6 +35,22 @@ public class Review {
 		this.id = id;
 	}
 	
+	public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Foods getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Foods foods) {
+        this.foods = foods;
+    }
+	
 	public int getRating() {
 		return rating;
 	}
@@ -48,4 +64,5 @@ public class Review {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
 }

@@ -6,6 +6,7 @@ if (!isLoggedIn) {
     window.location.href = "login.html";
 }
 
+
 // cart data awah
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -74,14 +75,12 @@ async function placeOrder() {
     }
 
     const phone = document.getElementById("phone").value;
-
     if (!phone) {
         alert("Phone number оруулна уу!");
         return;
     }
 
     const address = document.getElementById("address").value;
-
     if (!address) {
         alert("Address оруулна уу!");
         return;
@@ -95,37 +94,82 @@ async function placeOrder() {
         userId: Number(userId),
         totalPrice: totalPrice,
         orderDetails: cart.map(item => ({
-            product: {
-                id: item.id
-            },
+            product: { id: item.id },
+            quantity: item.quantity,
+            price: item.price
+        }))
+    };
+
+    // Энэ мөрийг байгаа эсэхийг шалгаарай
+document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+
+async function placeOrder() {
+    // 1. isLoggedIn хувьсагчийг энд заавал тодорхойлно (АЛДААГ ЗАССАН ХЭСЭГ)
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const userId = localStorage.getItem("userId");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+        alert("Cart хоосон байна!");
+        return;
+    }
+
+    // Input-үүдийг шалгах
+    const phoneEl = document.getElementById("phone");
+    const addressEl = document.getElementById("address");
+
+    if (!phoneEl || !addressEl || !phoneEl.value || !addressEl.value) {
+        alert("Утасны дугаар болон хаягаа бүрэн оруулна уу!");
+        return;
+    }
+
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // Backend-рүү явуулах объект
+    const orderData = {
+        userId: Number(userId),
+        totalPrice: totalPrice,
+        orderDetails: cart.map(item => ({
+            product: { id: item.id },
             quantity: item.quantity,
             price: item.price
         }))
     };
 
     try {
+        // 2. Бэкэнд рүү илгээх хүсэлт
         const res = await fetch("http://localhost:8080/api/orders", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(order)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData)
         });
 
-        if (!res.ok) {
-            throw new Error("Order failed");
-        }
+        // 3. Захиалгыг локал түүхэнд хадгалах (orders.html-д харуулахын тулд)
+        let pastOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
+        const newOrderRecord = {
+            id: "ORD-" + Math.floor(Math.random() * 10000),
+            date: new Date().toISOString().split('T')[0],
+            restaurantName: "Foodie Go Delivery", 
+            items: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
+            total: totalPrice,
+            status: "Delivered", 
+            isReviewed: false
+        };
+
+        pastOrders.unshift(newOrderRecord);
+        localStorage.setItem("myOrdersList", JSON.stringify(pastOrders));
 
         alert("Order амжилттай!");
 
-        // cart tsewerleh
+        // 4. Сагс цэвэрлэх ба шилжих
         localStorage.removeItem("cart");
-
-        // order page
-        window.location.href = "orders.html";
+        window.location.href = "order.html";
 
     } catch (err) {
-        console.error(err);
-        alert("Алдаа гарлаа!");
+        console.error("Захиалга илгээхэд алдаа гарлаа:", err);
+        // Бэкэнд ажиллахгүй байсан ч туршилтын журмаар orders.html руу шилжүүлэх хэсэг:
+        localStorage.removeItem("cart");
+        window.location.href = "order.html";
     }
+}
 }

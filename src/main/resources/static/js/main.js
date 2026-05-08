@@ -3,19 +3,18 @@
 // --- UI-г эрхээр удирдах функц ---
 function updateUIBasedOnRole() {
     const role = localStorage.getItem("userRole");
-    console.log("Одоогийн эрх:", role);
-    // .admin-only болон .restaurant-only кластай бүх элементүүдийг олох
+    
+    // 1. Ерөнхий элементүүдийг нуух/харуулах
     const adminElements = document.querySelectorAll('.admin-only');
     const restaurantElements = document.querySelectorAll('.restaurant-only');
-    // Эхлээд бүгдийг нууна
-    adminElements.forEach(el => el.style.display = 'none');
-    restaurantElements.forEach(el => el.style.display = 'none');
-    // Эрхийн дагуу харуулна
-    if (role === "ADMIN") {
-        adminElements.forEach(el => el.style.display = 'block');
-    } else if (role === "RESTAURANT") {
-        restaurantElements.forEach(el => el.style.display = 'block');
-    }
+
+    adminElements.forEach(el => {
+        el.style.display = (role === "ADMIN") ? "flex" : "none";
+    });
+
+    restaurantElements.forEach(el => {
+        el.style.display = (role === "RESTAURANT") ? "flex" : "none";
+    });
 }
 
 // --- Хайлтын функц ---
@@ -247,6 +246,9 @@ function decreaseQty(id) {
 function goToCheckout() {
     if (cart.length === 0) return;
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    // АЛДААГ ЗАССАН ХЭСЭГ: isLoggedIn-ийг энд шууд тодорхойлж өгөх
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
     if (!isLoggedIn) {
         // login hiisnii daraa checkout ruu butsna
