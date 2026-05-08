@@ -30,6 +30,14 @@ public class RestaurantController {
         Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
         return ResponseEntity.ok(savedRestaurant);
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id){
+
+    return restaurantRepository.findById(id)
+    .map(ResponseEntity::ok)
+    .orElse(ResponseEntity.notFound().build());
+    }
 
   @DeleteMapping("/{id}")
 public ResponseEntity<String> deleteRestaurant(@PathVariable("id") Long id) {

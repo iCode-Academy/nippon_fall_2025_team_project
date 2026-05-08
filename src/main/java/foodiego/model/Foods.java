@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -30,9 +29,10 @@ public class Foods {
     @Column(nullable = false)
     private Double price;
 
+    @Column(length=500000)
     private String image;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length=5000)
     private String description;
 
     // Category холболт — ManyToOne учир нь олон хоол нэг ангилалд байна
@@ -89,7 +89,13 @@ public class Foods {
     public void setCategory(Category category) { 
     	this.category = category; 
     	}
+    public Restaurant getRestaurant(){
+    	return restaurant;
+    	}
 
+    public void setRestaurant(Restaurant restaurant){
+    	this.restaurant=restaurant;
+    	}
 
 
 }

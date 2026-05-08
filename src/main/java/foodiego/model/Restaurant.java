@@ -1,6 +1,7 @@
 package foodiego.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 @Entity
@@ -23,21 +24,26 @@ public class Restaurant {
 
     private String phoneNumber;
 
-    // PostgreSQL дээр TEXT нь 1GB хүртэл текст хадгалах боломжтой тул Base64-д төгс
-    // тохирно
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(length=500000)
     private String logoUrl;
 
+    @Column(length=500000)
     private String bannerUrl;
+
+    @Column(length=5000)
+    private String description;
     private Double rating;
     private String workingHours;
     private Integer deliveryTime;
     private Double deliveryFee;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(
+    mappedBy="restaurant",
+    cascade=CascadeType.ALL,
+    orphanRemoval=true
+    )
     private List<Foods> foods;
 
     // Getter and Setter

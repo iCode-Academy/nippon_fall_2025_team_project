@@ -149,7 +149,8 @@ async function loadRestaurants() {
             }
 
             return `
-    <div class="res-card">
+         <div class="res-card"
+        onclick="goToRestaurant(${item.id})">
         <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
         <div class="res-info">
             <h3>${item.name}</h3>
@@ -165,7 +166,11 @@ async function loadRestaurants() {
                 </span>
             </div>
         </div>
-        <button class="btn-delete" onclick="deleteRestaurant(${item.id})">
+        <button class="btn-delete"
+        onclick="
+        event.stopPropagation();
+        deleteRestaurant(${item.id})
+">
             <i class="fas fa-trash"></i>
         </button>
     </div>
@@ -229,3 +234,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.loadCategories = loadCategories;
+
+function goToRestaurant(id){
+
+window.parent.location.href=
+`restaurant.html?id=${id}`;
+
+}
