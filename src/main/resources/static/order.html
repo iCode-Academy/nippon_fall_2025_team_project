@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/orders.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go" width="150">
+        </div>
+        <div class="header-right">
+            <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+    </div>
+
+    <div class="orders-container">
+        <h2>My Orders</h2>
+        <div id="ordersList" class="orders-list"></div>
+    </div>
+
+    <div id="reviewModal" class="review-modal-overlay">
+        <div class="review-modal-content">
+            <span class="close-review" onclick="closeReviewModal()">&times;</span>
+            <h3 id="reviewResName">Review</h3>
+            
+            <div class="rating-box">
+                <p>How was your order?</p>
+                <div class="review-stars" id="starRating">
+                    <i class="far fa-star" data-value="1"></i>
+                    <i class="far fa-star" data-value="2"></i>
+                    <i class="far fa-star" data-value="3"></i>
+                    <i class="far fa-star" data-value="4"></i>
+                    <i class="far fa-star" data-value="5"></i>
+                </div>
+                <span id="ratingText" class="rating-text">Select stars</span>
+            </div>
+
+            <textarea id="reviewComment" placeholder="Write your feedback..." rows="4"></textarea>
+            <button class="submit-review-btn" onclick="submitReview()">Submit Review</button>
+        </div>
+    </div>
+
+    <script src="./js/orders.js"></script>
+</body>
+</html>
