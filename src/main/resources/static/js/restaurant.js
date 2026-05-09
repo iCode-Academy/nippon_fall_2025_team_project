@@ -140,7 +140,8 @@ async function loadRestaurant() {
             restaurant.category?.categoryName || "No category";
 
         document.getElementById("restaurantBanner").src =
-            restaurant.logoUrl || "./picture/Layout/no image.jpg";
+            (restaurant.logoUrl || "./picture/Layout/no image.jpg")
+               + '?t=' + new Date().getTime();;
 
         loadFoods(id);
         loadFoodCategories();
