@@ -45,6 +45,8 @@ public class Restaurant {
     orphanRemoval=true
     )
     private List<Foods> foods;
+    
+    private Long managerUserId;
 
     // Getter and Setter
     public Long getId() {
@@ -150,4 +152,12 @@ public class Restaurant {
     public void setCategory(Category category) {
         this.category = category;
     }
+    
+    public Long getManagerUserId() {
+		return managerUserId;
+	}
+    
+    public void setManagerUserId(Long managerUserId) {
+		this.managerUserId = managerUserId;
+	}
 }

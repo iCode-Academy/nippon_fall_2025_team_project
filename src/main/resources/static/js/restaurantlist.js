@@ -172,16 +172,55 @@ async function loadRestaurants() {
                 </span>
             </div>
         </div>
-        <button class="btn-delete"
-        onclick="
-        event.stopPropagation();
-        deleteRestaurant(${item.id})
+<button class="btn-delete"
+onclick="event.stopPropagation(); deleteRestaurant(${item.id})">
+    <i class="fas fa-trash"></i>
+</button>
+
+${(() => {
+
+    const role =
+    localStorage.getItem("userRole");
+
+    const currentUserId =
+    localStorage.getItem("userId");
+
+    const isOwner =
+    String(item.managerUserId) ===
+    String(currentUserId);
+
+    const canShowManage =
+    role === "RESTAURANT" &&
+    (
+        item.managerUserId == null ||
+        isOwner
+    );
+
+    return canShowManage ? `
+<button class="manage-btn"
+onclick="
+event.stopPropagation();
+manageRestaurant(${item.id})
 ">
-            <i class="fas fa-trash"></i>
-        </button>
+    Manage Restaurant
+</button>
+` : '';
+
+})()}
+
     </div>
 `;
         }).join('');
+
+        if (role !== "ADMIN") {
+
+            document.querySelectorAll(".btn-delete").forEach((btn) => {
+                btn.style.visibility = "hidden";
+                btn.style.pointerEvents = "none";
+            });
+
+        }
+
         if (window.parent.resizeIframe) {
             window.parent.resizeIframe();
         }
@@ -263,10 +302,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.loadCategories = loadCategories;
 
-function goToRestaurant(id){
+function goToRestaurant(id) {
 
-window.parent.location.href=
-`restaurant.html?id=${id}`;
+    window.parent.location.href =
+        `restaurant.html?id=${id}`;
+
+}
+
+// Batja:
+
+const role = localStorage.getItem("userRole");
+
+if (role !== "ADMIN") {
+
+    const addBtn = document.getElementById("addRestaurantBtn");
+
+    if (addBtn) {
+        addBtn.remove();
+    }
+
+}
+
+if (role !== "ADMIN") {
+
+    document.querySelectorAll(".btn-delete").forEach((btn) => {
+        btn.style.visibility = "hidden";
+        btn.style.pointerEvents = "none";
+    });
+
+}
+
+async function manageRestaurant(id) {
+
+    const userId =
+    localStorage.getItem("userId");
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8080/api/restaurants/${id}/claim`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userId: userId
+                })
+            }
+        );
+
+        if (!response.ok) {
+            alert("This restaurant already has a manager.");
+            return;
+        }
+
+        localStorage.setItem(
+            "managedRestaurantId",
+            id
+        );
+
+        window.parent.location.href =
+        `restaurant.html?id=${id}`;
+
+    } catch (error) {
+
+        console.error(
+            "Restaurant claim error:",
+            error
+        );
+
+    }
 
 }
 

@@ -33,3 +33,15 @@ function logout() {
     localStorage.clear();
     window.location.href = 'index.html';
 }
+
+// Batja:
+
+const role = localStorage.getItem("role");
+
+if (role != "ADMIN") {
+  
+  document.querySelectorAll(".admin-only").forEach((el) => {
+    el.computedStyleMap.display = "none";
+  });
+  
+}
