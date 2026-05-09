@@ -54,6 +54,14 @@ body{
     color:#111827;
 }
 
+/* Rating star */
+#starRating i {
+    font-size: 25px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: color 0.2s;
+}
+
 /* =========================
    PROFILE INFO
 ========================= */

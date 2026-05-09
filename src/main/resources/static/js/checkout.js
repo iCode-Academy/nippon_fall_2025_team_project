@@ -1,117 +1,78 @@
-const isLoggedIn=localStorage.getItem("isLoggedIn")==="true";
-if(!isLoggedIn){localStorage.setItem("redirectAfterLogin","checkout.html");window.location.href="login.html";}
-const cart=JSON.parse(localStorage.getItem("cart"))||[];
-const cartItemsContainer=document.getElementById("cartItems");
-const totalPriceEl=document.getElementById("totalPrice");
+// 1. Нэвтрэлт болон хэрэглэгчийн төлөвийг шалгах
+const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const userId = localStorage.getItem("userId");
 
-function renderCart(){
-if(cart.length===0){cartItemsContainer.innerHTML="<p>Your cart is empty</p>";totalPriceEl.innerText="Total: $ 0.00";return;}
-let html=cart.map(item=>`<div class="cart-item">${item.quantity}x ${item.name} - $ ${(item.price*item.quantity).toFixed(2)}</div>`).join("");
-cartItemsContainer.innerHTML=html;
-const total=cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
-totalPriceEl.innerText="Total: $ "+total.toFixed(2);
+if (!isLoggedIn || !userId) {
+    localStorage.setItem("redirectAfterLogin", "checkout.html");
+    window.location.href = "login.html";
+}
+
+// 2. Сагсны мэдээлэл болон DOM элементүүд
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const cartItemsContainer = document.getElementById("cartItems");
+const totalPriceEl = document.getElementById("totalPrice");
+
+// Сагсыг дэлгэцэнд харуулах функц
+function renderCart() {
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Таны сагс хоосон байна.</p>";
+        totalPriceEl.innerText = "Нийт: ₮0.00";
+        return;
+    }
+    
+    let html = cart.map(item => `
+        <div class="cart-item">
+            ${item.quantity}x ${item.name} - ₮${(item.price * item.quantity).toLocaleString()}
+        </div>`).join("");
+    
+    cartItemsContainer.innerHTML = html;
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    totalPriceEl.innerText = "Нийт: ₮" + total.toLocaleString();
 }
 
 renderCart();
 
-const userId=localStorage.getItem("userId");
-
-async function fetchUser(){
-const res=await fetch(`http://localhost:8080/api/user/${userId}`);
-const user=await res.json();
-const receiverNameEl=document.getElementById("receiverName");
-if(receiverNameEl){receiverNameEl.value=user.name;}
+// 3. Хэрэглэгчийн мэдээллийг серверээс авах (Хүлээн авагчийн нэрийг автоматаар бөглөх)
+async function fetchUser() {
+    try {
+        const res = await fetch(`http://localhost:8080/api/user/${userId}`);
+        const user = await res.json();
+        const receiverNameEl = document.getElementById("receiverName");
+        if (receiverNameEl && user.name) {
+            receiverNameEl.value = user.name;
+        }
+    } catch (err) {
+        console.error("User fetch error:", err);
+    }
 }
 
 fetchUser();
 
-if(!localStorage.getItem("userId")){window.location.href="login.html";}
+// 4. Захиалга хийх функц
+document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
 
-document.getElementById("placeOrderBtn").addEventListener("click",placeOrder);
+async function placeOrder() {
+    if (cart.length === 0) {
+        alert("Сагс хоосон байна!");
+        return;
+    }
 
-async function placeOrder(){
-const userId=localStorage.getItem("userId");
-const cart=JSON.parse(localStorage.getItem("cart"))||[];
+    // Input утгуудыг авах
+    const receiverName = document.getElementById("receiverName").value.trim();
+    const receiverPhone = document.getElementById("receiverPhone").value.trim();
+    const city = document.getElementById("city").value;
+    const district = document.getElementById("district").value;
+    const apartment = document.getElementById("apartment").value;
+    const roomNumber = document.getElementById("roomNumber").value;
 
-if(cart.length===0){alert("Cart хоосон байна!");return;}
+    if (!receiverName || !receiverPhone || !city || !district || !apartment || !roomNumber) {
+        alert("Мэдээллээ бүрэн оруулна уу!");
+        return;
+    }
 
-const receiverName=document.getElementById("receiverName").value;
-const receiverPhone=document.getElementById("receiverPhone").value;
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-if(!receiverName||!receiverPhone){alert("Receiver info оруулна уу!");return;}
-
-const city=document.getElementById("city").value;
-const district=document.getElementById("district").value;
-const apartment=document.getElementById("apartment").value;
-const roomNumber=document.getElementById("roomNumber").value;
-
-if(!city||!district||!apartment||!roomNumber){alert("Address мэдээллээ бүрэн оруулна уу!");return;}
-
-const totalPrice=cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
-
-const order={
-userId:Number(userId),
-totalPrice:totalPrice,
-orderDetails:cart.map(item=>({
-product:{id:item.id},
-quantity:item.quantity,
-price:item.price
-}))
-};
-
-try{
-
-await fetch(`http://localhost:8080/api/addresses?userId=${userId}`,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-city,
-district,
-apartment,
-roomNumber,
-receiverName,
-receiverPhone
-})
-});
-
-await fetch("http://localhost:8080/api/orders",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(order)
-});
-
-let pastOrders=JSON.parse(localStorage.getItem("myOrdersList"))||[];
-
-const newOrderRecord={
-id:"ORD-"+Math.floor(Math.random()*10000),
-date:new Date().toISOString().split('T')[0],
-restaurantName:"Foodie Go Delivery",
-receiverName:receiverName,
-receiverPhone:receiverPhone,
-address:`${city}, ${district}, ${apartment}, ${roomNumber}`,
-items:cart.map(i=>`${i.quantity}x ${i.name}`).join(", "),
-total:totalPrice,
-status:"Pending",
-isReviewed:false
-};
-
-pastOrders.unshift(newOrderRecord);
-localStorage.setItem("myOrdersList",JSON.stringify(pastOrders));
-localStorage.setItem("checkoutPhone",receiverPhone);
-localStorage.setItem("checkoutAddress",`${city}, ${district}, ${apartment}, ${roomNumber}`);
-localStorage.removeItem("cart");
-alert("Order амжилттай!");
-window.location.href="profile.html";
-}catch(err){
-console.error("Захиалга илгээхэд алдаа гарлаа:",err);
-alert("Order failed!");
-}
-    // 1. САГСНААС РЕСТОРАНЫ БОЛОН ХООЛНЫ ID-Г АВАХ (ЗАСВАР)
-    // Сагсанд байгаа эхний хоолны ID-нуудыг авна
-    const resId = cart.length > 0 ? cart[0].restaurantId : 1;
-    const fId = cart.length > 0 ? cart[0].id : 1;
-
-    // Backend-рүү явуулах объект
+    // Backend-рүү явуулах Order объект
     const orderData = {
         userId: Number(userId),
         totalPrice: totalPrice,
@@ -123,38 +84,58 @@ alert("Order failed!");
     };
 
     try {
-        // 2. Бэкэнд рүү илгээх хүсэлт
-        await fetch("http://localhost:8080/api/orders", {
+        // А. Хаяг хадгалах хүсэлт
+        await fetch(`http://localhost:8080/api/addresses?userId=${userId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                city, district, apartment, roomNumber, receiverName, receiverPhone
+            })
+        });
+
+        // Б. Захиалга үүсгэх хүсэлт
+        const orderRes = await fetch("http://localhost:8080/api/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(orderData)
         });
 
-        // 3. Захиалгыг локал түүхэнд хадгалах (ЗАСВАР: restaurantId болон foodId НЭМЭВ)
-        let pastOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
-        const newOrderRecord = {
-            id: "ORD-" + Math.floor(Math.random() * 10000),
-            date: new Date().toISOString().split('T')[0],
-            restaurantName: "Foodie Go Delivery", 
-            restaurantId: resId, // Одоо ID-тай хадгалагдана
-            foodId: fId,         // Сэтгэгдэл бичихэд хэрэгтэй хоолны ID
-            items: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
-            total: totalPrice,
-            status: "Delivered", 
-            isReviewed: false
-        };
+        if (orderRes.ok) {
+            // В. Локал түүхэнд (myOrdersList) хадгалах
+            // Review бичихэд хэрэгтэй restaurantId болон foodId-г сагснаас авч байна
+            let pastOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
+            
+            const resId = cart.length > 0 ? cart[0].restaurantId : null;
+            const fId = cart.length > 0 ? cart[0].id : null;
 
-        pastOrders.unshift(newOrderRecord);
-        localStorage.setItem("myOrdersList", JSON.stringify(pastOrders));
+            const newOrderRecord = {
+                id: "ORD-" + Math.floor(Math.random() * 10000),
+                date: new Date().toISOString().split('T')[0],
+                restaurantName: "Foodie Go Delivery",
+                restaurantId: resId, // Profile-аас Review бичихэд ашиглагдана
+                foodId: fId,         // Review бичихэд ашиглагдана
+                receiverName: receiverName,
+                address: `${city}, ${district}, ${apartment}, ${roomNumber}`,
+                items: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
+                total: totalPrice,
+                status: "Delivered",
+                isReviewed: false
+            };
 
-        alert("Order амжилттай!");
-        localStorage.removeItem("cart");
-        window.location.href = "order.html";
+            pastOrders.unshift(newOrderRecord);
+            localStorage.setItem("myOrdersList", JSON.stringify(pastOrders));
+
+            // Г. Сагсыг цэвэрлэх болон шилжих
+            localStorage.removeItem("cart");
+            alert("Захиалга амжилттай хийгдлээ!");
+            window.location.href = "profile.html"; // Эсвэл таны хүссэн хуудас
+        } else {
+            const errorMsg = await orderRes.text();
+            alert("Захиалга илгээхэд алдаа гарлаа: " + errorMsg);
+        }
 
     } catch (err) {
-        console.error("Захиалга илгээхэд алдаа гарлаа:", err);
-        // Алдаа гарсан ч туршилтын журмаар локал хадгалалт хийх хэсэг
-        localStorage.removeItem("cart");
-        window.location.href = "order.html";
+        console.error("Order process error:", err);
+        alert("Сервертэй холбогдоход алдаа гарлаа!");
     }
 }

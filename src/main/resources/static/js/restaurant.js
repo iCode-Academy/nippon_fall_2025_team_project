@@ -67,6 +67,7 @@ function renderFoods(foodList) {
         </div>
     `).join('');
 
+    const role = localStorage.getItem("userRole");
     if (!canManage) {
         document.querySelectorAll(".food-delete-btn").forEach((btn) => {
             btn.style.visibility = "hidden";
@@ -113,7 +114,6 @@ async function loadRestaurant() {
     }
 }
 
-// REST OF THE FUNCTIONS
 function displayRestaurantInfo(restaurant) {
     document.getElementById('restaurantName').innerText = restaurant.name;
     document.getElementById('avgRatingText').innerText = restaurant.averageRating || "0.0";

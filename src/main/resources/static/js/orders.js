@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function renderOrders() {
     const list = document.getElementById("ordersList");
+    if (!list) return;
+
     if (myOrders.length === 0) {
         list.innerHTML = "<p>You have no past orders.</p>";
         return;
@@ -108,7 +110,7 @@ async function submitReview() {
     }
 
     if (!order.restaurantId) {
-        alert("Алдаа: Рестораны ID олдсонгүй!");
+        alert("Алдаа: Рестораны ID олдсонгүй! LocalStorage-оо шалгана уу.");
         return;
     }
 
@@ -121,8 +123,8 @@ async function submitReview() {
     };
 
     try {
-        // BACKEND РҮҮ ӨГӨГДӨЛ ИЛГЭЭХ ХЭСЭГ
-        const response = await fetch('http://localhost:8080/api/reviews', { // Өөрийн API URL-аа энд бичнэ
+        // ЧУХАЛ: Endpoint хаягийг '/api/reviews/add' болгож нэгтгэв
+        const response = await fetch('http://localhost:8080/api/reviews/add', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -133,18 +135,18 @@ async function submitReview() {
         if (response.ok) {
             alert("Сэтгэгдэл амжилттай хадгалагдлаа!");
             
-            // LocalStorage дээрх төлөвийг шинэчлэх
+            // Төлөвийг шинэчилж хадгалах
             order.isReviewed = true;
             localStorage.setItem("myOrdersList", JSON.stringify(myOrders));
             
             closeReviewModal();
-            renderOrders(); // Жагсаалтыг дахин зурах
+            renderOrders(); 
         } else {
-            const errorData = await response.json();
-            alert("Алдаа гарлаа: " + (errorData.message || "Сервер хадгалж чадсангүй"));
+            const errorText = await response.text();
+            alert("Сервер дээр алдаа гарлаа: " + errorText);
         }
     } catch (error) {
         console.error("Error submitting review:", error);
-        alert("Сервертэй холбогдоход алдаа гарлаа. Backend ажиллаж байгаа эсэхийг шалгана уу.");
+        alert("Backend сервертэй холбогдоход алдаа гарлаа. Таны сервер (8080 порт) ажиллаж байгаа эсэхийг шалгана уу.");
     }
 }

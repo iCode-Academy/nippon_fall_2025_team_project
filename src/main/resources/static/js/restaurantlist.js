@@ -114,8 +114,11 @@ async function loadRestaurants() {
 }
 
 function renderList(data) {
-    document.getElementById('resCount').innerText = data.length;
+    const countEl = document.getElementById('resCount');
+    if (countEl) countEl.innerText = data.length;
+    
     const list = document.getElementById('restaurantList');
+    if (!list) return;
 
     if (data.length === 0) {
         list.innerHTML = `<div style="text-align:center; padding:40px; color:#999;"><p>Илэрц олдсонгүй</p></div>`;
@@ -205,10 +208,12 @@ async function loadCategories() {
         const res = await fetch(CATEGORY_API_URL);
         const categories = await res.json();
         const select = document.getElementById('resCategory');
-        select.innerHTML = '<option value="">Category сонгоно уу</option>';
-        categories.forEach(cat => {
-            select.innerHTML += `<option value="${cat.id}">${cat.categoryName}</option>`;
-        });
+        if (select) {
+            select.innerHTML = '<option value="">Category сонгоно уу</option>';
+            categories.forEach(cat => {
+                select.innerHTML += `<option value="${cat.id}">${cat.categoryName}</option>`;
+            });
+        }
     } catch (err) {
         console.error("Category load error:", err);
     }
@@ -217,11 +222,13 @@ async function loadCategories() {
 function showValidationPopup(msg, isSuccess = false) {
     const popup = document.getElementById('validationPopup');
     const msgEl = document.getElementById('validationMsg');
-    msgEl.innerText = msg;
-    popup.classList.remove('show', 'success');
-    if (isSuccess) popup.classList.add('success');
-    popup.classList.add('show');
-    setTimeout(() => popup.classList.remove('show', 'success'), 3000);
+    if (popup && msgEl) {
+        msgEl.innerText = msg;
+        popup.classList.remove('show', 'success');
+        if (isSuccess) popup.classList.add('success');
+        popup.classList.add('show');
+        setTimeout(() => popup.classList.remove('show', 'success'), 3000);
+    }
 }
 
 // Эрэмбэлэх функц
