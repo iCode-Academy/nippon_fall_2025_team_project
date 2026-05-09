@@ -136,6 +136,11 @@ function applySort(event) {
     };
     document.getElementById('sortLabel').textContent = labels[selected.value];
     document.getElementById('sortPopup').classList.remove('open');
+
+    //Dropdown ajiluulah
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe) iframe.contentWindow.sortRestaurants(selected.value);
+
 }
 
 // ===============================

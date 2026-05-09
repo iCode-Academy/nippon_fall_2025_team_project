@@ -32,7 +32,7 @@ public class RestaurantController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id){
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable ("id") Long id){
 
     return restaurantRepository.findById(id)
     .map(ResponseEntity::ok)
