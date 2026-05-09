@@ -66,6 +66,7 @@ async function handleLogin() {
     localStorage.setItem('userName', user.name || user.username);
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userRole', user.role);
+    localStorage.setItem("userPhone",user.phone);
     console.log("LocalStorage хадгалагдлаа:", localStorage.getItem('userName'));
 
     msg.className = 'msg success';
@@ -137,6 +138,7 @@ async function handleRegister() {
   const email = document.getElementById('registerEmail').value.trim();
   const password = document.getElementById('registerPassword').value;
   const role = document.getElementById('role').value;
+  const phone = document.getElementById("phone").value;
   const confirm = document.getElementById('confirm').value;
   console.log({
     name,
@@ -229,10 +231,11 @@ async function handleRegister() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          email: email,
-          password: password,
-          role: role      // "CUSTOMER" / "RESTAURANT" / "ADMIN"
+          name,
+          email,
+          password,
+          role,
+          phone
         })
       }
     );

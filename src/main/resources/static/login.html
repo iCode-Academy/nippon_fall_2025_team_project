@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoodieGo — Auth</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="./css/login.css">
 </head>
+
 <body>
   <!-- LOGIN CARD -->
   <div class="card" id="loginCard">
@@ -22,27 +26,16 @@
     <div id="msg" class="msg"></div>
     <div class="field">
       <label for="loginEmail">Email Address</label>
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="example@email.com"
-        autocomplete="email" />
+      <input type="email" id="loginEmail" placeholder="example@email.com" autocomplete="email" />
     </div>
     <div class="field">
       <label for="loginPassword">Password</label>
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="••••••••"
-        autocomplete="current-password" />
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
     </div>
     <div class="forgot">
       <a href="#">Forgot password?</a>
     </div>
-    <button
-      class="btn"
-      id="loginBtn"
-      onclick="handleLogin(event)">
+    <button class="btn" id="loginBtn" onclick="handleLogin(event)">
       Sign In
     </button>
     <div class="divider">or</div>
@@ -72,11 +65,7 @@
       <label for="name">
         Full Name
       </label>
-      <input
-        type="text"
-        id="name"
-        placeholder="e.g. John Doe"
-        autocomplete="name" />
+      <input type="text" id="name" placeholder="e.g. John Doe" autocomplete="name" />
       <div class="field-hint" id="name-hint">
         Please enter your name
       </div>
@@ -85,11 +74,11 @@
       <label for="registerEmail">
         Email Address
       </label>
-      <input
-        type="email"
-        id="registerEmail"
-        placeholder="example@foodiego.com"
-        autocomplete="email" />
+      <label for="phone">
+        Phone Number
+      </label>
+      <input type="text" id="phone" placeholder="99112233">
+      <input type="email" id="registerEmail" placeholder="example@foodiego.com" autocomplete="email" />
       <div class="field-hint" id="email-hint">
         Please enter a valid email
       </div>
@@ -114,11 +103,7 @@
       <label for="registerPassword">
         Password
       </label>
-      <input
-        type="password"
-        id="registerPassword"
-        placeholder="Min. 6 characters"
-        autocomplete="new-password"
+      <input type="password" id="registerPassword" placeholder="Min. 6 characters" autocomplete="new-password"
         oninput="checkStrength(this.value)" />
       <div class="strength-bar">
         <div class="strength-fill" id="strength-fill"></div>
@@ -131,18 +116,12 @@
       <label for="confirm">
         Confirm Password
       </label>
-      <input
-        type="password"
-        id="confirm"
-        placeholder="Repeat your password" />
+      <input type="password" id="confirm" placeholder="Repeat your password" />
       <div class="field-hint" id="confirm-hint">
         Passwords do not match
       </div>
     </div>
-    <button
-      class="btn"
-      id="registerBtn"
-      onclick="handleRegister(event)">
+    <button class="btn" id="registerBtn" onclick="handleRegister(event)">
       Sign Up
     </button>
     <div class="divider">or</div>
@@ -155,4 +134,5 @@
   </div>
   <script src="./js/login.js"></script>
 </body>
+
 </html>

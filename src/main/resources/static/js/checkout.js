@@ -1,175 +1,109 @@
-// login hamgaalalt
-const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const isLoggedIn=localStorage.getItem("isLoggedIn")==="true";
+if(!isLoggedIn){localStorage.setItem("redirectAfterLogin","checkout.html");window.location.href="login.html";}
+const cart=JSON.parse(localStorage.getItem("cart"))||[];
+const cartItemsContainer=document.getElementById("cartItems");
+const totalPriceEl=document.getElementById("totalPrice");
 
-if (!isLoggedIn) {
-    localStorage.setItem("redirectAfterLogin", "checkout.html");
-    window.location.href = "login.html";
+function renderCart(){
+if(cart.length===0){cartItemsContainer.innerHTML="<p>Your cart is empty</p>";totalPriceEl.innerText="Total: $ 0.00";return;}
+let html=cart.map(item=>`<div class="cart-item">${item.quantity}x ${item.name} - $ ${(item.price*item.quantity).toFixed(2)}</div>`).join("");
+cartItemsContainer.innerHTML=html;
+const total=cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
+totalPriceEl.innerText="Total: $ "+total.toFixed(2);
 }
 
-
-// cart data awah
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-const cartItemsContainer = document.getElementById("cartItems");
-const totalPriceEl = document.getElementById("totalPrice");
-
-// cart render
-function renderCart() {
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "<p>Your cart is empty</p>";
-        totalPriceEl.innerText = "Total: $ 0.00";
-        return;
-    }
-
-    let html = cart.map(item => `
-        <div class="cart-item">
-            ${item.quantity}x ${item.name} - $ ${(item.price * item.quantity).toFixed(2)}
-        </div>
-    `).join("");
-
-    cartItemsContainer.innerHTML = html;
-
-    // total tootsooloh
-    const total = cart.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
-    }, 0);
-
-    totalPriceEl.innerText = "Total: $ " + total.toFixed(2);
-}
-
-// render ajilluulah
 renderCart();
 
-const userId = localStorage.getItem("userId");
-console.log(userId); // ali user login hiisen baigaag console deerees harj ID aar n medeh
+const userId=localStorage.getItem("userId");
 
-// user fetch
-async function fetchUser() {
-    const userId = localStorage.getItem("userId");
-
-    const res = await fetch(`http://localhost:8080/api/user/${userId}`);
-    const user = await res.json();
-
-    console.log(user);
-
-    document.getElementById("name").value = user.name;
+async function fetchUser(){
+const res=await fetch(`http://localhost:8080/api/user/${userId}`);
+const user=await res.json();
+const receiverNameEl=document.getElementById("receiverName");
+if(receiverNameEl){receiverNameEl.value=user.name;}
 }
 
 fetchUser();
 
-console.log(cart); // cart check
+if(!localStorage.getItem("userId")){window.location.href="login.html";}
 
-if (!localStorage.getItem("userId")) {
-    window.location.href = "login.html";
-}
+document.getElementById("placeOrderBtn").addEventListener("click",placeOrder);
 
-document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+async function placeOrder(){
+const userId=localStorage.getItem("userId");
+const cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-async function placeOrder() {
-    const userId = localStorage.getItem("userId");
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+if(cart.length===0){alert("Cart хоосон байна!");return;}
 
-    if (cart.length === 0) {
-        alert("Cart хоосон байна!");
-        return;
-    }
+const receiverName=document.getElementById("receiverName").value;
+const receiverPhone=document.getElementById("receiverPhone").value;
 
-    const phone = document.getElementById("phone").value;
-    if (!phone) {
-        alert("Phone number оруулна уу!");
-        return;
-    }
+if(!receiverName||!receiverPhone){alert("Receiver info оруулна уу!");return;}
 
-    const address = document.getElementById("address").value;
-    if (!address) {
-        alert("Address оруулна уу!");
-        return;
-    }
+const city=document.getElementById("city").value;
+const district=document.getElementById("district").value;
+const apartment=document.getElementById("apartment").value;
+const roomNumber=document.getElementById("roomNumber").value;
 
-    const totalPrice = cart.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
-    }, 0);
+if(!city||!district||!apartment||!roomNumber){alert("Address мэдээллээ бүрэн оруулна уу!");return;}
 
-    const order = {
-        userId: Number(userId),
-        totalPrice: totalPrice,
-        orderDetails: cart.map(item => ({
-            product: { id: item.id },
-            quantity: item.quantity,
-            price: item.price
-        }))
-    };
+const totalPrice=cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
 
-    // Энэ мөрийг байгаа эсэхийг шалгаарай
-document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+const order={
+userId:Number(userId),
+totalPrice:totalPrice,
+orderDetails:cart.map(item=>({
+product:{id:item.id},
+quantity:item.quantity,
+price:item.price
+}))
+};
 
-async function placeOrder() {
-    // 1. isLoggedIn хувьсагчийг энд заавал тодорхойлно (АЛДААГ ЗАССАН ХЭСЭГ)
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const userId = localStorage.getItem("userId");
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+try{
 
-    if (cart.length === 0) {
-        alert("Cart хоосон байна!");
-        return;
-    }
+await fetch(`http://localhost:8080/api/addresses?userId=${userId}`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+city,
+district,
+apartment,
+roomNumber,
+receiverName,
+receiverPhone
+})
+});
 
-    // Input-үүдийг шалгах
-    const phoneEl = document.getElementById("phone");
-    const addressEl = document.getElementById("address");
+await fetch("http://localhost:8080/api/orders",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(order)
+});
 
-    if (!phoneEl || !addressEl || !phoneEl.value || !addressEl.value) {
-        alert("Утасны дугаар болон хаягаа бүрэн оруулна уу!");
-        return;
-    }
+let pastOrders=JSON.parse(localStorage.getItem("myOrdersList"))||[];
 
-    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+const newOrderRecord={
+id:"ORD-"+Math.floor(Math.random()*10000),
+date:new Date().toISOString().split('T')[0],
+restaurantName:"Foodie Go Delivery",
+receiverName:receiverName,
+receiverPhone:receiverPhone,
+address:`${city}, ${district}, ${apartment}, ${roomNumber}`,
+items:cart.map(i=>`${i.quantity}x ${i.name}`).join(", "),
+total:totalPrice,
+status:"Pending",
+isReviewed:false
+};
 
-    // Backend-рүү явуулах объект
-    const orderData = {
-        userId: Number(userId),
-        totalPrice: totalPrice,
-        orderDetails: cart.map(item => ({
-            product: { id: item.id },
-            quantity: item.quantity,
-            price: item.price
-        }))
-    };
-
-    try {
-        // 2. Бэкэнд рүү илгээх хүсэлт
-        const res = await fetch("http://localhost:8080/api/orders", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData)
-        });
-
-        // 3. Захиалгыг локал түүхэнд хадгалах (orders.html-д харуулахын тулд)
-        let pastOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
-        const newOrderRecord = {
-            id: "ORD-" + Math.floor(Math.random() * 10000),
-            date: new Date().toISOString().split('T')[0],
-            restaurantName: "Foodie Go Delivery", 
-            items: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
-            total: totalPrice,
-            status: "Delivered", 
-            isReviewed: false
-        };
-
-        pastOrders.unshift(newOrderRecord);
-        localStorage.setItem("myOrdersList", JSON.stringify(pastOrders));
-
-        alert("Order амжилттай!");
-
-        // 4. Сагс цэвэрлэх ба шилжих
-        localStorage.removeItem("cart");
-        window.location.href = "order.html";
-
-    } catch (err) {
-        console.error("Захиалга илгээхэд алдаа гарлаа:", err);
-        // Бэкэнд ажиллахгүй байсан ч туршилтын журмаар orders.html руу шилжүүлэх хэсэг:
-        localStorage.removeItem("cart");
-        window.location.href = "order.html";
-    }
+pastOrders.unshift(newOrderRecord);
+localStorage.setItem("myOrdersList",JSON.stringify(pastOrders));
+localStorage.setItem("checkoutPhone",receiverPhone);
+localStorage.setItem("checkoutAddress",`${city}, ${district}, ${apartment}, ${roomNumber}`);
+localStorage.removeItem("cart");
+alert("Order амжилттай!");
+window.location.href="profile.html";
+}catch(err){
+console.error("Захиалга илгээхэд алдаа гарлаа:",err);
+alert("Order failed!");
 }
 }
