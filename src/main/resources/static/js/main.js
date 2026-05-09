@@ -319,3 +319,19 @@ window.location.href=
 "index.html";
 
 }
+
+// delivery/pickup tovchind onclick nemev
+document.getElementById('delivery').addEventListener('click', function() {
+    this.classList.add('active');
+    document.getElementById('pickup').classList.remove('active');
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe) iframe.contentWindow.setMode('delivery');
+});
+
+document.getElementById('pickup').addEventListener('click', function() {
+    this.classList.add('active');
+    document.getElementById('delivery').classList.remove('active');
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe) iframe.contentWindow.setMode('pickup');
+});
+
