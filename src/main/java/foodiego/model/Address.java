@@ -5,37 +5,83 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+
 @Entity
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String userName; // Хэрэглэгчийн нэр
-    private String city;     // Хот
-    private String district; // Дүүрэг
-    private String apartment; // Байр
-    private String roomNumber; // Өрөөний дугаар
+    private String city;
+    private String district;
+    private String apartment;
+    private String roomNumber;
+    private String receiverName;
+    private String receiverPhone;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Address() {}
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getCity() {
+        return city;
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getDistrict() {
+        return district;
+    }
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+    public String getApartment() {
+        return apartment;
+    }
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public String getReceiverName() {
+        return receiverName;
+    }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setReceiverName(
+            String receiverName) {
 
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
+        this.receiverName =
+            receiverName;
+    }
 
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
 
-    public String getDistrict() { return district; }
-    public void setDistrict(String district) { this.district = district; }
+    public void setReceiverPhone(
+            String receiverPhone) {
 
-    public String getApartment() { return apartment; }
-    public void setApartment(String apartment) { this.apartment = apartment; }
-
-    public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+        this.receiverPhone =
+            receiverPhone;
+    }
 }

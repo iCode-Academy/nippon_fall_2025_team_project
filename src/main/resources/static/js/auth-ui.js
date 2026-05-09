@@ -4,44 +4,78 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateAuthUI() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const signInBtn = document.getElementById('signIn');
-    const createAccBtn = document.getElementById('createacc');
+
+    const isLoggedIn =
+        localStorage.getItem('isLoggedIn') === 'true';
+
+    const signInBtn =
+        document.getElementById('signIn');
+
+    const createAccBtn =
+        document.getElementById('createacc');
 
     if (!signInBtn || !createAccBtn) return;
 
     if (isLoggedIn) {
-        const userName = localStorage.getItem('userName');
 
-        signInBtn.textContent = userName;
-        signInBtn.onclick = null;
+        const userName =
+            localStorage.getItem('userName');
 
-        createAccBtn.textContent = 'Sign Out';
-        createAccBtn.onclick = logout;
-    } 
-    
+        signInBtn.textContent =
+            userName;
+
+        signInBtn.onclick =
+            goToProfile;
+
+        createAccBtn.textContent =
+            'Sign Out';
+
+        createAccBtn.onclick =
+            logout;
+    }
+
     else {
-        signInBtn.textContent = 'Sign in';
-        signInBtn.onclick = goToLogin;
 
-        createAccBtn.textContent = 'Create account';
-        createAccBtn.onclick = goToRegister;
+        signInBtn.textContent =
+            'Sign in';
+
+        signInBtn.onclick =
+            goToLogin;
+
+        createAccBtn.textContent =
+            'Create account';
+
+        createAccBtn.onclick =
+            goToRegister;
     }
 }
 
+function goToProfile() {
+
+    window.location.href =
+        'profile.html';
+}
+
 function logout() {
-    localStorage.clear();
-    window.location.href = 'index.html';
+
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+
+    window.location.href =
+        'index.html';
 }
 
 // Batja:
 
-const role = localStorage.getItem("role");
+const role = localStorage.getItem("userRole");
 
 if (role != "ADMIN") {
   
   document.querySelectorAll(".admin-only").forEach((el) => {
-    el.computedStyleMap.display = "none";
+    el.style.display = "none";
   });
-  
+
 }
