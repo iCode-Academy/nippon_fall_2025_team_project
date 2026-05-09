@@ -98,10 +98,30 @@ function renderFoods(foodList) {
 </div>
 `;
     }).join('')}
+
     </div>
 </div>
 
 `).join('');
+
+    const role = localStorage.getItem("userRole");
+
+    if (!canManage) {
+
+        document.querySelectorAll(".food-delete-btn").forEach((btn) => {
+            btn.style.visibility = "hidden";
+            btn.style.pointerEvents = "none";
+        });
+
+    }
+
+    if (canManage) {
+        
+        document.querySelectorAll(".food-qty-control").forEach((el) => {
+            el.remove();
+        });
+    }
+
     renderFoodCategories(foodList);
 }
 
@@ -348,9 +368,40 @@ ${cat.categoryName}
 `).join('');
 }
 
-function goHome(){
+function goHome() {
 
-window.location.href=
-"index.html";
+    window.location.href =
+        "index.html";
 
 }
+
+const role = localStorage.getItem("userRole");
+
+const managedRestaurantId =
+localStorage.getItem("managedRestaurantId");
+
+const currentRestaurantId =
+new URLSearchParams(window.location.search)
+.get("id");
+
+const canManage =
+role === "ADMIN" ||
+(
+    role === "RESTAURANT" &&
+    managedRestaurantId === currentRestaurantId
+);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (!canManage) {
+
+        const addFoodBtn =
+        document.getElementById("addFoodBtn");
+
+        if (addFoodBtn) {
+            addFoodBtn.remove();
+        }
+
+    }
+
+});

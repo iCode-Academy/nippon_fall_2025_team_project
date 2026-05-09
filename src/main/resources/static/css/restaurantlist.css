@@ -300,3 +300,25 @@ body {
     border-radius: 8px;
     cursor: pointer;
 }
+
+.manage-btn {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b14f;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.manage-btn:hover {
+    background-color: #009944;
+    transform: translateY(-1px);
+}
+
+.manage-btn:active {
+    transform: scale(0.98);
+}
