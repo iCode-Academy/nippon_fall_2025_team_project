@@ -3,6 +3,7 @@ package foodiego.model;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "restaurant")
@@ -24,7 +25,6 @@ public class Restaurant {
 
     private String phoneNumber;
 
-    
     @Column(length=500000)
     private String logoUrl;
 
@@ -33,20 +33,31 @@ public class Restaurant {
 
     @Column(length=5000)
     private String description;
+    
     private Double rating;
     private String workingHours;
     private Integer deliveryTime;
     private Double deliveryFee;
+    
+    private Long managerUserId;
+    private Integer reviewCount = 0;
 
     @JsonIgnore
     @OneToMany(
-    mappedBy="restaurant",
-    cascade=CascadeType.ALL,
-    orphanRemoval=true
+        mappedBy="restaurant",
+        cascade=CascadeType.ALL,
+        orphanRemoval=true
     )
     private List<Foods> foods;
-    
-    private Long managerUserId;
+
+    // Ресторан болон Сэтгэгдлийн холбоос
+    @JsonIgnore
+    @OneToMany(
+        mappedBy="restaurant",
+        cascade=CascadeType.ALL,
+        orphanRemoval=true
+    )
+    private List<Review> reviews = new ArrayList<>();
 
     // Getter and Setter
     public Long getId() {
@@ -154,10 +165,26 @@ public class Restaurant {
     }
     
     public Long getManagerUserId() {
-		return managerUserId;
-	}
+        return managerUserId;
+    }
     
     public void setManagerUserId(Long managerUserId) {
-		this.managerUserId = managerUserId;
-	}
+        this.managerUserId = managerUserId;
+    }
+
+    public Integer getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(Integer reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

@@ -27,53 +27,46 @@ public class RestaurantController {
 
     @PostMapping("/add")
     public ResponseEntity<Restaurant> add(@RequestBody Restaurant restaurant) {
-        // Service дээр ID оноох логик ажиллана
         Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
         return ResponseEntity.ok(savedRestaurant);
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable ("id") Long id){
-
-    return restaurantRepository.findById(id)
-    .map(ResponseEntity::ok)
-    .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable("id") Long id) {
+        return restaurantRepository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable("id") Long id) {
-    return restaurantRepository.findById(id)
+        return restaurantRepository.findById(id)
             .map(restaurant -> {
                 restaurantRepository.delete(restaurant);
                 return ResponseEntity.ok("Амжилттай устлаа");
             })
             .orElse(ResponseEntity.status(404).body("Олдсонгүй"));
-  	}
-    
-    
+    }
     
     @PostMapping("/{id}/claim")
     public ResponseEntity<?> claimRestaurant(
-    			@PathVariable Long id,
-    			@RequestBody ClaimRequest request
-    		) {
-    	
-    	Restaurant restaurant =
-    			restaurantRepository.findById(id).orElseThrow();
-    	
-    	if (restaurant.getManagerUserId() != null) {
-			return ResponseEntity
-					.badRequest()
-					.body("Already claimed");
-		}
-    	
-    	restaurant.setManagerUserId(
-    			request.getUserId()
-    			);
-    	
-    	restaurantRepository.save(restaurant);
-    	
-    	return ResponseEntity.ok().build();
+                // ЗАСВАР: Энд ("id") нэмэгдсэнээр алдаа арилна
+                @PathVariable("id") Long id, 
+                @RequestBody ClaimRequest request
+            ) {
+        
+        Restaurant restaurant =
+                restaurantRepository.findById(id).orElseThrow();
+        
+        if (restaurant.getManagerUserId() != null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Already claimed");
+        }
+        
+        restaurant.setManagerUserId(request.getUserId());
+        restaurantRepository.save(restaurant);
+        
+        return ResponseEntity.ok().build();
     }
-    
 }

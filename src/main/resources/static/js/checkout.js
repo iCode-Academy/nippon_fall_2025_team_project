@@ -106,4 +106,55 @@ window.location.href="profile.html";
 console.error("Захиалга илгээхэд алдаа гарлаа:",err);
 alert("Order failed!");
 }
+    // 1. САГСНААС РЕСТОРАНЫ БОЛОН ХООЛНЫ ID-Г АВАХ (ЗАСВАР)
+    // Сагсанд байгаа эхний хоолны ID-нуудыг авна
+    const resId = cart.length > 0 ? cart[0].restaurantId : 1;
+    const fId = cart.length > 0 ? cart[0].id : 1;
+
+    // Backend-рүү явуулах объект
+    const orderData = {
+        userId: Number(userId),
+        totalPrice: totalPrice,
+        orderDetails: cart.map(item => ({
+            product: { id: item.id },
+            quantity: item.quantity,
+            price: item.price
+        }))
+    };
+
+    try {
+        // 2. Бэкэнд рүү илгээх хүсэлт
+        await fetch("http://localhost:8080/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData)
+        });
+
+        // 3. Захиалгыг локал түүхэнд хадгалах (ЗАСВАР: restaurantId болон foodId НЭМЭВ)
+        let pastOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
+        const newOrderRecord = {
+            id: "ORD-" + Math.floor(Math.random() * 10000),
+            date: new Date().toISOString().split('T')[0],
+            restaurantName: "Foodie Go Delivery", 
+            restaurantId: resId, // Одоо ID-тай хадгалагдана
+            foodId: fId,         // Сэтгэгдэл бичихэд хэрэгтэй хоолны ID
+            items: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
+            total: totalPrice,
+            status: "Delivered", 
+            isReviewed: false
+        };
+
+        pastOrders.unshift(newOrderRecord);
+        localStorage.setItem("myOrdersList", JSON.stringify(pastOrders));
+
+        alert("Order амжилттай!");
+        localStorage.removeItem("cart");
+        window.location.href = "order.html";
+
+    } catch (err) {
+        console.error("Захиалга илгээхэд алдаа гарлаа:", err);
+        // Алдаа гарсан ч туршилтын журмаар локал хадгалалт хийх хэсэг
+        localStorage.removeItem("cart");
+        window.location.href = "order.html";
+    }
 }

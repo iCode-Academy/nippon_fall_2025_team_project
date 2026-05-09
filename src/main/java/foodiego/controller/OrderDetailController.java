@@ -1,10 +1,8 @@
 package foodiego.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import foodiego.model.OrderDetail;
 import foodiego.repository.OrderDetailRepository;
 
@@ -15,28 +13,27 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    // create
+    // Шинэ дэлгэрэнгүй үүсгэх
     @PostMapping
     public OrderDetail create(@RequestBody OrderDetail detail) {
         return orderDetailRepository.save(detail);
     }
 
-    // read all
+    // Бүх дэлгэрэнгүйг авах
     @GetMapping
     public List<OrderDetail> getAll() {
         return orderDetailRepository.findAll();
     }
 
-    // read 1
+    // Нэгийг ID-аар авах
     @GetMapping("/{id}")
-    public OrderDetail getById(@PathVariable Long id) {
+    public OrderDetail getById(@PathVariable("id") Long id) { // ЗАСВАР: ("id") нэмсэн
         return orderDetailRepository.findById(id).orElse(null);
     }
 
-    // update
+    // Засварлах
     @PutMapping("/{id}")
-    public OrderDetail update(@PathVariable Long id, @RequestBody OrderDetail newDetail) {
-
+    public OrderDetail update(@PathVariable("id") Long id, @RequestBody OrderDetail newDetail) { // ЗАСВАР: ("id") нэмсэн
         OrderDetail detail = orderDetailRepository.findById(id).orElse(null);
 
         if (detail == null) {
@@ -50,12 +47,10 @@ public class OrderDetailController {
         return orderDetailRepository.save(detail);
     }
 
-    // delete
+    // Устгах
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-
+    public String delete(@PathVariable("id") Long id) { // ЗАСВАР: ("id") нэмсэн
         orderDetailRepository.deleteById(id);
-
         return "Deleted successfully";
     }
 }

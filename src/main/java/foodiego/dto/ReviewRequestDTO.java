@@ -3,9 +3,9 @@ package foodiego.dto;
 public class ReviewRequestDTO {
     private Long userId;
     private Long foodId;
+    private Long restaurantId;
     private int rating;
     private String comment;
-
     // Хоосон байгуулагч
     public ReviewRequestDTO() {}
 
@@ -24,6 +24,15 @@ public class ReviewRequestDTO {
 
     public void setFoodId(Long foodId) {
         this.foodId = foodId;
+    }
+
+    // ШИНЭЭР НЭМЭГДСЭН: RestaurantId Getter & Setter
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public int getRating() {

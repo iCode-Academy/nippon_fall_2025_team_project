@@ -31,21 +31,11 @@
         </div>
         <div class="header-right">
             <!-- 🛒 CART ICON -->
-            <!-- When user clicks this, cart popup will open -->
             <div class="basket-icon-wrapper" onclick="toggleCart()">
                 <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
-                <!-- Displays total number of items in cart -->
                 <div id="basketCounter">0</div>
-                <!-- 🧾 CART POPUP -->
                 <div id="cartPopup" class="cart-popup"></div>
             </div>
-            <!-- Testing button
-            <button onclick="addToCart({id:1, name:'Burger', price:8.00})">
-                Add Burger (TEST)
-            </button>
-            <button onclick="addToCart({id:2, name:'Sushi', price:15})">
-                Add Sushi (TEST)
-            </button> -->
             <div class="login">
                 <button id="signIn" onclick="goToLogin()">
                     Sign in
@@ -61,7 +51,6 @@
             <header class="restaurant-header">
                 <div class="restaurant-banner">
                     <img id="restaurantBanner" src="./picture/Layout/no image.jpg">
-
                 </div>
                 <div class="restaurant-info">
                     <div class="restaurant-main-info">
@@ -72,9 +61,11 @@
                             Sushi • Asian
                         </p>
                         <div class="restaurant-meta">
+                            <!-- ЭНД ӨӨРЧЛӨЛТ ОРСОН: ID-нууд нэмэгдсэн -->
                             <span>
                                 <i class="fas fa-star"></i>
-                                4.8
+                                <span id="avgRatingText">4.5</span> 
+                                (<span id="reviewCountText">0</span>+)
                             </span>
                             <span>
                                 <i class="fas fa-clock"></i>

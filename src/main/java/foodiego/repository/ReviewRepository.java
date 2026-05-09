@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 	
 //	Get all reviews for a specific user.
 	List<Review> findByUserId(Long userId);
+	// ReviewRepository.java дотор нэмэх:
+	List<Review> findByRestaurant_Id(Long restaurantId);
 }
