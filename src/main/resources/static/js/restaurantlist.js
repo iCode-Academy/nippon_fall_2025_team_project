@@ -362,3 +362,5 @@ function applyFilters() {
 
     renderList(filtered);
 }
+
+
