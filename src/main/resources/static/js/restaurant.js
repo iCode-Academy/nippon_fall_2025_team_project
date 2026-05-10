@@ -139,9 +139,14 @@ async function loadRestaurant() {
         document.getElementById("restaurantCategory").innerText =
             restaurant.category?.categoryName || "No category";
 
-        document.getElementById("restaurantBanner").src =
-            (restaurant.logoUrl || "./picture/Layout/no image.jpg")
-               + '?t=' + new Date().getTime();;
+    const bannerEl = document.getElementById("restaurantBanner");
+    const rawUrl = (restaurant.bannerUrl || restaurant.logoUrl || "").replace(/\s+/g, '');
+
+    if (rawUrl) {
+    bannerEl.src = rawUrl;
+    } else {
+    bannerEl.src = "./picture/Layout/no image.jpg";
+    }
 
         loadFoods(id);
         loadFoodCategories();
