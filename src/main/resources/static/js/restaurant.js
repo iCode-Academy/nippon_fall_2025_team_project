@@ -126,8 +126,13 @@ function renderFoods(foodList) {
 }
 
 async function loadRestaurant() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+
+    const id =
+        new URLSearchParams(window.location.search)
+        .get("id")
+        ||
+        localStorage.getItem("restaurantId");
+    
     try {
 
         const res = await fetch(`${RESTAURANT_API_URL}/${id}`);
@@ -169,11 +174,11 @@ function toggleFoodModal(show) {
 
 async function saveFood() {
 
-    const params = new URLSearchParams(
-        window.location.search
-    );
-
-    const restaurantId = params.get("id");
+    const restaurantId =
+        new URLSearchParams(window.location.search)
+        .get("id")
+        ||
+        localStorage.getItem("restaurantId");
 
     const imageInput = document.getElementById(
         "foodImage"
@@ -294,10 +299,13 @@ async function deleteFood(id) {
         );
 
         if (res.ok) {
-            const params = new URLSearchParams(
-                window.location.search
-            );
-            const restaurantId = params.get("id");
+            
+            const restaurantId =
+                new URLSearchParams(window.location.search)
+                .get("id")
+                ||
+                localStorage.getItem("restaurantId");
+
             loadFoods(restaurantId);
 
         }
@@ -379,11 +387,13 @@ function goHome() {
 const role = localStorage.getItem("userRole");
 
 const managedRestaurantId =
-localStorage.getItem("managedRestaurantId");
+localStorage.getItem("restaurantId");
 
 const currentRestaurantId =
-new URLSearchParams(window.location.search)
-.get("id");
+    new URLSearchParams(window.location.search)
+    .get("id")
+    ||
+    localStorage.getItem("restaurantId");
 
 const canManage =
 role === "ADMIN" ||

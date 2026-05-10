@@ -63,8 +63,17 @@ async function claimRestaurant(index) {
     );
 
     if (res.ok) {
+        
+        localStorage.setItem(
+            "restaurantId",
+            restaurantId
+        );
+
         alert("Та менежер боллоо!");
-        location.reload();
+
+        window.location.href =
+            "restaurant.html";
+
     } else {
         alert("Энэ ресторан аль хэдийн эзэнтэй байна");
     }
