@@ -86,7 +86,12 @@ body{
     color:#111827;
     word-break:break-word;
 }
-
+#starRating i {
+    font-size: 25px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: color 0.2s;
+}
 /* =========================
    ORDERS CONTAINER
 ========================= */
