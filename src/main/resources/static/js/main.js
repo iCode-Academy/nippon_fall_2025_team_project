@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     };
 
-    // Stars rating
+   // Stars rating
     document.querySelectorAll('.stars i').forEach((star,index,stars)=>{
 
         star.addEventListener('mouseover',()=>{
@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         star.addEventListener('mouseout',()=>{
             const saved=parseInt(document.querySelector('.stars').dataset.rating||0);
-
             stars.forEach((s,i)=>{
                 s.className=i<saved?'fas fa-star':'far fa-star';
             });
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         star.addEventListener('click',()=>{
             document.querySelector('.stars').dataset.rating=index+1;
-
             stars.forEach((s,i)=>{
                 s.className=i<=index?'fas fa-star':'far fa-star';
             });
@@ -89,30 +87,23 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     });
 
-});
-    // Stars rating
-    document.querySelectorAll('.stars i').forEach((star, index, stars) => {
-        star.addEventListener('mouseover', () => {
-            stars.forEach((s, i) => {
-                s.className = i <= index ? 'fas fa-star' : 'far fa-star';
-            });
-        });
-
-        star.addEventListener('mouseout', () => {
-            const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
-            stars.forEach((s, i) => {
-                s.className = i < saved ? 'fas fa-star' : 'far fa-star';
-            });
-        });
-
-        star.addEventListener('click', () => {
-            document.querySelector('.stars').dataset.rating = index + 1;
-            stars.forEach((s, i) => {
-                s.className = i <= index ? 'fas fa-star' : 'far fa-star';
-            });
-        });
+    // ✅ delivery/pickup энд
+    document.getElementById('delivery').addEventListener('click', function() {
+        this.classList.add('active');
+        document.getElementById('pickup').classList.remove('active');
+        const iframe = document.getElementById('restaurantIframe');
+        if (iframe) iframe.contentWindow.setMode('delivery');
     });
 
+    document.getElementById('pickup').addEventListener('click', function() {
+        this.classList.add('active');
+        document.getElementById('delivery').classList.remove('active');
+        const iframe = document.getElementById('restaurantIframe');
+        if (iframe) iframe.contentWindow.setMode('pickup');
+    });
+
+}); 
+ 
 // ===============================
 // 🔍 SORT DROPDOWN
 // ===============================
@@ -320,18 +311,38 @@ window.location.href=
 
 }
 
-// delivery/pickup tovchind onclick nemev
-document.getElementById('delivery').addEventListener('click', function() {
-    this.classList.add('active');
-    document.getElementById('pickup').classList.remove('active');
-    const iframe = document.getElementById('restaurantIframe');
-    if (iframe) iframe.contentWindow.setMode('delivery');
-});
 
-document.getElementById('pickup').addEventListener('click', function() {
-    this.classList.add('active');
-    document.getElementById('delivery').classList.remove('active');
-    const iframe = document.getElementById('restaurantIframe');
-    if (iframe) iframe.contentWindow.setMode('pickup');
-});
 
+async function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Таны browser geolocation дэмждэггүй.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            try {
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+                );
+                const data = await res.json();
+
+                const road = data.address.road || data.address.suburb || "";
+                const houseNumber = data.address.house_number || "";
+                const display = (houseNumber + " " + road).trim() || data.display_name;
+
+                document.getElementById("addressDisplay").innerText = display;
+                localStorage.setItem("userAddress", display);
+
+            } catch (err) {
+                console.error("Хаяг авахад алдаа:", err);
+            }
+        },
+        () => {
+            alert("Байршил авахыг зөвшөөрнө үү.");
+        }
+    );
+}
