@@ -144,6 +144,18 @@ async function loadRestaurant() {
         document.getElementById("restaurantCategory").innerText =
             restaurant.category?.categoryName || "No category";
 
+        // Batja written code START here
+        const ratingElement =
+            document.querySelector(
+                ".restaurant-meta .fa-star"
+            ).parentElement;
+
+        ratingElement.innerHTML = `
+        <i class="fas fa-star"></i>
+        ${restaurant.rating || 0}
+        `;
+        // Batja written code END here
+
         const bannerEl = document.getElementById("restaurantBanner");
         const rawUrl = (restaurant.bannerUrl || restaurant.logoUrl || "").replace(/\s+/g, '');
 
@@ -446,3 +458,159 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+// Batja written code START here
+
+const stars = document.querySelectorAll(".star");
+
+function updateStars(ratingValue) {
+
+    stars.forEach((s, index) => {
+
+        if (index < ratingValue) {
+
+            s.classList.remove("fa-regular");
+            s.classList.add("fa-solid");
+
+        } else {
+
+            s.classList.remove("fa-solid");
+            s.classList.add("fa-regular");
+
+        }
+
+    });
+
+}
+
+stars.forEach((star) => {
+
+    star.addEventListener("mouseover", () => {
+
+        const hoverValue = star.dataset.value;
+
+        updateStars(hoverValue);
+
+    });
+
+    star.addEventListener("mouseleave", () => {
+
+        const savedRating =
+            document.querySelector(".rating-stars")
+                .dataset.selected || 0;
+
+        updateStars(savedRating);
+
+    });
+
+    star.addEventListener("click", () => {
+
+        const isLoggedIn =
+            localStorage.getItem("isLoggedIn") === "true";
+
+        if (!isLoggedIn) {
+
+            alert("Please login to rate this restaurant");
+            return;
+
+        }
+
+        const ratingValue = star.dataset.value;
+
+        document.querySelector(
+            ".rating-stars"
+        ).dataset.selected = ratingValue;
+
+        updateStars(ratingValue);
+
+        showRatingMessage();
+
+        console.log(
+            `Rated: ${ratingValue} stars`
+        );
+
+        const restaurantId =
+            new URLSearchParams(window.location.search)
+                .get("id")
+            ||
+            localStorage.getItem("restaurantId");
+
+        const userId =
+            localStorage.getItem("userId");
+
+        fetch(
+            "http://localhost:8080/api/ratings",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    ratingValue: Number(ratingValue),
+
+                    userId: Number(userId),
+
+                    restaurant: {
+                        id: Number(restaurantId)
+                    }
+
+                })
+
+            }
+        )
+            .then(res => res.json())
+            .then(data => {
+
+                console.log(
+                    "Rating saved:",
+                    data
+                );
+
+                loadRestaurant();
+
+            })
+            .catch(err => {
+
+                console.error(
+                    "Rating save error:",
+                    err
+                );
+
+            });
+
+    });
+
+});
+
+function showRatingMessage() {
+
+    let message =
+        document.getElementById("ratingMessage");
+
+    if (!message) {
+
+        message = document.createElement("div");
+
+        message.id = "ratingMessage";
+
+        message.innerText =
+            "Thanks for rating us!";
+
+        document.body.appendChild(message);
+
+    }
+
+    message.classList.add("show");
+
+    setTimeout(() => {
+
+        message.classList.remove("show");
+
+    }, 1500);
+
+}
+
+// Batja written code END here

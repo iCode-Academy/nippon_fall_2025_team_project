@@ -47,6 +47,17 @@ public class Restaurant {
     private List<Foods> foods;
     
     private Long managerUserId;
+    
+//    Batja written code START here
+    private Integer totalRatings = 0;
+    public Integer getTotalRatings() {
+        return totalRatings;
+    }
+
+    public void setTotalRatings(Integer totalRatings) {
+        this.totalRatings = totalRatings;
+    }
+//    Batja written code END here
 
     // Getter and Setter
     public Long getId() {

@@ -10,10 +10,10 @@ function toggleModal(show) {
 }
 
 function resetForm() {
-    const doc = window.parent.document;  
+    const doc = window.parent.document;
     const ids = ['resName', 'resPhone', 'resAddress', 'resHours', 'resTime', 'resFee', 'resRating', 'resDesc', 'resImage'];
     ids.forEach(id => {
-        const el = doc.getElementById(id);  
+        const el = doc.getElementById(id);
         if (el) el.value = '';
     });
 }
@@ -53,7 +53,7 @@ async function compressImage(file, maxWidth, maxHeight) {
 
 // login uyd
 async function saveRestaurant() {
-       const doc = window.parent.document; 
+    const doc = window.parent.document;
 
     const name = doc.getElementById('resName').value.trim();
     const address = doc.getElementById('resAddress').value.trim();
@@ -118,35 +118,45 @@ async function loadRestaurants() {
         document.getElementById('resCount').innerText = data.length;
         const list = document.getElementById('restaurantList');
         // loadRestaurants функц доторх map хэсэг
-list.innerHTML = data.map(item => {
-    let imgSource = "";
-    // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
-    const rawUrl = item.logoUrl || item.logo_url;
-    if (rawUrl) {
-        if (rawUrl.startsWith('http')) {
-            // 1. Интернэт линк байвал (https://...)
-            imgSource = rawUrl;
-        } else if (rawUrl.startsWith('data:image')) {
-            // 2. Base64 текст байвал
-            imgSource = rawUrl;
-        } else {
-            // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
-            // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
-            imgSource = `./picture/${rawUrl}`;
-        }
-    } else {
-        // 4. Зураг огт байхгүй бол default зураг
-        imgSource = './picture/Layout/no image.jpg';
-    }
+        list.innerHTML = data.map(item => {
+            let imgSource = "";
+            // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
+            const rawUrl = item.logoUrl || item.logo_url;
+            if (rawUrl) {
+                if (rawUrl.startsWith('http')) {
+                    // 1. Интернэт линк байвал (https://...)
+                    imgSource = rawUrl;
+                } else if (rawUrl.startsWith('data:image')) {
+                    // 2. Base64 текст байвал
+                    imgSource = rawUrl;
+                } else {
+                    // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
+                    // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
+                    imgSource = `./picture/${rawUrl}`;
+                }
+            } else {
+                // 4. Зураг огт байхгүй бол default зураг
+                imgSource = './picture/Layout/no image.jpg';
+            }
 
-return `
+            return `
     <div class="res-card">
         <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
         <div class="res-info">
             <h3>${item.name}</h3>
             <p class="category">${item.description || 'Sushi, Asian'}</p>
             <div class="res-details">
-                <span><i class="fas fa-star star-icon"></i> <b>${item.rating || 0} (120+)</b></span>
+                <span>
+    <i class="fas fa-star star-icon"></i>
+
+    <b>
+        ${item.rating
+                    ? item.rating.toFixed(1)
+                    : "-"}
+
+        (${item.totalRatings || 0})
+    </b>
+</span>
                 <span class="dot">●</span>
                 <span><i class="fas fa-clock time-icon"></i> ${item.deliveryTime || 0} мин</span>
                 <span class="dot">●</span>
@@ -156,13 +166,21 @@ return `
                 </span>
             </div>
         </div>
-        <button class="btn-delete" onclick="deleteRestaurant(${item.id})">
-            <i class="fas fa-trash"></i>
-        </button>
+        ${role === "ADMIN" ? `
+
+<button class="btn-delete"
+onclick="event.stopPropagation(); 
+deleteRestaurant(${item.id})">
+
+    <i class="fas fa-trash"></i>
+
+</button>
+
+` : ""}
     </div>
 `;
 
-}).join('');
+        }).join('');
     } catch (err) {
         console.error("Мэдээлэл ачаалахад алдаа:", err);
     }
@@ -182,7 +200,7 @@ async function deleteRestaurant(id) {
 
 document.addEventListener("DOMContentLoaded", loadRestaurants);
 // Модалын гадна (overlay) дарахад хаах логик
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modal = document.getElementById('modalOverlay');
     // Хэрэв дарагдсан элемент нь модал өөрөө (overlay) мөн бол хаана
     if (event.target == modal) {
@@ -200,4 +218,3 @@ function showValidationPopup(msg, isSuccess = false) {
     popup.classList.add('show');
     setTimeout(() => popup.classList.remove('show', 'success'), 3000);
 }
-

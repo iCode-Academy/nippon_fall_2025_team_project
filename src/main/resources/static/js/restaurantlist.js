@@ -132,7 +132,7 @@ async function loadRestaurants() {
         data.sort((a, b) => a.id - b.id);
 
         //Search
-        allRestaurants = data;  
+        allRestaurants = data;
         document.getElementById('resCount').innerText = data.length;
         const list = document.getElementById('restaurantList');
 
@@ -162,8 +162,8 @@ async function loadRestaurants() {
             }
 
             const canShowManage =
-            role === "RESTAURANT" &&
-            item.managerUserId == null;
+                role === "RESTAURANT" &&
+                item.managerUserId == null;
 
             return `
             <div class="res-card"
@@ -184,7 +184,12 @@ async function loadRestaurants() {
 
                         <span>
                             <i class="fas fa-star star-icon"></i>
-                            <b>${item.rating || 0} (120+)</b>
+                            <b>
+                                ${item.rating
+                                    ? item.rating.toFixed(1)
+                                    : "-"}
+                                (${item.totalRatings || 0})
+                            </b>
                         </span>
 
                         <span class="dot">●</span>
@@ -204,13 +209,17 @@ async function loadRestaurants() {
                     </div>
                 </div>
 
-                <button class="btn-delete"
-                onclick="event.stopPropagation(); 
-                deleteRestaurant(${item.id})">
+                ${role === "ADMIN" ? `
 
-                    <i class="fas fa-trash"></i>
+                    <button class="btn-delete"
+                    onclick="event.stopPropagation(); 
+                    deleteRestaurant(${item.id})">
 
-                </button>
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
+                ` : ""}
 
                 ${canShowManage ? `
                     <button class="manage-btn"
@@ -225,15 +234,6 @@ async function loadRestaurants() {
             </div>
             `;
         }).join('');
-
-        if (role !== "ADMIN") {
-
-            document.querySelectorAll(".btn-delete").forEach((btn) => {
-                btn.style.visibility = "hidden";
-                btn.style.pointerEvents = "none";
-            });
-
-        }
 
         if (window.parent.resizeIframe) {
             window.parent.resizeIframe();
@@ -254,6 +254,14 @@ async function deleteRestaurant(id) {
 }
 
 document.addEventListener("DOMContentLoaded", loadRestaurants);
+
+window.addEventListener(
+    "focus",
+    () => {
+        loadRestaurants();
+    }
+);
+
 // Модалын гадна (overlay) дарахад хаах логик
 window.onclick = function (event) {
     const modal = document.getElementById('resModalOverlay');
@@ -291,9 +299,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadRestaurants();
     loadCategories();
     //Search
- const searchInput = window.parent.document.querySelector('.custom-search-input');
+    const searchInput = window.parent.document.querySelector('.custom-search-input');
     if (searchInput) {
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             const query = this.value.toLowerCase().trim();
             if (!query) {
                 renderList(allRestaurants);
@@ -307,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     //switch ajillagaa
-      const toggles = window.parent.document.querySelectorAll('.switch input[type="checkbox"]');
+    const toggles = window.parent.document.querySelectorAll('.switch input[type="checkbox"]');
     toggles.forEach(toggle => {
         toggle.addEventListener('change', applyFilters);
     });
@@ -327,6 +335,8 @@ function goToRestaurant(id) {
 
 const role = localStorage.getItem("userRole");
 
+console.log("ROLE =", role);
+
 if (role !== "ADMIN") {
 
     const addBtn = document.getElementById("addRestaurantBtn");
@@ -337,19 +347,10 @@ if (role !== "ADMIN") {
 
 }
 
-if (role !== "ADMIN") {
-
-    document.querySelectorAll(".btn-delete").forEach((btn) => {
-        btn.style.visibility = "hidden";
-        btn.style.pointerEvents = "none";
-    });
-
-}
-
 async function manageRestaurant(id) {
 
     const userId =
-    localStorage.getItem("userId");
+        localStorage.getItem("userId");
 
     try {
 
@@ -377,7 +378,7 @@ async function manageRestaurant(id) {
         );
 
         window.parent.location.href =
-        `restaurant.html?id=${id}`;
+            `restaurant.html?id=${id}`;
 
     } catch (error) {
 
@@ -421,7 +422,14 @@ function renderList(data) {
                     <h3>${item.name}</h3>
                     <p class="category">${item.category?.categoryName || 'No category'}</p>
                     <div class="res-details">
-                        <span><i class="fas fa-star star-icon"></i> <b>${item.rating || 0} (120+)</b></span>
+                        <span><i class="fas fa-star star-icon"></i> <b>
+                                ${item.rating
+                                            ? item.rating.toFixed(1)
+                                            : "-"}
+
+                                (${item.totalRatings || 0})
+                            </b>
+                        </span>
                         <span class="dot">●</span>
                         <span><i class="fas fa-clock time-icon"></i> ${item.deliveryTime || 0} мин</span>
                         <span class="dot">●</span>
@@ -431,9 +439,17 @@ function renderList(data) {
                         </span>
                     </div>
                 </div>
-                <button class="btn-delete" onclick="event.stopPropagation(); deleteRestaurant(${item.id})">
-                    <i class="fas fa-trash"></i>
-                </button>
+                ${role === "ADMIN" ? `
+
+                    <button class="btn-delete"
+                    onclick="event.stopPropagation(); 
+                    deleteRestaurant(${item.id})">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
+                ` : ""}
             </div>
         `;
     }).join('');
@@ -489,13 +505,13 @@ function filterRestaurantsByCategory(categoryId) {
         setTimeout(() => filterRestaurantsByCategory(categoryId), 300);
         return;
     }
-    
+
     if (!categoryId) {
         renderList(allRestaurants);
         return;
     }
-    
-    const filtered = allRestaurants.filter(item => 
+
+    const filtered = allRestaurants.filter(item =>
         String(item.category?.id) === String(categoryId)
     );
     renderList(filtered);
