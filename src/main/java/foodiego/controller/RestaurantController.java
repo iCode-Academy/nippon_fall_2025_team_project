@@ -1,6 +1,7 @@
 package foodiego.controller;
 
 import foodiego.model.Restaurant;
+import foodiego.dto.ClaimRequest;
 import foodiego.repository.RestaurantRepository;
 import foodiego.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,49 @@ public class RestaurantController {
         Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
         return ResponseEntity.ok(savedRestaurant);
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable ("id") Long id){
+
+    return restaurantRepository.findById(id)
+    .map(ResponseEntity::ok)
+    .orElse(ResponseEntity.notFound().build());
+    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRestaurant(@PathVariable Long id) {
-        return restaurantRepository.findById(id)
-                .map(restaurant -> {
-                    restaurantRepository.delete(restaurant);
-                    return ResponseEntity.ok("Амжилттай устлаа");
-                })
-                .orElse(ResponseEntity.status(404).body("Олдсонгүй"));
+    public ResponseEntity<String> deleteRestaurant(@PathVariable("id") Long id) {
+    return restaurantRepository.findById(id)
+            .map(restaurant -> {
+                restaurantRepository.delete(restaurant);
+                return ResponseEntity.ok("Амжилттай устлаа");
+            })
+            .orElse(ResponseEntity.status(404).body("Олдсонгүй"));
+  	}
+    
+    
+    
+    @PostMapping("/{id}/claim")
+    public ResponseEntity<?> claimRestaurant(
+    			@PathVariable Long id,
+    			@RequestBody ClaimRequest request
+    		) {
+    	
+    	Restaurant restaurant =
+    			restaurantRepository.findById(id).orElseThrow();
+    	
+    	if (restaurant.getManagerUserId() != null) {
+			return ResponseEntity
+					.badRequest()
+					.body("Already claimed");
+		}
+    	
+    	restaurant.setManagerUserId(
+    			request.getUserId()
+    			);
+    	
+    	restaurantRepository.save(restaurant);
+    	
+    	return ResponseEntity.ok().build();
     }
+    
 }

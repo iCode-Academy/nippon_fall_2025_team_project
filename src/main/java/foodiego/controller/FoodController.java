@@ -13,6 +13,7 @@ import foodiego.service.FoodService;
 
 @RestController
 @RequestMapping("/api/foods")
+@CrossOrigin(origins="*")
 public class FoodController {
 
 	
@@ -33,11 +34,21 @@ public class FoodController {
 	        return ResponseEntity.ok(foodService.getById(id));
 	    }
 
-	    @GetMapping("/category/{categoryId}")
-	    public ResponseEntity<List<Foods>> getByCategory(@PathVariable Long categoryId) {
-	        return ResponseEntity.ok(foodService.getByCategory(categoryId));
-	    }
+	    @GetMapping("/restaurant/{restaurantId}")
+	    public ResponseEntity<List<Foods>>
+	    getByRestaurant(
 
+	    @PathVariable("restaurantId")
+	    Long restaurantId
+
+	    ){
+
+	    return ResponseEntity.ok(
+	    foodService.getByRestaurant(
+	    restaurantId
+	    )
+	    );
+	    }
 	    @PostMapping
 	    public ResponseEntity<Foods> create(@RequestBody Foods food) {
 	        return ResponseEntity.status(HttpStatus.CREATED)

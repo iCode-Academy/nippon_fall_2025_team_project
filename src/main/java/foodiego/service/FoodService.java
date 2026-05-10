@@ -58,4 +58,10 @@ public class FoodService {
     public void delete(Long id) {
         foodRepository.deleteById(id);
     }
+    public List<Foods> getByRestaurant(Long restaurantId){
+
+    	return foodRepository.findByRestaurantId(
+    	restaurantId
+    	);
+    	}
 }

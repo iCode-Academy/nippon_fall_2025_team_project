@@ -2,26 +2,21 @@ package foodiego.model;
 
 import java.time.LocalDateTime;
 
-import java.util.List;
+
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "users")
@@ -37,25 +32,25 @@ public class User {
     
     @NotBlank(message = "Нууц үг заавал байх ёстой")
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     
     @NotBlank(message = "Нэр заавал байх ёстой")
     @Column(nullable = false)
     private String name;
     
+    @Column
+    private String phone;
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role; 
+    private Role role;
     
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // нэг user → олон ширээ захиалга
-    @JsonIgnore
-    private List<Reservation> reservations;
 
    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // нэг user → олон үнэлгээ
    // private List<Review> reviews;
@@ -82,8 +77,7 @@ public class User {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-
-    public List<Reservation> getReservations() { return reservations; }
-    public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
     
+    public String getPhone() { return phone;}
+    public void setPhone(String phone) {this.phone = phone;}
 }

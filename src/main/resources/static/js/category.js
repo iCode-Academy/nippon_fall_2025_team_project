@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/api/categories";
 let categories = [];
-const userRole = 'admin'; // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
+const userRole = localStorage.getItem("role"); // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
 
 async function fetchCategories() {
     try {
@@ -27,7 +27,7 @@ function render() {
     // Энэ хэсгийг ойлгоогүй AIдсан
     if (userRole === 'admin') {
         html += `
-            <div class="admin-add-item" onclick="openModal()">
+            <div class="admin-add-item admin-only" onclick="openModal()">
                 <div class="add-icon-circle"><i class="fas fa-plus"></i></div>
                 <span>Нэмэх</span>
             </div>
@@ -62,8 +62,16 @@ async function saveCategory() {
             body: JSON.stringify(data)
         });
         if (res.ok) {
+
             document.getElementById('nameInput').value = '';
+            document.getElementById('fileInput').value = '';
+
             fetchCategories();
+            const iframe = document.getElementById('restaurantIframe');
+
+            if (iframe) {
+                iframe.contentWindow.loadCategories();
+            }
             closeModal();
         }
     };
@@ -86,9 +94,9 @@ function updateArrows() {
     const slider = document.getElementById('catSlider');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    
+
     if (!slider) return;
-    
+
     prevBtn.style.display = slider.scrollLeft > 10 ? "flex" : "none";
     const isAtEnd = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10;
     nextBtn.style.display = isAtEnd ? "none" : "flex";

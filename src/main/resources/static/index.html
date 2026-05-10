@@ -16,7 +16,7 @@
 <body>
     <div class="header">
         <div class="logo">
-            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go">
+            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go" style="cursor:pointer" onclick="goHome()">
         </div>
         <div class="header-center">
             <div class="deliveryBtn">
@@ -45,14 +45,16 @@
                 <!-- 🧾 CART POPUP -->
                 <div id="cartPopup" class="cart-popup"></div>
             </div>
-
             <div class="login">
-                <button id="signIn">Sign in</button>
-                <button id="createacc">Create account</button>
+                <button id="signIn" onclick="goToLogin()">
+                    Sign in
+                </button>
+                <button id="createacc" onclick="goToRegister()">
+                    Create account
+                </button>
             </div>
         </div>
     </div>
-
     <div class="category-section">
         <div class="slider-outer-wrapper">
             <button id="prevBtn" class="nav-btn prev" onclick="scrollCats(-1)">
@@ -84,84 +86,81 @@
             <div class="manage-list" id="manageList"></div>
         </div>
     </div>
-    <div id="loginModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <iframe src="login.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-    <div id="registerModal" class="modal">
-        <div class="modal-content login-modal-content">
-            <span class="close" onclick="closeRegisterModal()">&times;</span>
-            <iframe src="register.html" frameborder="0" class="login-iframe"></iframe>
-        </div>
-    </div>
-
     <div class="layout">
-    <div class="switch-body"> 
-        <div class="filter-container">
-  <div class="filter-row">
-    <span class="filter-label">Open now</span>
-    <label class="switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-  </div>
+        <div class="switch-body">
+            <div class="filter-container">
+                <div class="filter-row">
+                    <span class="filter-label">Open now</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
 
-  <div class="filter-row">
-    <span class="filter-label">Free delivery</span>
-    <label class="switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-  </div>
-  <div class="filter-row rating-section">
-    <span class="filter-label">Rating</span>
-    <div class="stars">
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-      <i class="far fa-star"></i>
-    </div>
+                <div class="filter-row">
+                    <span class="filter-label">Free delivery</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="filter-row rating-section">
+                    <span class="filter-label">Rating</span>
+                    <div class="stars">
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
 
-  </div>
-</div>
+                </div>
+            </div>
 
-    </div>
-    <div class="custom-search-wrapper">
-    <div class="custom-search-container">
-        <div class="custom-search-box">
-            <i class="fas fa-search custom-search-icon"></i>
-            <input type="text" placeholder="What you want to eat today?" class="custom-search-input">
         </div>
+        <div class="custom-search-wrapper">
+            <div class="custom-search-container">
+                <div class="custom-search-box">
+                    <i class="fas fa-search custom-search-icon"></i>
+                    <input type="text" placeholder="What you want to eat today?" class="custom-search-input">
+                </div>
 
-       <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
-    <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
-    <i class="fas fa-chevron-down custom-dropdown-icon"></i>
-</div>
+                <div class="custom-dropdown-box" onclick="toggleSortDropdown(event)">
+                    <span class="custom-dropdown-text" id="sortLabel">Recommended</span>
+                    <i class="fas fa-chevron-down custom-dropdown-icon"></i>
 
-<div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
-    <p class="sort-title">Sort by</p>
-    <label class="sort-option"><input type="radio" name="sort" value="recommended" checked> Recommended</label>
-    <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order (A–Z)</label>
-    <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order (Z–A)</label>
-    <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
-    <div class="sort-actions">
-        <button onclick="cancelSort(event)">Cancel</button>
-        <button class="apply-btn" onclick="applySort(event)">Apply</button>
+
+                    <div class="sort-popup" id="sortPopup" onclick="event.stopPropagation()">
+                        <p class="sort-title">Sort by</p>
+                        <label class="sort-option"><input type="radio" name="sort" value="recommended" checked>
+                            Recommended</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="az"> Alphabetical order
+                            (A–Z)</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="za"> Alphabetical order
+                            (Z–A)</label>
+                        <label class="sort-option"><input type="radio" name="sort" value="distance"> Distance</label>
+                        <div class="sort-actions">
+                            <button onclick="cancelSort(event)">Cancel</button>
+                            <button class="apply-btn" onclick="applySort(event)">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="restaurant-list-wrapper">
+                <iframe src="restaurantlist.html" id="restaurantIframe" class="restaurant-list-iframe" frameborder="0">
+                </iframe>
+
+            </div>
+        </div>
     </div>
-</div>
-
-
+    <div id="validationPopup">
+        <span id="validationMsg"></span>
     </div>
-</div>
 
-    </div>
     <script src="./js/category.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/login.js"></script>
-    <script src="./js/register.js"></script>
+    <script src="./js/auth-ui.js"></script>
 </body>
 
 </html>
