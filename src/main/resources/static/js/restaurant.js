@@ -116,7 +116,7 @@ function renderFoods(foodList) {
     }
 
     if (canManage) {
-        
+
         document.querySelectorAll(".food-qty-control").forEach((el) => {
             el.remove();
         });
@@ -129,10 +129,10 @@ async function loadRestaurant() {
 
     const id =
         new URLSearchParams(window.location.search)
-        .get("id")
+            .get("id")
         ||
         localStorage.getItem("restaurantId");
-    
+
     try {
 
         const res = await fetch(`${RESTAURANT_API_URL}/${id}`);
@@ -144,14 +144,14 @@ async function loadRestaurant() {
         document.getElementById("restaurantCategory").innerText =
             restaurant.category?.categoryName || "No category";
 
-    const bannerEl = document.getElementById("restaurantBanner");
-    const rawUrl = (restaurant.bannerUrl || restaurant.logoUrl || "").replace(/\s+/g, '');
+        const bannerEl = document.getElementById("restaurantBanner");
+        const rawUrl = (restaurant.bannerUrl || restaurant.logoUrl || "").replace(/\s+/g, '');
 
-    if (rawUrl) {
-    bannerEl.src = rawUrl;
-    } else {
-    bannerEl.src = "./picture/Layout/no image.jpg";
-    }
+        if (rawUrl) {
+            bannerEl.src = rawUrl;
+        } else {
+            bannerEl.src = "./picture/Layout/no image.jpg";
+        }
 
         loadFoods(id);
         loadFoodCategories();
@@ -181,7 +181,7 @@ async function saveFood() {
 
     const restaurantId =
         new URLSearchParams(window.location.search)
-        .get("id")
+            .get("id")
         ||
         localStorage.getItem("restaurantId");
 
@@ -304,10 +304,10 @@ async function deleteFood(id) {
         );
 
         if (res.ok) {
-            
+
             const restaurantId =
                 new URLSearchParams(window.location.search)
-                .get("id")
+                    .get("id")
                 ||
                 localStorage.getItem("restaurantId");
 
@@ -373,14 +373,39 @@ function renderFoodCategories(foodList) {
                 food.category
             ])
         ).values()
-    ];
+    ].filter(Boolean);
 
     tabs.innerHTML = categories.map(cat => `
-<button class="food-tab">
-${cat.categoryName}
-</button>
-`).join('');
+        <button
+            class="food-tab"
+            onclick="filterFoods('${cat.categoryName}')"
+        >
+            ${cat.categoryName}
+        </button>
+    `).join('');
 }
+function filterFoods(categoryName) {
+    const blocks = document.querySelectorAll(
+        ".food-category-block"
+    );
+
+    blocks.forEach(block => {
+        const title = block.querySelector(
+            ".food-section-title"
+        ).innerText.trim();
+
+        block.style.display =
+            title === categoryName ? "block" : "none";
+    });
+
+    document.querySelectorAll(".food-tab").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.innerText.trim() === categoryName
+        );
+    });
+}
+
 
 function goHome() {
 
@@ -392,27 +417,27 @@ function goHome() {
 const role = localStorage.getItem("userRole");
 
 const managedRestaurantId =
-localStorage.getItem("restaurantId");
+    localStorage.getItem("restaurantId");
 
 const currentRestaurantId =
     new URLSearchParams(window.location.search)
-    .get("id")
+        .get("id")
     ||
     localStorage.getItem("restaurantId");
 
 const canManage =
-role === "ADMIN" ||
-(
-    role === "RESTAURANT" &&
-    managedRestaurantId === currentRestaurantId
-);
+    role === "ADMIN" ||
+    (
+        role === "RESTAURANT" &&
+        managedRestaurantId === currentRestaurantId
+    );
 
 document.addEventListener("DOMContentLoaded", () => {
 
     if (!canManage) {
 
         const addFoodBtn =
-        document.getElementById("addFoodBtn");
+            document.getElementById("addFoodBtn");
 
         if (addFoodBtn) {
             addFoodBtn.remove();
