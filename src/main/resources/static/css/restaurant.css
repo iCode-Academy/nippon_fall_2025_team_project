@@ -427,3 +427,14 @@ color:#fff;
 .btn-cancel{
 background:#eee;
 }
+
+.input-error {
+    border: 1.5px solid #E24B4A !important;
+    background: #fff5f5;
+}
+.field-error {
+    color: #E24B4A;
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+}

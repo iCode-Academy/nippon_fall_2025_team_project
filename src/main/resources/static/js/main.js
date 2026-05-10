@@ -3,7 +3,7 @@
 // --- UI-г эрхээр удирдах функц ---
 function updateUIBasedOnRole() {
     const role = localStorage.getItem("userRole");
-    
+
     // 1. Ерөнхий элементүүдийг нуух/харуулах
     const adminElements = document.querySelectorAll('.admin-only');
     const restaurantElements = document.querySelectorAll('.restaurant-only');
@@ -21,7 +21,7 @@ function updateUIBasedOnRole() {
 function setupSearch() {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
-        searchInput.onkeyup = function() {
+        searchInput.onkeyup = function () {
             console.log("Хайж байна: " + this.value);
         };
     }
@@ -43,67 +43,84 @@ function updateCartCount() {
     }
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
 
+    cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+    updateCartCount();
+
+    renderCart();
     console.log("FoodieGo үндсэн JS ачаалагдлаа.");
 
     setupSearch();
     updateUIBasedOnRole();
 
-    const iframe=document.getElementById('restaurantIframe');
+    const iframe = document.getElementById('restaurantIframe');
 
-    if(iframe){
-        iframe.onload=resizeIframe;
+    if (iframe) {
+        iframe.onload = resizeIframe;
     }
 
-    window.onclick=function(event){
-        if(typeof catModal!=='undefined'&&event.target==catModal){
-            catModal.style.display='none';
+    window.onclick = function (event) {
+        if (typeof catModal !== 'undefined' && event.target == catModal) {
+            catModal.style.display = 'none';
         }
     };
 
-   // Stars rating
-    document.querySelectorAll('.stars i').forEach((star,index,stars)=>{
+    // Stars rating
+    document.querySelectorAll('.stars i').forEach((star, index, stars) => {
 
-        star.addEventListener('mouseover',()=>{
-            stars.forEach((s,i)=>{
-                s.className=i<=index?'fas fa-star':'far fa-star';
+        star.addEventListener('mouseover', () => {
+            stars.forEach((s, i) => {
+                s.className = i <= index ? 'fas fa-star' : 'far fa-star';
             });
         });
 
-        star.addEventListener('mouseout',()=>{
-            const saved=parseInt(document.querySelector('.stars').dataset.rating||0);
-            stars.forEach((s,i)=>{
-                s.className=i<saved?'fas fa-star':'far fa-star';
+        star.addEventListener('mouseout', () => {
+            const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+
+            stars.forEach((s, i) => {
+                s.className = i < saved ? 'fas fa-star' : 'far fa-star';
             });
         });
 
-        star.addEventListener('click',()=>{
-            document.querySelector('.stars').dataset.rating=index+1;
-            stars.forEach((s,i)=>{
-                s.className=i<=index?'fas fa-star':'far fa-star';
+        star.addEventListener('click', () => {
+            document.querySelector('.stars').dataset.rating = index + 1;
+
+            stars.forEach((s, i) => {
+                s.className = i <= index ? 'fas fa-star' : 'far fa-star';
             });
         });
 
     });
 
-    // ✅ delivery/pickup энд
-    document.getElementById('delivery').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('pickup').classList.remove('active');
-        const iframe = document.getElementById('restaurantIframe');
-        if (iframe) iframe.contentWindow.setMode('delivery');
+});
+// Stars rating
+document.querySelectorAll('.stars i').forEach((star, index, stars) => {
+    star.addEventListener('mouseover', () => {
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+        });
     });
 
-    document.getElementById('pickup').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('delivery').classList.remove('active');
-        const iframe = document.getElementById('restaurantIframe');
-        if (iframe) iframe.contentWindow.setMode('pickup');
+    star.addEventListener('mouseout', () => {
+        const saved = parseInt(document.querySelector('.stars').dataset.rating || 0);
+        stars.forEach((s, i) => {
+            s.className = i < saved ? 'fas fa-star' : 'far fa-star';
+        });
     });
 
-}); 
- 
+    star.addEventListener('click', () => {
+        document.querySelector('.stars').dataset.rating = index + 1;
+        stars.forEach((s, i) => {
+            s.className = i <= index ? 'fas fa-star' : 'far fa-star';
+        });
+    });
+});
+
 // ===============================
 // 🔍 SORT DROPDOWN
 // ===============================
@@ -210,12 +227,20 @@ function renderCart() {
 }
 
 function addToCart(item) {
-    const existingItem = cart.find(i => i.id === item.id);
+    const existingItem =
+    cart.find(i => i.id === item.id);
     if (existingItem) {
         existingItem.quantity++;
     } else {
-        cart.push({ ...item, quantity: 1 });
+        cart.push({
+            ...item,
+            quantity:1
+        });
     }
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
     updateCartCount();
     renderCart();
 }
@@ -262,24 +287,24 @@ function closeResModal() {
     document.body.style.overflow = 'auto';
 }
 
-function saveRestaurantFromParent(){
-    const iframe=document.getElementById('restaurantIframe');
-    if(iframe&&iframe.contentWindow.saveRestaurant){
+function saveRestaurantFromParent() {
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe && iframe.contentWindow.saveRestaurant) {
         iframe.contentWindow.saveRestaurant();
     }
 }
 
 // Хэрэв ресторан нэмэгдэж өндөр нь өөрчлөгдвөл дахин тохируулах функц
-function resizeIframe(){
-    const iframe=document.getElementById('restaurantIframe');
-    if(!iframe)return;
+function resizeIframe() {
+    const iframe = document.getElementById('restaurantIframe');
+    if (!iframe) return;
 
-    const innerDoc=iframe.contentDocument||iframe.contentWindow.document;
-    iframe.style.height='0px';
+    const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    iframe.style.height = '0px';
 
-    const contentHeight=innerDoc.body.scrollHeight;
-    const finalHeight=Math.max(contentHeight,800);
-    iframe.style.height=finalHeight+'px';
+    const contentHeight = innerDoc.body.scrollHeight;
+    const finalHeight = Math.max(contentHeight, 800);
+    iframe.style.height = finalHeight + 'px';
 }
 
 // =========================
@@ -298,51 +323,31 @@ function goToRegister() {
         "login.html#register";
 }
 
-function toggleModal(show){
-    const modal=document.getElementById('resModalOverlay');
-    modal.style.display=show?'flex':'none';
-    document.body.style.overflow=show?'hidden':'auto';
+function toggleModal(show) {
+    const modal = document.getElementById('resModalOverlay');
+    modal.style.display = show ? 'flex' : 'none';
+    document.body.style.overflow = show ? 'hidden' : 'auto';
 }
 
-function goHome(){
+function goHome() {
 
-window.location.href=
-"index.html";
+    window.location.href =
+        "index.html";
 
 }
 
+// delivery/pickup tovchind onclick nemev
+document.getElementById('delivery').addEventListener('click', function () {
+    this.classList.add('active');
+    document.getElementById('pickup').classList.remove('active');
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe) iframe.contentWindow.setMode('delivery');
+});
 
+document.getElementById('pickup').addEventListener('click', function () {
+    this.classList.add('active');
+    document.getElementById('delivery').classList.remove('active');
+    const iframe = document.getElementById('restaurantIframe');
+    if (iframe) iframe.contentWindow.setMode('pickup');
+});
 
-async function getLocation() {
-    if (!navigator.geolocation) {
-        alert("Таны browser geolocation дэмждэггүй.");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        async (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            try {
-                const res = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
-                );
-                const data = await res.json();
-
-                const road = data.address.road || data.address.suburb || "";
-                const houseNumber = data.address.house_number || "";
-                const display = (houseNumber + " " + road).trim() || data.display_name;
-
-                document.getElementById("addressDisplay").innerText = display;
-                localStorage.setItem("userAddress", display);
-
-            } catch (err) {
-                console.error("Хаяг авахад алдаа:", err);
-            }
-        },
-        () => {
-            alert("Байршил авахыг зөвшөөрнө үү.");
-        }
-    );
-}

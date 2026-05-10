@@ -16,7 +16,7 @@ function toggleModal(show) {
 
 function resetForm() {
     const doc = document;
-    const ids = ['resName', 'resPhone', 'resAddress', 'resHours', 'resTime', 'resFee', 'resRating', 'resDesc', 'resImage'];
+    const ids = ['resName', 'resPhone', 'resAddress', 'resOpen', 'resClose', 'resTime', 'resFee', 'resDesc', 'resImage'];
     ids.forEach(id => {
         const el = doc.getElementById(id);
         if (el) el.value = '';
@@ -75,6 +75,13 @@ async function saveRestaurant() {
         showValidationPopup("Category сонгоно уу!");
         return;
     }
+    const openTime = doc.getElementById('resOpen').value;
+const closeTime = doc.getElementById('resClose').value;
+
+if (!openTime || !closeTime) {
+    showValidationPopup("Ажиллах цагаа оруулна уу!");
+    return;
+}
 
     const imageInput = doc.getElementById('resImage');
     const imageFile = imageInput ? imageInput.files[0] : null;
@@ -91,10 +98,10 @@ async function saveRestaurant() {
         name: name,
         phoneNumber: doc.getElementById('resPhone').value,
         address: address,
-        workingHours: doc.getElementById('resHours').value,
+        workingHours: `${doc.getElementById('resOpen').value}-${doc.getElementById('resClose').value}`,
+        rating: 0,
         deliveryTime: parseInt(doc.getElementById('resTime').value) || 0,
         deliveryFee: parseFloat(doc.getElementById('resFee').value) || 0,
-        rating: parseFloat(doc.getElementById('resRating').value) || 0,
         description: doc.getElementById('resDesc').value,
         logoUrl: base64Image,
         category: { id: parseInt(categoryId) }
@@ -502,3 +509,24 @@ function filterRestaurantsByCategory(categoryId) {
 }
 
 window.filterRestaurantsByCategory = filterRestaurantsByCategory;
+
+async function validateAndSaveRestaurant() {
+    const phone = document.getElementById('resPhone').value.trim();
+    const time = document.getElementById('resTime').value;
+    const fee = document.getElementById('resFee').value;
+
+    if (!phone) {
+        showValidationPopup("Утасны дугаар оруулна уу!");
+        return;
+    }
+    if (!time || parseInt(time) <= 0) {
+        showValidationPopup("Хүргэлтийн хугацаа оруулна уу!");
+        return;
+    }
+    if (fee === '' || parseFloat(fee) < 0) {
+        showValidationPopup("Хүргэлтийн үнэ оруулна уу!");
+        return;
+    }
+
+    return saveRestaurant();
+}

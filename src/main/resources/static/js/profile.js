@@ -36,46 +36,6 @@ async function fetchUser() {
     }
 }
 
-function renderOrders() {
-    const list = document.getElementById("ordersList");
-    const myOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
-
-    if (myOrders.length === 0) {
-        list.innerHTML = "<p>You have no past orders.</p>";
-        return;
-    }
-
-    let html = "";
-    myOrders.forEach(order => {
-        const btnClass = order.isReviewed ? "review-btn done" : "review-btn";
-        const btnText = order.isReviewed ? "Reviewed ✓" : "Leave a Review";
-        const btnAction = order.isReviewed ? "" : `onclick="openReviewModal('${order.id}','${order.restaurantName}')"`;
-
-        html += `
-            <div class="order-card">
-                <div class="order-info">
-                    <h4>${order.restaurantName}</h4>
-                    <p><strong>Order ID:</strong> ${order.id}</p>
-                    <p><strong>Date:</strong> ${order.date}</p>
-                    <span class="order-status">${order.status}</span>
-                </div>
-                <div class="order-actions">
-                <div class="order-total">$${order.total.toFixed(2)}</div>
-                <button class="${btnClass}" ${btnAction}>
-                ${btnText}
-                </button>
-
-                <button class="received-btn"
-                onclick="completeOrder('${order.id}')">
-                Order Received
-                </button>
-                </div>
-                </div>
-        `;
-    });
-    list.innerHTML = html;
-}
-
 // МОДАЛ НЭЭХ ФУНКЦ (Энийг нэмсэн)
 function openReviewModal(orderId, restaurantName) {
     currentOrderId = orderId;
