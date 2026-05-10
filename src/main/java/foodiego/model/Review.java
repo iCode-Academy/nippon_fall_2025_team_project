@@ -24,8 +24,13 @@ public class Review {
 	@ManyToOne
 	private Foods foods;
 	
-//	hooson baiguulagch
-	public Review() {}
+	 @ManyToOne
+	 private Restaurant restaurant;
+	 
+		
+//		hooson baiguulagch
+		public Review() {}
+	 
 	
 //	getters & setters
 	public Long getId() {
@@ -51,6 +56,16 @@ public class Review {
         this.foods = foods;
     }
 	
+    // restaurant
+
+    public Restaurant getRestaurant(){
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant){
+        this.restaurant=restaurant;
+    }
+    
 	public int getRating() {
 		return rating;
 	}
