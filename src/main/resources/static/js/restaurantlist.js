@@ -128,10 +128,17 @@ async function loadRestaurants() {
     try {
         const res = await fetch(RESTAURANT_API_URL);
         const data = await res.json();
+
+        data.sort((a, b) => a.id - b.id);
+
         //Search
         allRestaurants = data;  
         document.getElementById('resCount').innerText = data.length;
         const list = document.getElementById('restaurantList');
+
+        const role =
+            localStorage.getItem("userRole");
+
         // loadRestaurants функц доторх map хэсэг
         list.innerHTML = data.map(item => {
             let imgSource = "";
@@ -154,62 +161,69 @@ async function loadRestaurants() {
                 imgSource = './picture/Layout/no image.jpg';
             }
 
+            const canShowManage =
+            role === "RESTAURANT" &&
+            item.managerUserId == null;
+
             return `
-         <div class="res-card"
-        onclick="goToRestaurant(${item.id})">
-        <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
-        <div class="res-info">
-            <h3>${item.name}</h3>
-            <p class="category">${item.category?.categoryName || 'No category'}</p>
-            <div class="res-details">
-                <span><i class="fas fa-star star-icon"></i> <b>${item.rating || 0} (120+)</b></span>
-                <span class="dot">●</span>
-                <span><i class="fas fa-clock time-icon"></i> ${item.deliveryTime || 0} мин</span>
-                <span class="dot">●</span>
-                <span style="color: #00b22d; font-weight: 600;">
-                    <i class="fas fa-motorcycle delivery-icon"></i>
-                    ${item.deliveryFee == 0 ? 'Free' : '₮' + item.deliveryFee}
-                </span>
+            <div class="res-card"
+            onclick="goToRestaurant(${item.id})">
+
+                <img src="${imgSource}" class="res-img" 
+                onerror="this.src='./picture/Layout/Foodie Go.png'">
+
+                <div class="res-info">
+
+                    <h3>${item.name}</h3>
+
+                    <p class="category">
+                        ${item.category?.categoryName || 'No category'}
+                    </p>
+
+                    <div class="res-details">
+
+                        <span>
+                            <i class="fas fa-star star-icon"></i>
+                            <b>${item.rating || 0} (120+)</b>
+                        </span>
+
+                        <span class="dot">●</span>
+
+                        <span>
+                            <i class="fas fa-clock time-icon"></i>
+                            ${item.deliveryTime || 0} мин
+                        </span>
+
+                        <span class="dot">●</span>
+
+                        <span style="color: #00b22d; font-weight: 600;">
+                            <i class="fas fa-motorcycle delivery-icon"></i>
+                            ${item.deliveryFee == 0 ? 'Free' : '₮' + item.deliveryFee}
+                        </span>
+            
+                    </div>
+                </div>
+
+                <button class="btn-delete"
+                onclick="event.stopPropagation(); 
+                deleteRestaurant(${item.id})">
+
+                    <i class="fas fa-trash"></i>
+
+                </button>
+
+                ${canShowManage ? `
+                    <button class="manage-btn"
+                    onclick="
+                    event.stopPropagation();
+                    manageRestaurant(${item.id})
+                    ">
+                        Manage Restaurant
+                    </button>
+                ` : ''}
+
             </div>
-        </div>
-<button class="btn-delete"
-onclick="event.stopPropagation(); deleteRestaurant(${item.id})">
-    <i class="fas fa-trash"></i>
-</button>
-
-${(() => {
-
-    const role =
-    localStorage.getItem("userRole");
-
-    const currentUserId =
-    localStorage.getItem("userId");
-
-    const isOwner =
-    String(item.managerUserId) ===
-    String(currentUserId);
-
-    const canShowManage =
-    role === "RESTAURANT" &&
-    (
-        item.managerUserId == null ||
-        isOwner
-    );
-
-    return canShowManage ? `
-<button class="manage-btn"
-onclick="
-event.stopPropagation();
-manageRestaurant(${item.id})
-">
-    Manage Restaurant
-</button>
-` : '';
-
-})()}
-
-    </div>
-`;
+            `;
         }).join('');
 
         if (role !== "ADMIN") {
@@ -358,7 +372,7 @@ async function manageRestaurant(id) {
         }
 
         localStorage.setItem(
-            "managedRestaurantId",
+            "restaurantId",
             id
         );
 
@@ -468,5 +482,3 @@ function applyFilters() {
 
     renderList(filtered);
 }
-
-

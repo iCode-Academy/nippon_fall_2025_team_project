@@ -14,40 +14,52 @@ function updateAuthUI() {
     const createAccBtn =
         document.getElementById('createacc');
 
-    if (!signInBtn || !createAccBtn) return;
+    if (signInBtn && createAccBtn) {
 
-    if (isLoggedIn) {
+        if (isLoggedIn) {
 
-        const userName =
-            localStorage.getItem('userName');
+            const userName =
+                localStorage.getItem('userName');
 
-        signInBtn.textContent =
-            userName;
+            signInBtn.textContent =
+                userName;
 
-        signInBtn.onclick =
-            goToProfile;
+            signInBtn.onclick =
+                goToProfile;
 
-        createAccBtn.textContent =
-            'Sign Out';
+            createAccBtn.textContent =
+                'Sign Out';
 
-        createAccBtn.onclick =
-            logout;
+            createAccBtn.onclick =
+                logout;
+        }
+
+        else {
+
+            signInBtn.textContent =
+                'Sign in';
+
+            signInBtn.onclick =
+                goToLogin;
+
+            createAccBtn.textContent =
+                'Create account';
+
+            createAccBtn.onclick =
+                goToRegister;
+        }
+
     }
 
-    else {
+    // ROLE BASED UI
 
-        signInBtn.textContent =
-            'Sign in';
+    const role = localStorage.getItem("userRole");
 
-        signInBtn.onclick =
-            goToLogin;
+    const isAdmin = role === "ADMIN";
 
-        createAccBtn.textContent =
-            'Create account';
-
-        createAccBtn.onclick =
-            goToRegister;
-    }
+    document.querySelectorAll(".admin-only").forEach((el) => {
+        el.style.display = isAdmin ? "flex" : "none";
+    });
 }
 
 function goToProfile() {
@@ -64,18 +76,9 @@ function logout() {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userRole');
 
+    localStorage.removeItem('restaurantId');
+    localStorage.removeItem('managedRestaurantId');
+
     window.location.href =
         'index.html';
-}
-
-// Batja:
-
-const role = localStorage.getItem("userRole");
-
-if (role != "ADMIN") {
-  
-  document.querySelectorAll(".admin-only").forEach((el) => {
-    el.style.display = "none";
-  });
-
 }

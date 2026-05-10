@@ -1,9 +1,12 @@
 package foodiego.controller;
 
 import foodiego.dto.LoginRequest;
+import foodiego.dto.LoginResponse;
 import foodiego.model.Role;
 import foodiego.model.User;
+import foodiego.model.Restaurant;
 import foodiego.service.UserService;
+import foodiego.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,10 @@ public class PublicController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    
     // =========================
     // REGISTER
     // =========================
@@ -72,6 +79,7 @@ public class PublicController {
     public ResponseEntity<?> login(
             @RequestBody LoginRequest loginRequest
     ) {
+    	
         // Email validation
         if (
                 loginRequest.getEmail() == null ||
@@ -96,9 +104,31 @@ public class PublicController {
                         loginRequest.getEmail(),
                         loginRequest.getPassword()
                 );
+        
         if (user != null) {
-            return ResponseEntity.ok(user);
-        }
+			
+        	LoginResponse response = 
+        			new LoginResponse();
+        	
+        	response.setId(user.getId());
+        	response.setName(user.getName());
+        	response.setEmail(user.getEmail());
+        	response.setRole(user.getRole());
+        	
+        	Restaurant restaurant =
+        			restaurantRepository
+        			.findByManagerUserId(user.getId())
+        			.orElse(null);
+        	
+        	if (restaurant != null) {
+				response.setRestaurantId(
+						restaurant.getId()
+						);
+			}
+        	
+        	return ResponseEntity.ok(response);
+		}
+        
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid email or password");

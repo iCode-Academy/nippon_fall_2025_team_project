@@ -66,7 +66,13 @@ async function handleLogin() {
     localStorage.setItem('userName', user.name || user.username);
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userRole', user.role);
-    localStorage.setItem("userPhone",user.phone);
+    localStorage.setItem("userPhone", user.phone);
+
+    localStorage.setItem(
+      'restaurantId',
+      user.restaurantId
+    );
+
     console.log("LocalStorage хадгалагдлаа:", localStorage.getItem('userName'));
 
     msg.className = 'msg success';
@@ -76,10 +82,23 @@ async function handleLogin() {
       if (user.role === 'ADMIN') {
         window.location.href = 'index.html';
       }
-      else if (
-        user.role === 'RESTAURANT'
-      ) {
-        window.location.href = 'index.html';
+      else if (user.role === 'RESTAURANT') {
+
+        localStorage.setItem(
+          'restaurantId',
+          user.restaurantId
+        );
+
+        if (user.restaurantId) {
+          window.location.href =
+            'restaurant.html';
+        }
+
+        else {
+          window.location.href =
+            'restaurantlist.html'
+        }
+        
       }
 
       else {

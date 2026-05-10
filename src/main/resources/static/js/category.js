@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/api/categories";
 let categories = [];
-const userRole = localStorage.getItem("role"); // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
+const userRole = localStorage.getItem("userRole"); // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
 
 async function fetchCategories() {
     try {
@@ -25,7 +25,7 @@ function render() {
     `).join('');
 
     // Энэ хэсгийг ойлгоогүй AIдсан
-    if (userRole === 'admin') {
+    if (userRole === 'ADMIN') {
         html += `
             <div class="admin-add-item admin-only" onclick="openModal()">
                 <div class="add-icon-circle"><i class="fas fa-plus"></i></div>
