@@ -301,3 +301,25 @@ window.addEventListener(
 );
 
 console.log("clicked");
+
+
+// =========================
+// ENTER KEY
+// =========================
+document.addEventListener("keydown", function (event) {
+  if (event.key !== "Enter") return;
+
+  const loginCard = document.getElementById("loginCard");
+  const registerCard = document.getElementById("registerCard");
+
+  if (!loginCard.classList.contains("hidden")) {
+    event.preventDefault();
+    handleLogin();
+  } else if (!registerCard.classList.contains("hidden")) {
+    event.preventDefault();
+    handleRegister();
+  }
+});
+
+
+console.log("hahahh zl");
