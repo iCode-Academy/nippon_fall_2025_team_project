@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/orders.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <img src="./picture/Layout/Foodie Go.png"
+                 alt="Foodie Go"
+                 style="cursor:pointer"
+                 onclick="goHome()">
+        </div>
+        <div class="header-center">
+            <div class="deliveryBtn">
+                <button id="delivery"
+                        class="active">
+                    <img src="./picture/Layout/Delivery.png"
+                         alt="">
+                    Delivery
+                </button>
+                <button id="pickup">
+                    <img src="./picture/Layout/pickup-icon.png"
+                         alt="">
+                    Pickup
+                </button>
+            </div>
+            <div class="greenPoint">
+                <img src="./picture/Layout/location.png"
+                     alt="">
+                <span id="addressNumber">
+                    136
+                </span>
+                Greenpoint Ave
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="basket-icon-wrapper"
+                 onclick="toggleCart()">
+                <img src="./picture/Layout/Basket.png"
+                     alt="Basket"
+                     class="basket-img">
+                <div id="basketCounter">
+                    0
+                </div>
+                <div id="cartPopup"
+                     class="cart-popup">
+                </div>
+            </div>
+            <div class="login">
+                <button id="signIn"
+                        onclick="goToLogin()">
+                    Sign in
+                </button>
+                <button id="createacc"
+                        onclick="goToRegister()">
+                    Create account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="profile-container">
+        <div class="dashboard-layout">
+            <!-- PROFILE -->
+            <div class="profile-card">
+                <h2>My Profile</h2>
+                <div class="profile-info">
+                    <div class="info-row">
+                        <span class="label">
+                            Name
+                        </span>
+                        <span id="profileName">
+                            -
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">
+                            Email
+                        </span>
+                        <span id="profileEmail">
+                            -
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">
+                            Phone
+                        </span>
+                        <span id="profilePhone">
+                            -
+                        </span>
+                    </div>
+                  
+                </div>
+            </div>
+            <!-- ORDERS -->
+    <div class="orders-container">
+        <h2>My Orders</h2>
+        <div id="ordersList" class="orders-list"></div>
+    </div>
+
+    <div id="reviewModal" class="review-modal-overlay">
+        <div class="review-modal-content">
+            <span class="close-review" onclick="closeReviewModal()">&times;</span>
+            <h3 id="reviewResName">Review</h3>
+            
+            <div class="rating-box">
+                <p>How was your order?</p>
+                <div class="review-stars" id="starRating">
+                    <i class="far fa-star" data-value="1"></i>
+                    <i class="far fa-star" data-value="2"></i>
+                    <i class="far fa-star" data-value="3"></i>
+                    <i class="far fa-star" data-value="4"></i>
+                    <i class="far fa-star" data-value="5"></i>
+                </div>
+                <span id="ratingText" class="rating-text">Select stars</span>
+            </div>
+
+            <textarea id="reviewComment" placeholder="Write your feedback..." rows="4"></textarea>
+            <button class="submit-review-btn" onclick="submitReview()">Submit Review</button>
+        </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/auth-ui.js"></script>
+    <script src="./js/orders.js"></script>
+    <script src="./js/profile.js"></script>
+
+</body>
+</html>

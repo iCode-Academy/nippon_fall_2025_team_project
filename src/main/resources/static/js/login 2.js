@@ -23,7 +23,7 @@ function showLogin() {
 // =========================
 // LOGIN
 // =========================
-async function handleLogin(event) {
+async function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const btn = document.getElementById('loginBtn');
@@ -152,7 +152,7 @@ function checkStrength(val) {
 // =========================
 // REGISTER
 // =========================
-async function handleRegister(event) {
+async function handleRegister() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('registerEmail').value.trim();
   const password = document.getElementById('registerPassword').value;
@@ -300,21 +300,22 @@ window.addEventListener(
   }
 );
 
-console.log("clicked");
+console.log("click");
 
 // =========================
-// ENTER KEY
+// ENTER KEY LOGIN
 // =========================
 document.addEventListener("keydown", function (event) {
-  if (event.key !== "Enter") return;
 
   const loginCard = document.getElementById("loginCard");
   const registerCard = document.getElementById("registerCard");
 
-  if (!loginCard.classList.contains("hidden")) {
+  if (!loginCard.classList.contains("hidden") && event.key === "Enter") {
     event.preventDefault();
     handleLogin();
-  } else if (!registerCard.classList.contains("hidden")) {
+  }
+
+  if (!registerCard.classList.contains("hidden") && event.key === "Enter") {
     event.preventDefault();
     handleRegister();
   }

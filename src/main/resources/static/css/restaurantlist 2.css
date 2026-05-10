@@ -1,0 +1,324 @@
+/* Үндсэн layout-ийг уян хатан болгох */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: transparent;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+/* Header хэсэг */
+.layout-header {
+    width: 100%;
+    padding: 20px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.layout-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+}
+
+/* Рестораны жагсаалтын контейнер */
+.layout-body {
+    flex: 1;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.res-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* КАРТНЫ ЗАГВАР (Зурагтай ижил болгосон) */
+.res-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 120px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+    transition: transform .2s ease;
+    gap: 18px;
+}
+
+.res-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.res-img {
+    width: 140px;
+    height: 106px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-right: 20px;
+}
+
+.res-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    flex: 1;
+    min-width: 0;
+}
+
+.res-info .category {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+/* Од, хугацаа, хүргэлт */
+.res-img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.res-details span i {
+    color: #00b14f;
+    /* Ногоон icon */
+    margin-right: 4px;
+}
+
+/* FOOTER - Товчийг баруун талд гаргах */
+.layout-footer {
+    display: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    position: static;
+    margin-bottom: 20px;
+}
+
+.btn-add-main {
+    width: auto;
+    /* Нийт өргөнөөрөө биш */
+    min-width: 200px;
+    background: #00b14f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0, 177, 79, 0.2);
+}
+
+.btn-add-main:hover {
+    background: #009643;
+}
+
+/* Icon-уудын өнгө */
+.star-icon {
+    color: #00b22d;
+}
+
+/* Зураг дээрх шиг ногоон од */
+.time-icon {
+    color: #00b22d;
+}
+
+.delivery-icon {
+    color: #00b22d;
+}
+
+.dot {
+    font-size: 10px;
+    color: #ccc;
+}
+
+/* Устгах товч */
+.btn-delete {
+    margin-left: auto;
+    background: #fff5f5;
+    border: none;
+    color: #ff4d4f;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .2s;
+    flex-shrink: 0;
+}
+
+.btn-delete:hover {
+    background: #ff4d4f;
+    color: white;
+}
+
+/* restaurantlist.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 99999;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+}
+
+/* Хаах товчлуур (x) */
+.close {
+    position: absolute;
+    /* Байрлалыг чөлөөтэй болгоно */
+    top: 15px;
+    /* Дээд талаас 15px зай */
+    right: 20px;
+    /* БАРУУН талаас 20px зай */
+    color: #888;
+    font-size: 28px;
+    /* Хэмжээг нь тохируулах */
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    /* Үсгийг голлуулах */
+    transition: color 0.2s;
+}
+
+/* Хулгана очиход өнгө нь солигдоно */
+.close:hover {
+    color: #ff4d4f;
+    /* Улаан өнгөтэй болно */
+}
+
+.modal-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.form-group select {
+    width: 100%;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-group select:focus {
+    border-color: #00b14f;
+    box-shadow: 0 0 0 3px rgba(0, 177, 79, 0.15);
+}
+
+.modal-footer-btns {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-save {
+    flex: 1;
+    background: #00b050;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    flex: 1;
+    background: #eee;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.manage-btn {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b14f;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.manage-btn:hover {
+    background-color: #009944;
+    transform: translateY(-1px);
+}
+
+.manage-btn:active {
+    transform: scale(0.98);
+}
