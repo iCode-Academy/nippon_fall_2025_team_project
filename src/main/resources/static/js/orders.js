@@ -90,9 +90,11 @@ $${order.total?order.total.toFixed(2):"0.00"}
 <button
 class="${btnClass}"
 ${btnAction}>
-
 ${btnText}
 
+<button class="received-btn"
+onclick="completeOrder('${order.id}')">
+Order Received
 </button>
 
 </div>
@@ -279,4 +281,28 @@ alert(
 closeReviewModal();
 
 renderOrders();
+}
+
+function completeOrder(orderId){
+
+    const confirmDelete=
+        confirm(
+            "Are you sure you received this order?"
+        );
+
+    if(!confirmDelete){
+        return;
+    }
+
+    myOrders=
+        myOrders.filter(
+            order=>order.id!==orderId
+        );
+
+    localStorage.setItem(
+        "myOrdersList",
+        JSON.stringify(myOrders)
+    );
+
+    renderOrders();
 }

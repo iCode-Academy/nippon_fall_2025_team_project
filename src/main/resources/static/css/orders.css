@@ -56,3 +56,19 @@
 #reviewComment { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; }
 .submit-review-btn { width: 100%; background: #0FA958; color: white; border: none; padding: 12px; border-radius: 25px; cursor: pointer; }
 .back-btn { background: none; border: 1px solid #0FA958; color: #0FA958; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+
+.received-btn{
+    margin-top:10px;
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.received-btn:hover{
+    background:#dc2626;
+}

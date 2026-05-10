@@ -21,15 +21,15 @@ async function fetchUser() {
 
         document.getElementById("profileName").innerText = user.name || "-";
         document.getElementById("profileEmail").innerText = user.email || "-";
-        
+
         // ЗАСВАР: savedPhone-г localStorage-аас авсан
         const savedPhone = localStorage.getItem("checkoutPhone");
         const savedAddress = localStorage.getItem("checkoutAddress");
 
         document.getElementById("profilePhone").innerText = user.phone || savedPhone || "-";
-        
+
         const addrElem = document.getElementById("profileAddress");
-        if(addrElem) addrElem.innerText = savedAddress || "-";
+        if (addrElem) addrElem.innerText = savedAddress || "-";
 
     } catch (error) {
         console.error(error);
@@ -60,10 +60,17 @@ function renderOrders() {
                     <span class="order-status">${order.status}</span>
                 </div>
                 <div class="order-actions">
-                    <div class="order-total">$${order.total.toFixed(2)}</div>
-                    <button class="${btnClass}" ${btnAction}>${btnText}</button>
+                <div class="order-total">$${order.total.toFixed(2)}</div>
+                <button class="${btnClass}" ${btnAction}>
+                ${btnText}
+                </button>
+
+                <button class="received-btn"
+                onclick="completeOrder('${order.id}')">
+                Order Received
+                </button>
                 </div>
-            </div>
+                </div>
         `;
     });
     list.innerHTML = html;
