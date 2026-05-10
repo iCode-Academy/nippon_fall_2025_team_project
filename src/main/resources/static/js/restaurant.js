@@ -614,3 +614,46 @@ function showRatingMessage() {
 }
 
 // Batja written code END here
+async function validateAndSaveFood() {
+    const foodNameEl = document.getElementById("foodName");
+    const foodPriceEl = document.getElementById("foodPrice");
+    const foodCategoryEl = document.getElementById("foodCategory");
+
+    document.querySelectorAll(".field-error").forEach(el => el.remove());
+    document.querySelectorAll(".input-error").forEach(el => el.classList.remove("input-error"));
+
+    let valid = true;
+
+    if (!foodNameEl.value.trim()) {
+        showFieldError(foodNameEl, "Хоолны нэр оруулна уу");
+        valid = false;
+    }
+    if (!foodPriceEl.value || parseFloat(foodPriceEl.value) <= 0) {
+        showFieldError(foodPriceEl, "Үнэ оруулна уу");
+        valid = false;
+    }
+    if (!foodCategoryEl.value) {
+        showFieldError(foodCategoryEl, "Категори сонгоно уу");
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    return saveFood();
+}
+
+function showFieldError(input, message) {
+    input.classList.add("input-error");
+    const err = document.createElement("span");
+    err.className = "field-error";
+    err.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+    input.parentNode.appendChild(err);
+    input.addEventListener("input", () => {
+        err.remove();
+        input.classList.remove("input-error");
+    }, { once: true });
+    input.addEventListener("change", () => {
+        err.remove();
+        input.classList.remove("input-error");
+    }, { once: true });
+}
