@@ -53,8 +53,12 @@
                     <input type="text" id="resAddress">
                 </div>
                 <div class="form-group">
-                    <label>Ажиллах цаг</label>
-                    <input type="text" id="resHours">
+                <label>Нээх цаг</label>
+                <input type="time" id="resOpen">
+                </div>
+                <div class="form-group">
+                <label>Хаах цаг</label>
+                <input type="time" id="resClose">
                 </div>
                 <div class="form-group">
                     <label>Хүргэлтийн хугацаа</label>
@@ -63,10 +67,6 @@
                 <div class="form-group">
                     <label>Хүргэлтийн үнэ</label>
                     <input type="number" id="resFee">
-                </div>
-                <div class="form-group">
-                    <label>Rating</label>
-                    <input type="number" step="0.1" id="resRating">
                 </div>
                 <div class="form-group full-width">
                     <label>Тайлбар</label>
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="modal-footer-btns">
-                <button class="btn-save" onclick="saveRestaurant()">
+                <button class="btn-save" onclick="validateAndSaveRestaurant()">
                     Save
                 </button>
                 <button class="btn-cancel" onclick="toggleModal(false)">
