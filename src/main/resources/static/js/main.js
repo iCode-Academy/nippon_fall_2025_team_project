@@ -58,6 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSearch();
     updateUIBasedOnRole();
 
+    const savedAddress =
+        localStorage.getItem("userAddress");
+
+    if (savedAddress) {
+
+        document.getElementById(
+            "addressDisplay"
+        ).innerText =
+            savedAddress;
+
+    }
+
     const iframe = document.getElementById('restaurantIframe');
 
     if (iframe) {
@@ -96,7 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     });
+    // delivery/pickup tovchind onclick nemev
+    document.getElementById('delivery').addEventListener('click', function () {
+        this.classList.add('active');
+        document.getElementById('pickup').classList.remove('active');
+        const iframe = document.getElementById('restaurantIframe');
+        if (iframe) iframe.contentWindow.setMode('delivery');
+    });
 
+    document.getElementById('pickup').addEventListener('click', function () {
+        this.classList.add('active');
+        document.getElementById('delivery').classList.remove('active');
+        const iframe = document.getElementById('restaurantIframe');
+        if (iframe) iframe.contentWindow.setMode('pickup');
+    });
 });
 // Stars rating
 document.querySelectorAll('.stars i').forEach((star, index, stars) => {
@@ -228,13 +253,13 @@ function renderCart() {
 
 function addToCart(item) {
     const existingItem =
-    cart.find(i => i.id === item.id);
+        cart.find(i => i.id === item.id);
     if (existingItem) {
         existingItem.quantity++;
     } else {
         cart.push({
             ...item,
-            quantity:1
+            quantity: 1
         });
     }
     localStorage.setItem(
@@ -336,18 +361,74 @@ function goHome() {
 
 }
 
-// delivery/pickup tovchind onclick nemev
-document.getElementById('delivery').addEventListener('click', function () {
-    this.classList.add('active');
-    document.getElementById('pickup').classList.remove('active');
-    const iframe = document.getElementById('restaurantIframe');
-    if (iframe) iframe.contentWindow.setMode('delivery');
-});
+function getLocation() {
 
-document.getElementById('pickup').addEventListener('click', function () {
-    this.classList.add('active');
-    document.getElementById('delivery').classList.remove('active');
-    const iframe = document.getElementById('restaurantIframe');
-    if (iframe) iframe.contentWindow.setMode('pickup');
-});
+    if (!navigator.geolocation) {
+
+        alert(
+            "Geolocation not supported"
+        );
+
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function (position) {
+
+            const lat =
+                position.coords.latitude;
+
+            const lon =
+                position.coords.longitude;
+
+            try {
+
+                const response =
+                    await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+                    );
+
+                const data =
+                    await response.json();
+
+                const address =
+                    data.address;
+
+                const locationText =
+                    address.road ||
+                    address.suburb ||
+                    address.city ||
+                    "Current Location";
+
+                document.getElementById(
+                    "addressDisplay"
+                ).innerText =
+                    locationText;
+
+                localStorage.setItem(
+                    "userAddress",
+                    locationText
+                );
+
+            } catch (error) {
+
+                console.log(error);
+
+                document.getElementById(
+                    "addressDisplay"
+                ).innerText =
+                    "Location Found";
+            }
+        },
+
+        function () {
+
+            alert(
+                "Location permission denied"
+            );
+        }
+    );
+}
+
 

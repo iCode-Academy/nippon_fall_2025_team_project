@@ -11,57 +11,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- HEADER -->
-    <div class="header">
+     <div class="header">
         <div class="logo">
-            <img src="./picture/Layout/Foodie Go.png"
-                 alt="Foodie Go"
-                 style="cursor:pointer"
-                 onclick="goHome()">
+            <img src="./picture/Layout/Foodie Go.png" alt="Foodie Go" style="cursor:pointer" onclick="goHome()">
         </div>
         <div class="header-center">
             <div class="deliveryBtn">
-                <button id="delivery"
-                        class="active">
-                    <img src="./picture/Layout/Delivery.png"
-                         alt="">
-                    Delivery
+                <button id="delivery" class="active">
+                    <img src="./picture/Layout/Delivery.png" alt=""> Delivery
                 </button>
                 <button id="pickup">
-                    <img src="./picture/Layout/pickup-icon.png"
-                         alt="">
-                    Pickup
+                    <img src="./picture/Layout/pickup-icon.png" alt=""> Pickup
                 </button>
             </div>
-            <div class="greenPoint">
-                <img src="./picture/Layout/location.png"
-                     alt="">
-                <span id="addressNumber">
-                    136
-                </span>
-                Greenpoint Ave
-            </div>
+            <div class="greenPoint" onclick="getLocation()" style="cursor:pointer;">
+    <img src="./picture/Layout/location.png" alt="">
+    <span id="addressDisplay">Your Location</span>
+</div>
         </div>
         <div class="header-right">
-            <div class="basket-icon-wrapper"
-                 onclick="toggleCart()">
-                <img src="./picture/Layout/Basket.png"
-                     alt="Basket"
-                     class="basket-img">
-                <div id="basketCounter">
-                    0
-                </div>
-                <div id="cartPopup"
-                     class="cart-popup">
-                </div>
+
+            <!-- 🛒 CART ICON -->
+            <!-- When user clicks this, cart popup will open -->
+            <div class="basket-icon-wrapper" onclick="toggleCart()">
+                <img src="./picture/Layout/Basket.png" alt="Basket" class="basket-img">
+
+                <!-- Displays total number of items in cart -->
+                <div id="basketCounter">0</div>
+
+                <!-- 🧾 CART POPUP -->
+                <div id="cartPopup" class="cart-popup"></div>
             </div>
             <div class="login">
-                <button id="signIn"
-                        onclick="goToLogin()">
+                <button id="signIn" onclick="goToLogin()">
                     Sign in
                 </button>
-                <button id="createacc"
-                        onclick="goToRegister()">
+                <button id="createacc" onclick="goToRegister()">
                     Create account
                 </button>
             </div>
@@ -103,7 +88,7 @@
                 </div>
             </div>
             <!-- ORDERS -->
-    <div class="orders-container">
+    <div class="orders-container customer-only">
         <h2>My Orders</h2>
         <div id="ordersList" class="orders-list"></div>
     </div>
