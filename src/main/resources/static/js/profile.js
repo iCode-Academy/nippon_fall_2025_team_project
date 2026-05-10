@@ -9,6 +9,22 @@ let selectedRating = 0;
 let currentOrderId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    const role =
+        localStorage.getItem("userRole");
+
+    const customerOnly =
+        document.querySelector(".customer-only");
+
+    if (customerOnly) {
+
+        customerOnly.style.display =
+            role === "CUSTOMER"
+                ? "block"
+                : "none";
+
+    }
+
     fetchUser();
     renderOrders();
     setupStarRating(); // Одуудын даралтыг тохируулах
