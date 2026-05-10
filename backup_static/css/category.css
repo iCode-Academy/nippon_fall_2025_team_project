@@ -245,3 +245,13 @@
 
 .manage-list::-webkit-scrollbar { width: 4px; }
 .manage-list::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
+
+.cat-item.active span {
+    color: #00b22d;
+    font-weight: 600;
+}
+
+.cat-item.active img {
+    border: 2px solid #00b22d;
+    border-radius: 50%;
+}

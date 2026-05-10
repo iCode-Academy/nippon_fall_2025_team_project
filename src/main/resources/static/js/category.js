@@ -17,8 +17,8 @@ function render() {
     const manage = document.getElementById('manageList');
 
     // Category-г зурах
-    let html = categories.map(cat => `
-        <div class="cat-item">
+   let html = categories.map(cat => `
+    <div class="cat-item" onclick="filterByCategory(${cat.id}, this)">
             <img src="${cat.categoryIcon}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/706/706164.png'">
             <span>${cat.categoryName}</span>
         </div>
@@ -110,3 +110,24 @@ window.onload = () => {
     document.getElementById('catSlider').addEventListener('scroll', updateArrows);
     window.addEventListener('resize', updateArrows);
 };
+
+function filterByCategory(categoryId, el) {
+    document.querySelectorAll(".cat-item").forEach(item => {
+        item.classList.remove("active");
+    });
+    el.classList.add("active");
+
+    const iframe = document.getElementById('restaurantIframe');
+    
+    // iframe load болсон эсэхийг шалгаад дуудна
+    if (iframe) {
+        iframe.onload = null; // давхар onload арилга
+        if (iframe.contentWindow && iframe.contentWindow.filterRestaurantsByCategory) {
+            iframe.contentWindow.filterRestaurantsByCategory(categoryId);
+        } else {
+            iframe.onload = () => {
+                iframe.contentWindow.filterRestaurantsByCategory(categoryId);
+            };
+        }
+    }
+}

@@ -482,3 +482,23 @@ function applyFilters() {
 
     renderList(filtered);
 }
+
+function filterRestaurantsByCategory(categoryId) {
+    // allRestaurants ачаалагдаагүй бол хүлээ
+    if (!allRestaurants || allRestaurants.length === 0) {
+        setTimeout(() => filterRestaurantsByCategory(categoryId), 300);
+        return;
+    }
+    
+    if (!categoryId) {
+        renderList(allRestaurants);
+        return;
+    }
+    
+    const filtered = allRestaurants.filter(item => 
+        String(item.category?.id) === String(categoryId)
+    );
+    renderList(filtered);
+}
+
+window.filterRestaurantsByCategory = filterRestaurantsByCategory;
