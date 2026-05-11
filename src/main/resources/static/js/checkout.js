@@ -17,7 +17,7 @@ renderCart();
 const userId = localStorage.getItem("userId");
 
 async function fetchUser() {
-    const res = await fetch(`http://localhost:8080/api/user/${userId}`);
+    const res = await fetch(`/api/user/${userId}`);
     const user = await res.json();
     const receiverNameEl = document.getElementById("receiverName");
     if (receiverNameEl) { receiverNameEl.value = user.name; }
@@ -63,7 +63,7 @@ async function placeOrder() {
 
     try {
 
-        await fetch(`http://localhost:8080/api/addresses?userId=${userId}`, {
+        await fetch(`/api/addresses?userId=${userId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -76,7 +76,7 @@ async function placeOrder() {
             })
         });
 
-        await fetch("http://localhost:8080/api/orders", {
+        await fetch("/api/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(order)

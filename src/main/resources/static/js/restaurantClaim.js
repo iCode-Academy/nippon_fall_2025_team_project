@@ -1,7 +1,7 @@
 // =========================
 // CONFIG
 // =========================
-const CLAIM_API_URL = "http://localhost:8080/api/restaurants";
+const CLAIM_API_URL = "/api/restaurants";
 
 // =========================
 // CLAIM MODE

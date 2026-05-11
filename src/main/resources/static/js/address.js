@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/addresses";
+const API_URL = "/api/addresses";
 
 // 1. Хуудас ачаалагдах үед хаягуудыг татаж харуулах
 document.addEventListener("DOMContentLoaded", fetchAddresses);

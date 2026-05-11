@@ -1,6 +1,6 @@
-const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
-const FOOD_API_URL = "http://localhost:8080/api/foods";
-const CATEGORY_API_URL = "http://localhost:8080/api/categories";
+const RESTAURANT_API_URL = "/api/restaurants";
+const FOOD_API_URL = "/api/foods";
+const CATEGORY_API_URL = "/api/categories";
 
 async function loadFoods(restaurantId) {
     try {
@@ -280,7 +280,7 @@ async function saveFood() {
 async function loadFoodCategories() {
     try {
         const res = await fetch(
-            "http://localhost:8080/api/categories"
+            "/api/categories"
         );
         const categories = await res.json();
         const select = document.getElementById(
@@ -552,7 +552,7 @@ stars.forEach((star) => {
             localStorage.getItem("userId");
 
         fetch(
-            "http://localhost:8080/api/ratings",
+            "/api/ratings",
             {
                 method: "POST",
 

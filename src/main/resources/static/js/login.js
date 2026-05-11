@@ -42,7 +42,7 @@ async function handleLogin() {
 
   try {
     const res = await fetch(
-      'http://localhost:8080/api/public/login',
+      '/api/public/login',
       {
         method: 'POST',
         headers: {
@@ -248,7 +248,7 @@ async function handleRegister() {
   );
   try {
     const response = await fetch(
-      'http://localhost:8080/api/public/register',
+      '/api/public/register',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchUser() {
     try {
-        const response = await fetch(`http://localhost:8080/api/user/${userId}`);
+        const response = await fetch(`/api/user/${userId}`);
         const user = await response.json();
 
         document.getElementById("profileName").innerText = user.name || "-";

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/categories";
+const API_URL = "/api/categories";
 let categories = [];
 const userRole = localStorage.getItem("userRole"); // admin эсвэл user энийг яаж холбохыг мэдэхгүй байгаа
 

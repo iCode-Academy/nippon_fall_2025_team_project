@@ -1,5 +1,5 @@
-const RESTAURANT_API_URL = "http://localhost:8080/api/restaurants";
-const CATEGORY_API_URL = "http://localhost:8080/api/categories";
+const RESTAURANT_API_URL = "/api/restaurants";
+const CATEGORY_API_URL = "/api/categories";
 
 // restaurantlist.js
 
@@ -362,7 +362,7 @@ async function manageRestaurant(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:8080/api/restaurants/${id}/claim`,
+            `/api/restaurants/${id}/claim`,
             {
                 method: "POST",
                 headers: {
