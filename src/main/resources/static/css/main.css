@@ -126,6 +126,8 @@ body {
     color: #000000;
     cursor: pointer;
     padding: 8px 12px;
+    display: flex;
+    align-items: center;
 }
 
 #createacc {
@@ -145,24 +147,25 @@ body {
 }
 
 
-.layout{
+.layout {
     background-color: white;
-    display:flex;
-    align-items:flex-start;
-    gap:30px;
-    width:100%;
-    max-width:1200px;
-    margin:0 auto;
-    padding:30px;
-    height:auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    height: auto;
     border-radius: 16px;
     box-shadow: 0 8px 13px rgba(0, 0, 0, 0.15);
 }
 
 .layout-body {
-    height:auto;
-    min-height:100%;
+    height: auto;
+    min-height: 100%;
 }
+
 /* =============================== */
 /* 🧾 CART POPUP (dropdown style) */
 /* =============================== */
@@ -249,7 +252,7 @@ body {
     color: #666;
 }
 
-.cart-item + hr {
+.cart-item+hr {
     margin: 12px 0;
     border: none;
     border-top: 1px solid #ccc;
@@ -303,8 +306,8 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     overflow: hidden;
-    
-     justify-content: center;
+
+    justify-content: center;
     align-items: center;
 }
 
@@ -336,11 +339,11 @@ body {
 
 .layout {
     display: flex;
-    gap: 30px;           
-    width: 100%;         
-    max-width: 1200px;   
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 30px;      
+    padding: 30px;
 }
 
 
@@ -357,7 +360,7 @@ body {
     padding-right: 0px;
     padding-left: 30px;
     width: 250px;
-    
+
 
 }
 
@@ -584,42 +587,46 @@ input:checked+.slider:before {
 }
 
 /* Iframe-ийг агуулах контейнер */
-.restaurant-list-wrapper{
-    width:100%;
-    margin-top:20px;
-    flex:1;
-    min-width:0;
-    position:relative;
+.restaurant-list-wrapper {
+    width: 100%;
+    margin-top: 20px;
+    flex: 1;
+    min-width: 0;
+    position: relative;
 }
 
 /* Iframe өөрөө */
-#restaurantIframe{
-    width:100%;
-    height:800px;
-    border:none;
-    display:block;
-    overflow:hidden;
+#restaurantIframe {
+    width: 100%;
+    height: 800px;
+    border: none;
+    display: block;
+    overflow: hidden;
 }
 
-.restaurant-list-iframe{
-    width:100%;
-    border:none;
-    display:block;
-    overflow:visible;
+.restaurant-list-iframe {
+    width: 100%;
+    border: none;
+    display: block;
+    overflow: visible;
 }
 
 /* Модалын арын бүдгэрүүлсэн хэсэг */
 .modal-overlay {
-    position: fixed; /* Дэлгэц гүйлгэсэн ч байрандаа байна */
+    position: fixed;
+    /* Дэлгэц гүйлгэсэн ч байрандаа байна */
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* Хар бараан, хагас тунгалаг арын дэвсгэр */
-    display: none; /* Анх харагдахгүй */
+    background: rgba(0, 0, 0, 0.6);
+    /* Хар бараан, хагас тунгалаг арын дэвсгэр */
+    display: none;
+    /* Анх харагдахгүй */
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* Хамгийн өндөр утга - Header, Sidebar-ийн дээр гарна */
+    z-index: 10000;
+    /* Хамгийн өндөр утга - Header, Sidebar-ийн дээр гарна */
 }
 
 /* Модалын цагаан хайрцаг */
@@ -628,11 +635,14 @@ input:checked+.slider:before {
     padding: 30px;
     border-radius: 16px;
     width: 600px;
-    max-width: 90%; /* Гар утсан дээр дэлгэцээс гарахгүй байх */
-    max-height: 90vh; /* Өндөр нь дэлгэцээс их болохгүй байх */
-    overflow-y: auto; /* Доторх мэдээлэл ихэдвэл гүйдэг болно */
+    max-width: 90%;
+    /* Гар утсан дээр дэлгэцээс гарахгүй байх */
+    max-height: 90vh;
+    /* Өндөр нь дэлгэцээс их болохгүй байх */
+    overflow-y: auto;
+    /* Доторх мэдээлэл ихэдвэл гүйдэг болно */
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Хаах товч (X) */
@@ -647,12 +657,14 @@ input:checked+.slider:before {
 
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Хоёр баганаар харуулна */
+    grid-template-columns: 1fr 1fr;
+    /* Хоёр баганаар харуулна */
     gap: 15px;
     margin-top: 20px;
 }
 
-.form-grid input, .form-grid textarea {
+.form-grid input,
+.form-grid textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
@@ -661,7 +673,8 @@ input:checked+.slider:before {
 }
 
 .form-grid textarea {
-    grid-column: span 2; /* Тайлбар хэсэг хоёр багана дамжиж харагдана */
+    grid-column: span 2;
+    /* Тайлбар хэсэг хоёр багана дамжиж харагдана */
     height: 100px;
 }
 
@@ -680,6 +693,7 @@ input:checked+.slider:before {
     border-radius: 8px;
     cursor: pointer;
 }
+
 #resModalOverlay label {
     color: #000000;
     font-weight: 600;
@@ -687,6 +701,7 @@ input:checked+.slider:before {
     display: block;
     margin-bottom: 5px;
 }
+
 #validationPopup {
     display: none;
     position: fixed;
@@ -700,7 +715,7 @@ input:checked+.slider:before {
     font-weight: 600;
     font-size: 14px;
     z-index: 999999;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     gap: 8px;
     align-items: center;
     white-space: nowrap;
@@ -716,6 +731,44 @@ input:checked+.slider:before {
 }
 
 @keyframes slideDown {
-    from { top: -20px; opacity: 0; }
-    to   { top: 20px; opacity: 1; }
+    from {
+        top: -20px;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+.profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-mini i {
+    font-size: 28px;
+    color: #111827;
+}
+
+.profile-mini-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+}
+
+.profile-mini-text span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.profile-mini-text p {
+    margin: 0;
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
 }

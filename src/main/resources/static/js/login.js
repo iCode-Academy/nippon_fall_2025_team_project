@@ -88,6 +88,10 @@ async function handleLogin() {
           'restaurantId',
           user.restaurantId
         );
+        localStorage.setItem(
+          'restaurantName',
+          user.restaurantName
+        );
 
         if (user.restaurantId) {
           window.location.href =
@@ -98,7 +102,7 @@ async function handleLogin() {
           window.location.href =
             'restaurantlist.html'
         }
-        
+
       }
 
       else {
@@ -140,7 +144,6 @@ function checkStrength(val) {
   const pct = (score / 5) * 100;
 
   fill.style.width = pct + '%';
-
   fill.style.background =
     score <= 1
       ? '#e24b4a'

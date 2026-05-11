@@ -1,80 +1,102 @@
-let myOrders=JSON.parse(localStorage.getItem("myOrdersList"))||[];
-let currentReviewOrderId=null;
-let currentRating=0;
+let myOrders = JSON.parse(localStorage.getItem("myOrdersList")) || [];
+let currentReviewOrderId = null;
+let currentRating = 0;
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-renderOrders();
+    renderOrders();
 
-setupStars();
+    setupStars();
 });
 
-function renderOrders(){
+function renderOrders() {
 
-const list=document.getElementById("ordersList");
+    const list = document.getElementById("ordersList");
 
-if(!list)return;
+    if (!list) return;
 
-if(myOrders.length===0){
+    if (myOrders.length === 0) {
 
-list.innerHTML="<p>You have no past orders.</p>";
+        list.innerHTML = "<p>You have no past orders.</p>";
 
-return;
-}
+        return;
+    }
 
-let html="";
+    let html = "";
+    const groupedOrders = {};
+    Object.values(groupedOrders)
+        .forEach(order => {
+            if (!groupedOrders[order.id]) {
+                groupedOrders[order.id] = {
+                    ...order,
+                    restaurantNames: [],
+                    allItems: [],
+                    total: 0
+                };
+            }
+            groupedOrders[order.id]
+                .restaurantNames.push(
+                    order.restaurantName
+                );
+            groupedOrders[order.id]
+                .allItems.push(
+                    order.items
+                );
+            groupedOrders[order.id]
+                .total += order.total;
+        });
 
-myOrders.forEach(order=>{
+    myOrders.forEach(order => {
 
-const btnClass=order.isReviewed?"review-btn done":"review-btn";
+        const btnClass = order.isReviewed ? "review-btn done" : "review-btn";
 
-const btnText=order.isReviewed?"Reviewed ✓":"Leave a Review";
+        const btnText = order.isReviewed ? "Reviewed ✓" : "Leave a Review";
 
-const btnAction=order.isReviewed?"":`onclick="openReviewModal('${order.id}','${order.restaurantName}')"`;
+        const btnAction = order.isReviewed ? "" : `onclick="openReviewModal('${order.id}','${order.restaurantName}')"`;
 
 
-html+=`
+        html += `
 
 <div class="order-card">
 
 <div class="order-info">
 
 <h4>
-${order.restaurantName||"-"}
+${order.restaurantName || "-"}
 </h4>
 
 <p>
 <strong>Order ID:</strong>
-${order.id||"-"}
+${order.id || "-"}
 </p>
 
 <p>
 <strong>Date:</strong>
-${order.date||"-"}
+${order.date || "-"}
 </p>
 
 <p>
 <strong>Items:</strong>
-${order.items||"-"}
+${order.items || "-"}
 </p>
 
 <p>
 <strong>Receiver Name:</strong>
-${order.receiverName||"-"}
+${order.receiverName || "-"}
 </p>
 
 <p>
 <strong>Receiver Phone:</strong>
-${order.receiverPhone||"-"}
+${order.receiverPhone || "-"}
 </p>
 
 <p>
 <strong>Address:</strong>
-${order.address||"-"}
+${order.address || "-"}
 </p>
 
 <span class="order-status">
-${order.status||"Pending"}
+${order.status || "Pending"}
 </span>
 
 </div>
@@ -83,7 +105,7 @@ ${order.status||"Pending"}
 
 <div class="order-total">
 
-$${order.total?order.total.toFixed(2):"0.00"}
+$${order.total ? order.total.toFixed(2) : "0.00"}
 
 </div>
 
@@ -102,201 +124,201 @@ Order Received
 </div>
 
 `;
-});
+    });
 
-list.innerHTML=html;
+    list.innerHTML = html;
 }
 
-function openReviewModal(orderId,resName){
+function openReviewModal(orderId, resName) {
 
-currentReviewOrderId=orderId;
+    currentReviewOrderId = orderId;
 
-currentRating=0;
+    currentRating = 0;
 
-document.getElementById("reviewResName").innerText=`Review: ${resName}`;
+    document.getElementById("reviewResName").innerText = `Review: ${resName}`;
 
-document.getElementById("reviewComment").value="";
+    document.getElementById("reviewComment").value = "";
 
-resetStars();
+    resetStars();
 
-document.getElementById("ratingText").innerText="Select stars";
+    document.getElementById("ratingText").innerText = "Select stars";
 
-const reviewModal=document.getElementById("reviewModal");
+    const reviewModal = document.getElementById("reviewModal");
 
-reviewModal.style.display="flex";
+    reviewModal.style.display = "flex";
 }
 
-function closeReviewModal(){
+function closeReviewModal() {
 
-const reviewModal=document.getElementById("reviewModal");
+    const reviewModal = document.getElementById("reviewModal");
 
-reviewModal.style.display="none";
+    reviewModal.style.display = "none";
 }
 
-function setupStars(){
+function setupStars() {
 
-const stars=document.querySelectorAll(".review-stars i");
+    const stars = document.querySelectorAll(".review-stars i");
 
-const texts=[
-"Terrible",
-"Bad",
-"Okay",
-"Good",
-"Excellent"
-];
+    const texts = [
+        "Terrible",
+        "Bad",
+        "Okay",
+        "Good",
+        "Excellent"
+    ];
 
-if(stars.length===0)return;
+    if (stars.length === 0) return;
 
-stars.forEach(star=>{
+    stars.forEach(star => {
 
-star.addEventListener("mouseover",function(){
+        star.addEventListener("mouseover", function () {
 
-const val=parseInt(this.getAttribute("data-value"));
+            const val = parseInt(this.getAttribute("data-value"));
 
-stars.forEach((s,index)=>{
+            stars.forEach((s, index) => {
 
-s.classList.toggle(
-"hovered",
-index<val
-);
+                s.classList.toggle(
+                    "hovered",
+                    index < val
+                );
 
-});
+            });
 
-document.getElementById(
-"ratingText"
-).innerText=texts[val-1];
-});
+            document.getElementById(
+                "ratingText"
+            ).innerText = texts[val - 1];
+        });
 
-star.addEventListener("mouseout",function(){
+        star.addEventListener("mouseout", function () {
 
-stars.forEach(s=>{
+            stars.forEach(s => {
 
-s.classList.remove("hovered");
+                s.classList.remove("hovered");
 
-});
+            });
 
-document.getElementById(
-"ratingText"
-).innerText=
-currentRating===0
-?"Select stars"
-:texts[currentRating-1];
-});
+            document.getElementById(
+                "ratingText"
+            ).innerText =
+                currentRating === 0
+                    ? "Select stars"
+                    : texts[currentRating - 1];
+        });
 
-star.addEventListener("click",function(){
+        star.addEventListener("click", function () {
 
-currentRating=parseInt(
-this.getAttribute("data-value")
-);
+            currentRating = parseInt(
+                this.getAttribute("data-value")
+            );
 
-stars.forEach((s,index)=>{
+            stars.forEach((s, index) => {
 
-if(index<currentRating){
+                if (index < currentRating) {
 
-s.classList.add(
-"active"
-);
+                    s.classList.add(
+                        "active"
+                    );
 
-s.classList.add(
-"fas"
-);
+                    s.classList.add(
+                        "fas"
+                    );
 
-s.classList.remove(
-"far"
-);
+                    s.classList.remove(
+                        "far"
+                    );
 
-}else{
+                } else {
 
-s.classList.remove(
-"active"
-);
+                    s.classList.remove(
+                        "active"
+                    );
 
-s.classList.remove(
-"fas"
-);
+                    s.classList.remove(
+                        "fas"
+                    );
 
-s.classList.add(
-"far"
-);
-}
-});
-});
-});
-}
-
-function resetStars(){
-
-document.querySelectorAll(
-".review-stars i"
-).forEach(s=>{
-
-s.classList.remove(
-"active"
-);
-
-s.classList.remove(
-"hovered"
-);
-
-s.classList.remove(
-"fas"
-);
-
-s.classList.add(
-"far"
-);
-});
+                    s.classList.add(
+                        "far"
+                    );
+                }
+            });
+        });
+    });
 }
 
-function submitReview(){
+function resetStars() {
 
-if(currentRating===0){
+    document.querySelectorAll(
+        ".review-stars i"
+    ).forEach(s => {
 
-alert(
-"Please select a star rating!"
-);
+        s.classList.remove(
+            "active"
+        );
 
-return;
+        s.classList.remove(
+            "hovered"
+        );
+
+        s.classList.remove(
+            "fas"
+        );
+
+        s.classList.add(
+            "far"
+        );
+    });
 }
 
-const orderIndex=
-myOrders.findIndex(
-o=>o.id===currentReviewOrderId
-);
+function submitReview() {
 
-if(orderIndex!==-1){
+    if (currentRating === 0) {
 
-myOrders[orderIndex].isReviewed=true;
+        alert(
+            "Please select a star rating!"
+        );
 
-localStorage.setItem(
-"myOrdersList",
-JSON.stringify(myOrders)
-);
+        return;
+    }
+
+    const orderIndex =
+        myOrders.findIndex(
+            o => o.id === currentReviewOrderId
+        );
+
+    if (orderIndex !== -1) {
+
+        myOrders[orderIndex].isReviewed = true;
+
+        localStorage.setItem(
+            "myOrdersList",
+            JSON.stringify(myOrders)
+        );
+    }
+
+    alert(
+        "Review submitted!"
+    );
+
+    closeReviewModal();
+
+    renderOrders();
 }
 
-alert(
-"Review submitted!"
-);
+function completeOrder(orderId) {
 
-closeReviewModal();
-
-renderOrders();
-}
-
-function completeOrder(orderId){
-
-    const confirmDelete=
+    const confirmDelete =
         confirm(
             "Are you sure you received this order?"
         );
 
-    if(!confirmDelete){
+    if (!confirmDelete) {
         return;
     }
 
-    myOrders=
+    myOrders =
         myOrders.filter(
-            order=>order.id!==orderId
+            order => order.id !== orderId
         );
 
     localStorage.setItem(

@@ -11,4 +11,5 @@ import foodiego.model.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	List<Order> findByUser_Id(Long userId);
+	
 }

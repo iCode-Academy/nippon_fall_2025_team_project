@@ -50,7 +50,24 @@ public class OrderController {
 
 	// 4. get user orders
 	@GetMapping("/user/{userId}")
-	public List<Order> getOrdersByUser(@PathVariable Long userId) {
+	public List<Order> getOrdersByUser(@PathVariable("id") Long userId) {
 		return orderRepository.findByUser_Id(userId);
+	}
+	
+	@PutMapping("/{id}/complete")
+	public Order completeOrder(
+	@PathVariable Long id
+	){
+
+	    Order order=
+	    orderRepository
+	    .findById(id)
+	    .orElseThrow();
+
+	    order.setCompleted(true);
+
+	    return orderRepository
+	    .save(order);
+
 	}
 }
