@@ -15,7 +15,7 @@ public class Order {
 	private Long id;
 	
 	private double totalPrice = 0;
-	private String status = "pending";
+	private String status = "Pending";
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -27,6 +27,8 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<OrderDetail> orderDetails;
+	
+	private Boolean completed = false;
 	
 //	hooson baiguulagch
 	public Order() {}
@@ -74,5 +76,12 @@ public class Order {
 	
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public Boolean getCompleted() {
+	    return completed;
+	}
+
+	public void setCompleted(Boolean completed) {
+	    this.completed = completed;
 	}
 }

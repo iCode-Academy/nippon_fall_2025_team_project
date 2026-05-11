@@ -340,11 +340,24 @@ function addFoodToCart(
     name,
     price
 ) {
-
+    const restaurantName=
+    document.getElementById(
+        "restaurantName"
+    ).innerText;
+    const restaurantId=
+    new URLSearchParams(
+        window.location.search
+    ).get("id")
+    ||
+    localStorage.getItem(
+        "restaurantId"
+    );
     addToCart({
         id,
         name,
-        price
+        price,
+        restaurantId,
+        restaurantName
     });
     updateFoodQty(id);
 
