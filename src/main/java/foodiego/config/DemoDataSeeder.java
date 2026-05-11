@@ -63,7 +63,7 @@ public class DemoDataSeeder {
                         c.setCategoryDescription(
                                         name + " foods");
                         c.setCategoryIcon(
-                                        "http://localhost:8080/picture/Category/" +
+                                        "/picture/Category/" +
                                                         name.replace(" ", "") +
                                                         ".png");
                         list.add(
@@ -92,11 +92,11 @@ public class DemoDataSeeder {
                                                         category.getCategoryName() +
                                                         " restaurant.");
                         r.setLogoUrl(
-                                        "http://localhost:8080/picture/Restaurants/demo_" +
+                                        "/picture/Restaurants/demo_" +
                                                         i +
                                                         ".jpg");
                         r.setBannerUrl(
-                                        "http://localhost:8080/picture/Restaurants/demo_" +
+                                        "/picture/Restaurants/demo_" +
                                                         i +
                                                         ".jpg");
                         r.setRating(4.5);
@@ -131,7 +131,7 @@ public class DemoDataSeeder {
                                         food.setPrice(
                                                         10.0 + i);
                                         food.setImage(
-                                                        "http://localhost:8080/picture/Foods/food_" +
+                                                        "/picture/Foods/food_" +
                                                                         imageIndex +
                                                                         ".jpg");
                                         foodRepository.save(food);
