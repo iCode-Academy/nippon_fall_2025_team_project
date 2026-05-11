@@ -73,7 +73,7 @@ function renderFoods(foodList) {
     </div>
     <div class="food-image">
         <img src="${food.image ||
-            './picture/Layout/no image.jpg'
+            './picture/Layout/no%20image.jpg'
             }">
         <div class="food-qty-control">
             <button
@@ -162,7 +162,7 @@ async function loadRestaurant() {
         if (rawUrl) {
             bannerEl.src = rawUrl;
         } else {
-            bannerEl.src = "./picture/Layout/no image.jpg";
+            bannerEl.src = "./picture/Layout/no%20image.jpg";
         }
 
         loadFoods(id);

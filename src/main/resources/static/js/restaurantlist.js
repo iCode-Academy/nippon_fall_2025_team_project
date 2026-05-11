@@ -152,20 +152,22 @@ async function loadRestaurants() {
             // Баазаас logoUrl эсвэл logo_url нэрээр ирж байгааг шалгана
             const rawUrl = item.logoUrl || item.logo_url;
             if (rawUrl) {
-                if (rawUrl.startsWith('http')) {
-                    // 1. Интернэт линк байвал (https://...)
+                if (rawUrl.startsWith('/')) {
+                    // 1. Root-relative зам (Жишээ нь: /picture/Restaurants/demo_1.jpg)
+                    imgSource = rawUrl;
+                } else if (rawUrl.startsWith('http')) {
+                    // 2. Интернэт линк байвал (https://...)
                     imgSource = rawUrl;
                 } else if (rawUrl.startsWith('data:image')) {
-                    // 2. Base64 текст байвал
+                    // 3. Base64 текст байвал
                     imgSource = rawUrl;
                 } else {
-                    // 3. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
-                    // Төслийнхөө зургууд хадгалагдаж буй үндсэн фолдерыг энд зааж өгнө
+                    // 4. Зөвхөн файлын нэр байвал (Жишээ нь: asiana_logo.png)
                     imgSource = `./picture/${rawUrl}`;
                 }
             } else {
-                // 4. Зураг огт байхгүй бол default зураг
-                imgSource = './picture/Layout/no image.jpg';
+                // 5. Зураг огт байхгүй бол default зураг
+                imgSource = './picture/Layout/no%20image.jpg';
             }
 
             const canShowManage =
@@ -177,7 +179,7 @@ async function loadRestaurants() {
             onclick="goToRestaurant(${item.id})">
 
                 <img src="${imgSource}" class="res-img" 
-                onerror="this.src='./picture/Layout/Foodie Go.png'">
+                onerror="this.src='./picture/Layout/no%20image.jpg'">
 
                 <div class="res-info">
 
@@ -416,15 +418,16 @@ function renderList(data) {
         let imgSource = "";
         const rawUrl = item.logoUrl || item.logo_url;
         if (rawUrl) {
-            if (rawUrl.startsWith('http')) imgSource = rawUrl;
+            if (rawUrl.startsWith('/')) imgSource = rawUrl;
+            else if (rawUrl.startsWith('http')) imgSource = rawUrl;
             else if (rawUrl.startsWith('data:image')) imgSource = rawUrl;
             else imgSource = `./picture/${rawUrl}`;
         } else {
-            imgSource = './picture/Layout/no image.jpg';
+            imgSource = './picture/Layout/no%20image.jpg';
         }
         return `
             <div class="res-card" onclick="goToRestaurant(${item.id})">
-                <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/Foodie Go.png'">
+                <img src="${imgSource}" class="res-img" onerror="this.src='./picture/Layout/no%20image.jpg'">
                 <div class="res-info">
                     <h3>${item.name}</h3>
                     <p class="category">${item.category?.categoryName || 'No category'}</p>
